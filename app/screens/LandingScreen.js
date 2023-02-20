@@ -7,7 +7,6 @@ import {
   TouchableOpacity,
   View,
 } from "react-native";
-import {} from "react-native-web";
 
 import colors from "../config/colors";
 
@@ -21,7 +20,7 @@ function LandingScreen(props) {
       <Image style={styles.logo} source={require("../assets/TempLogo.png")} />
       <TouchableOpacity
         style={styles.touchable}
-        onPress={() => console.log("login")} //after navigation is added will go to login screen
+        onPress={() => console.log("login")} //deep link for login
       >
         <View style={styles.loginButton}>
           <Text style={styles.loginText}>Login</Text>
