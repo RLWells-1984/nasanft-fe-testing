@@ -2,14 +2,15 @@ import React from "react";
 import {
   Image,
   ImageBackground,
+  Linking,
   StyleSheet,
-  Text,
   TouchableOpacity,
   View,
 } from "react-native";
-import {} from "react-native-web";
 
 import colors from "../config/colors";
+import CustomText from "../components/CustomText";
+import CustomButton from "../components/CustomButton";
 
 function LandingScreen(props) {
   return (
@@ -19,20 +20,15 @@ function LandingScreen(props) {
       source={require("../assets/PIA13110_large.jpg")}
     >
       <Image style={styles.logo} source={require("../assets/TempLogo.png")} />
-      <TouchableOpacity
-        style={styles.touchable}
-        onPress={() => console.log("login")} //after navigation is added will go to login screen
-      >
-        <View style={styles.loginButton}>
-          <Text style={styles.loginText}>Login</Text>
-        </View>
-      </TouchableOpacity>
+
+      <CustomButton title="Login" onPress={console.log("login")}></CustomButton>
+
       <TouchableOpacity
         style={styles.touchable}
         onPress={() => console.log("register")} //after navigation is added will go to register screen
       >
         <View style={styles.registerButton}>
-          <Text style={styles.registerText}>Register</Text>
+          <CustomText style={styles.registerText}>Register</CustomText>
         </View>
       </TouchableOpacity>
     </ImageBackground>
@@ -44,21 +40,6 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: "flex-end",
     alignItems: "center",
-  },
-  loginButton: {
-    width: "100%",
-    height: 50,
-    borderWidth: 5,
-    alignSelf: "center",
-    backgroundColor: colors.buttonColor,
-    borderColor: colors.buttonBorder,
-    borderRadius: 25,
-    alignItems: "center",
-    margin: 10,
-  },
-  loginText: {
-    fontSize: 30,
-    fontWeight: "bold",
   },
   logo: {
     width: 150,
