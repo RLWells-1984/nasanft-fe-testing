@@ -1,14 +1,9 @@
 import React from "react";
-import {
-  Image,
-  ImageBackground,
-  Linking,
-  StyleSheet,
-  TouchableOpacity,
-  View,
-} from "react-native";
+import { Image, ImageBackground, StyleSheet, View } from "react-native";
 
 import colors from "../config/colors";
+import CustomButton from "../components/CustomButton";
+import ClickableText from "../components/ClickableText";
 
 function LandingScreen(props) {
   return (
@@ -18,25 +13,18 @@ function LandingScreen(props) {
       source={require("../assets/PIA13110_large.jpg")}
     >
       <Image style={styles.logo} source={require("../assets/TempLogo.png")} />
-      <TouchableOpacity
-        style={styles.touchable}
-        onPress={() => console.log("login")} //deep link for login
-      >
-        <View style={styles.loginButton}>
-          <Text style={styles.loginText}>Login</Text>
-        </View>
-      </TouchableOpacity>
 
-      <CustomButton title="Login" onPress={console.log("login")}></CustomButton>
+      <View style={styles.touchable}>
+        <CustomButton title="Login" onPress={() => console.log("login")} />
+      </View>
 
-      <TouchableOpacity
-        style={styles.touchable}
-        onPress={() => console.log("register")} //after navigation is added will go to register screen
-      >
-        <View style={styles.registerButton}>
-          <CustomText style={styles.registerText}>Register</CustomText>
-        </View>
-      </TouchableOpacity>
+      <View style={styles.touchable}>
+        <ClickableText
+          //after navigation is added will go to register screen
+          title="Register"
+          onPress={() => console.log("register")}
+        />
+      </View>
     </ImageBackground>
   );
 }
