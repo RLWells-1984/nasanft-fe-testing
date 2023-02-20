@@ -1,6 +1,7 @@
 import { StatusBar } from "expo-status-bar";
 import { StyleSheet, Text, View, Image, SafeAreaView } from "react-native";
 import LandingScreen from "./app/screens/LandingScreen";
+import "./shim.js";
 
 export default function App() {
   return <LandingScreen />;
