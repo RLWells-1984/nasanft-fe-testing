@@ -9,8 +9,6 @@ import {
 } from "react-native";
 
 import colors from "../config/colors";
-import CustomText from "../components/CustomText";
-import CustomButton from "../components/CustomButton";
 
 function LandingScreen(props) {
   return (
@@ -20,6 +18,14 @@ function LandingScreen(props) {
       source={require("../assets/PIA13110_large.jpg")}
     >
       <Image style={styles.logo} source={require("../assets/TempLogo.png")} />
+      <TouchableOpacity
+        style={styles.touchable}
+        onPress={() => console.log("login")} //deep link for login
+      >
+        <View style={styles.loginButton}>
+          <Text style={styles.loginText}>Login</Text>
+        </View>
+      </TouchableOpacity>
 
       <CustomButton title="Login" onPress={console.log("login")}></CustomButton>
 
@@ -42,28 +48,17 @@ const styles = StyleSheet.create({
     alignItems: "center",
   },
   logo: {
-    width: 150,
-    height: 150,
+    width: 200,
+    height: 200,
     borderWidth: 5,
     position: "absolute",
     top: 100,
     borderColor: colors.buttonBorder,
-    borderRadius: 10,
-  },
-  registerButton: {
-    width: "50%",
-    height: 50,
-    alignSelf: "center",
-    backgroundColor: "transparent",
-  },
-  registerText: {
-    fontSize: 16,
-    color: colors.red,
-    textDecorationLine: "underline",
-    textAlign: "center",
+    borderRadius: 80,
   },
   touchable: {
     width: "60%",
+    paddingBottom: 20,
   },
 });
 

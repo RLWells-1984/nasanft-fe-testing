@@ -3,10 +3,10 @@ import { StyleSheet, Text, TouchableOpacity } from "react-native";
 
 import colors from "../config/colors";
 
-function CustomButton({ title, onPress, color = "buttonColor" }) {
+function ClickableText({ title, onPress, color = "transparent" }) {
   return (
     <TouchableOpacity
-      style={[styles.button, { backgroundColor: colors[color] }]}
+      style={[styles.text, { backgroundColor: colors[color] }]}
       onPress={onPress}
     >
       <Text style={styles.text}>{title}</Text>
@@ -17,6 +17,7 @@ function CustomButton({ title, onPress, color = "buttonColor" }) {
 const styles = StyleSheet.create({
   button: {
     backgroundColor: colors.buttonColor,
+    borderRadious: 25,
     justifyContent: "center",
     alignItems: "center",
     width: "100%",
@@ -24,12 +25,14 @@ const styles = StyleSheet.create({
     borderWidth: 5,
     borderColor: colors.buttonBorder,
     borderRadius: 25,
+    margin: 10,
   },
   text: {
-    color: colors.blue_text,
-    fontSize: 20,
+    backgroundColor: colors.transparent,
+    color: colors.red,
+    fontSize: 16,
     fontWeight: "bold",
     alignItems: "center",
   },
 });
-export default CustomButton;
+export default ClickableText;

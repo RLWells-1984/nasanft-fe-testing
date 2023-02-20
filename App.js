@@ -1,6 +1,8 @@
-import { StatusBar } from "expo-status-bar";
 import { StyleSheet, Text, View, Image, SafeAreaView } from "react-native";
 import LandingScreen from "./app/screens/LandingScreen";
+
+import "./shim.js";
+
 import * as React from "react";
 import WalletConnectProvider from "@walletconnect/react-native-dapp";
 import AsyncStorage from "@react-native-async-storage/async-storage";
