@@ -6,8 +6,8 @@ import { StyleSheet, Text, TouchableOpacity, View } from "react-native";
 import CountDown from "react-native-countdown-component";
 
 import colors from "../config/colors";
-import ClickableText from "../components/ClickableText";
 import CustomButton from "../components/CustomButton";
+import AppText from "../components/AppText";
 
 const duration = 2 * 24 * 60 * 60 - 1;
 const timerExpired = false;
@@ -24,7 +24,7 @@ function HomeScreen(props) {
         />
       </TouchableOpacity>
       <View style={styles.points}>
-        <ClickableText title="Current points from DB" />
+        <AppText title="Current points from DB" color="red" />
       </View>
       <View style={{ flex: 1 }}>
         <View style={styles.counter}>

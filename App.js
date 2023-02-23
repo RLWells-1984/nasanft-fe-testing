@@ -7,9 +7,10 @@ import * as React from "react";
 import WalletConnectProvider from "@walletconnect/react-native-dapp";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import HomeScreen from "./app/screens/HomeScreen";
+import UserDetailScreen from "./app/screens/UserDetailScreen";
 
 export default function App() {
-  return <HomeScreen />;
+  return <UserDetailScreen />;
   //needs deep link URI scheme. More info and links https://www.npmjs.com/package/@walletconnect/react-native-dapp
   //return (
   //  <WalletConnectProvider
