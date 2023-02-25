@@ -8,13 +8,14 @@ import CountDown from "react-native-countdown-component";
 import colors from "../config/colors";
 import CustomButton from "../components/CustomButton";
 import AppText from "../components/AppText";
+import ScreenSetUp from "../components/ScreenSetUp";
 
 const duration = 2 * 24 * 60 * 60 - 1;
 const timerExpired = false;
 
 function HomeScreen(props) {
   return (
-    <View style={styles.background}>
+    <ScreenSetUp>
       <TouchableOpacity onPress={() => console.log("user icon")}>
         <FontAwesome5
           name="user-astronaut"
@@ -73,15 +74,11 @@ function HomeScreen(props) {
       <View>
         <Text style={styles.text}>Time until next NFT is awarded</Text>
       </View>
-    </View>
+    </ScreenSetUp>
   );
 }
 
 const styles = StyleSheet.create({
-  background: {
-    backgroundColor: colors.buttonBorder,
-    flex: 1,
-  },
   counter: {
     flexWrap: "wrap",
     flexDirection: "row",

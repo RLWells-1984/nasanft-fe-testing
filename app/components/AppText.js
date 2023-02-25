@@ -3,10 +3,12 @@ import { StyleSheet, Text, View } from "react-native";
 
 import colors from "../config/colors";
 
-function AppText({ title, color = "blue_text" }) {
+function AppText({ children, color = "blue_text", style }) {
   return (
     <View style={styles.text}>
-      <Text style={[styles.text, { color: colors[color] }]}>{title}</Text>
+      <Text style={[styles.text, style, { color: colors[color] }]}>
+        {children}
+      </Text>
     </View>
   );
 }
