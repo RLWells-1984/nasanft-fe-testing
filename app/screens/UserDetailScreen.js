@@ -12,6 +12,8 @@ import { Feather, FontAwesome5, Ionicons } from "@expo/vector-icons";
 import colors from "../config/colors";
 import AppText from "../components/AppText";
 import CustomButton from "../components/CustomButton";
+import DetailLines from "../components/DetailLines";
+import ScreenSetUp from "../components/ScreenSetUp";
 
 const attempted = 0; //import from db
 const correct = 0;
@@ -21,7 +23,7 @@ const ranking = 0;
 
 function UserDetailScreen(props) {
   return (
-    <View style={styles.background}>
+    <ScreenSetUp style={styles.screen}>
       <View style={{ height: "10%" }}>
         <TouchableOpacity onPress={() => console.log("go back")}>
           <Ionicons
@@ -35,7 +37,7 @@ function UserDetailScreen(props) {
       <View style={styles.dataContainer}>
         <Text style={styles.header}>USER DETAILS</Text>
         <View style={styles.userContainer}>
-          <AppText title="Username" />
+          <AppText>"Username"</AppText>
           <TextInput
             placeholder="User Name"
             style={styles.usernameInput} //needs to get current user name from db
@@ -44,36 +46,11 @@ function UserDetailScreen(props) {
             <Feather name="edit" size={20} color={colors.blue_text} />
           </TouchableOpacity>
         </View>
-        <View style={styles.dataLine}>
-          <AppText title="Questions Attempted" />
-          <View style={styles.dataValue}>
-            <AppText title={attempted} />
-          </View>
-        </View>
-        <View style={styles.dataLine}>
-          <AppText title="Questions Correct" />
-          <View style={styles.dataValue}>
-            <AppText title={correct} />
-          </View>
-        </View>
-        <View style={styles.dataLine}>
-          <AppText title="Total Points Earned" />
-          <View style={styles.dataValue}>
-            <AppText title={totalPoints} />
-          </View>
-        </View>
-        <View style={styles.dataLine}>
-          <AppText title="NFTs Earned" />
-          <View style={styles.dataValue}>
-            <AppText title={earned} />
-          </View>
-        </View>
-        <View style={styles.dataLine}>
-          <AppText title="Overall Ranking" />
-          <View style={styles.dataValue}>
-            <AppText title={ranking} />
-          </View>
-        </View>
+        <DetailLines title="Questions Attempted" data={attempted} />
+        <DetailLines title="Questions Correct" data={correct} />
+        <DetailLines title="Total Points Earned" data={totalPoints} />
+        <DetailLines title="NFTs Earned" data={earned} />
+        <DetailLines title="Overall Ranking" data={ranking} />
       </View>
       <View style={styles.save}>
         <CustomButton
@@ -92,10 +69,10 @@ function UserDetailScreen(props) {
               paddingLeft: 20,
             }}
           />
-          <AppText title="Logout" />
+          <AppText>Logout</AppText>
         </TouchableOpacity>
       </View>
-    </View>
+    </ScreenSetUp>
   );
 }
 
@@ -106,23 +83,8 @@ const styles = StyleSheet.create({
     right: "90%",
     borderRadius: 80,
   },
-  background: {
-    backgroundColor: colors.buttonBorder,
-    flex: 1,
-  },
   dataContainer: {
     flex: 1,
-  },
-  dataLine: {
-    flexDirection: "row",
-    paddingLeft: 20,
-    flex: 1,
-    alignItems: "center",
-  },
-  dataValue: {
-    alignItems: "flex-end",
-    flex: 1,
-    paddingRight: 30,
   },
   header: {
     fontSize: 22,
@@ -142,6 +104,9 @@ const styles = StyleSheet.create({
     alignSelf: "center",
     justifyContent: "flex-end",
     flex: 0.5,
+  },
+  screen: {
+    backgroundColor: colors.buttonBorder,
   },
   userContainer: {
     flexDirection: "row",
