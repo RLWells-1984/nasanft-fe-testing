@@ -13,6 +13,7 @@ import RegistrationScreen from "./app/screens/RegistrationScreen";
 
 export default function App() {
   return <RegistrationScreen />;
+
   //needs deep link URI scheme. More info and links https://www.npmjs.com/package/@walletconnect/react-native-dapp
   //return (
   //  <WalletConnectProvider
