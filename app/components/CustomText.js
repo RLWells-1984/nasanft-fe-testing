@@ -1,7 +1,8 @@
 import React from "react";
 import { StyleSheet, Text } from "react-native";
-function CustomText({ children }) {
-  return <Text style={styles.text}>{children}</Text>;
+
+function CustomText({ children, style }) {
+  return <Text style={[styles.view, style]}>{children}</Text>;
 }
 
 const styles = StyleSheet.create({

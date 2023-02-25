@@ -37,9 +37,9 @@ function UserDetailScreen(props) {
       <View style={styles.dataContainer}>
         <Text style={styles.header}>USER DETAILS</Text>
         <View style={styles.userContainer}>
-          <AppText>"Username"</AppText>
+          <AppText>Display Name</AppText>
           <TextInput
-            placeholder="User Name"
+            placeholder="Display Name"
             style={styles.usernameInput} //needs to get current user name from db
           ></TextInput>
           <TouchableOpacity onPress={() => console.log("edit name")}>
