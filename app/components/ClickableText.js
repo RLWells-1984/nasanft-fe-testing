@@ -16,11 +16,11 @@ function ClickableText({ title, onPress, color = "transparent" }) {
 
 const styles = StyleSheet.create({
   text: {
+    alignItems: "center",
     backgroundColor: colors.transparent,
     color: colors.red,
     fontSize: 16,
     fontWeight: "bold",
-    alignItems: "center",
   },
 });
 export default ClickableText;

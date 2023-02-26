@@ -17,7 +17,7 @@ const styles = StyleSheet.create({
   text: {
     backgroundColor: colors.transparent,
     color: colors.blue_text,
-    fontSize: 16,
+    fontSize: 18,
     fontWeight: "bold",
   },
 });
