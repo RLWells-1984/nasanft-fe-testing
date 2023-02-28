@@ -1,15 +1,16 @@
-import React from "react";
+import React, { useState } from "react";
 import {
   Image,
   ImageBackground,
   StyleSheet,
   TextInput,
+  TouchableOpacity,
   View,
 } from "react-native";
+import { Ionicons } from "@expo/vector-icons";
 
 import colors from "../config/colors";
 import CustomButton from "../components/CustomButton";
-import ClickableText from "../components/ClickableText";
 import ScreenSetUp from "../components/ScreenSetUp";
 import CustomText from "../components/CustomText";
 import AppText from "../components/AppText";
@@ -22,6 +23,16 @@ function RegistrationScreen(props) {
         //source={{}} will be from nasa image of the day api
         source={require("../assets/PIA13110_large.jpg")}
       >
+        <View style={{ height: "10%" }}>
+          <TouchableOpacity onPress={() => console.log("go back")}>
+            <Ionicons
+              name="arrow-back"
+              size={28}
+              color={colors.blue_text}
+              style={styles.backArrow}
+            />
+          </TouchableOpacity>
+        </View>
         <View style={styles.container}>
           <Image
             style={styles.logo}
@@ -32,7 +43,7 @@ function RegistrationScreen(props) {
         <View style={styles.userContainer}>
           <AppText style={styles.displayName}> Display Name</AppText>
           <TextInput
-            placeholder=" Enter Display Name"
+            placeholder=" Enter Display Name" //need to set limits on char length and type
             style={styles.usernameInput}
           ></TextInput>
         </View>
@@ -48,6 +59,12 @@ function RegistrationScreen(props) {
 }
 
 const styles = StyleSheet.create({
+  backArrow: {
+    position: "absolute",
+    top: 50,
+    right: "90%",
+    borderRadius: 80,
+  },
   background: {
     flex: 1,
     justifyContent: "flex-end",
@@ -58,13 +75,12 @@ const styles = StyleSheet.create({
     top: "5%",
   },
   displayName: {
-    backgroundColor: colors.buttonColor,
+    backgroundColor: colors.buttonBorder,
     height: 34,
     paddingHorizontal: 20,
     paddingTop: 5,
     borderWidth: 4,
-    borderColor: colors.buttonBorder,
-    borderRadius: 15,
+    borderColor: colors.buttonColor,
   },
   logo: {
     width: 100,

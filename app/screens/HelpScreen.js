@@ -1,19 +1,20 @@
-import React, { Component } from "react";
+import React, { Component, useState } from "react";
 import {
   ScrollView,
   StyleSheet,
   Text,
-  View,
   TouchableOpacity,
+  View,
 } from "react-native";
 
 import * as Animatable from "react-native-animatable";
-import Collapsible from "react-native-collapsible";
 import Accordion from "react-native-collapsible/Accordion";
+import Collapsible from "react-native-collapsible";
 
+import ClickableText from "../components/ClickableText";
 import colors from "../config/colors";
 import ScreenSetUp from "../components/ScreenSetUp";
-import ClickableText from "../components/ClickableText";
+import defaultStyles from "../config/styles";
 
 const ANSWER_ONE = "SOME ANSWER";
 
@@ -67,7 +68,7 @@ export default class HelpScreen extends Component {
         style={[styles.content, isActive ? styles.active : styles.inactive]}
         transition="backgroundColor"
       >
-        <Text>{section.content}</Text>
+        <Text style={defaultStyles.text}>{section.content}</Text>
       </Animatable.View>
     );
   }
@@ -77,6 +78,16 @@ export default class HelpScreen extends Component {
 
     return (
       <ScreenSetUp style={styles.screen}>
+        <View style={{ height: "10%" }}>
+          <TouchableOpacity onPress={() => console.log("go back")}>
+            <Ionicons
+              name="arrow-back"
+              size={28}
+              color={colors.blue_text}
+              style={styles.backArrow}
+            />
+          </TouchableOpacity>
+        </View>
         <View style={styles.container}>
           <ScrollView contentContainerStyle={{ paddingTop: 30 }}>
             <Text style={styles.title}>Fequently Asked Questions</Text>
@@ -118,6 +129,12 @@ const styles = StyleSheet.create({
   active: {
     backgroundColor: colors.lightGrey,
   },
+  backArrow: {
+    position: "absolute",
+    top: 50,
+    right: "90%",
+    borderRadius: 80,
+  },
   contactUs: {
     flex: 1,
     justifyContent: "flex-end",
@@ -134,15 +151,15 @@ const styles = StyleSheet.create({
   },
   headerText: {
     alignSelf: "center",
-    textAlign: "center",
-    fontSize: 16,
-    fontWeight: "500",
-    width: "50%",
-    height: 30,
+    backgroundColor: colors.buttonColor,
     borderRadius: 15,
     color: colors.blue_text,
-    backgroundColor: colors.buttonColor,
+    fontSize: 20,
+    fontWeight: "500",
+    height: 30,
     paddingTop: 5,
+    textAlign: "center",
+    width: "50%",
   },
   inactive: {
     backgroundColor: colors.buttonBorder,

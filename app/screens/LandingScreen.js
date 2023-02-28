@@ -1,31 +1,34 @@
-import React from "react";
+import React, { useState } from "react";
 import { Image, ImageBackground, StyleSheet, View } from "react-native";
 
 import colors from "../config/colors";
 import CustomButton from "../components/CustomButton";
 import ClickableText from "../components/ClickableText";
+import ScreenSetUp from "../components/ScreenSetUp";
 
 function LandingScreen(props) {
   return (
-    <ImageBackground
-      style={styles.background}
-      //source={{}} will be from nasa image of the day api
-      source={require("../assets/PIA13110_large.jpg")}
-    >
-      <Image style={styles.logo} source={require("../assets/TempLogo.png")} />
+    <ScreenSetUp>
+      <ImageBackground
+        style={styles.background}
+        //source={{}} will be from nasa image of the day api
+        source={require("../assets/PIA13110_large.jpg")}
+      >
+        <Image style={styles.logo} source={require("../assets/TempLogo.png")} />
 
-      <View style={styles.touchable}>
-        <CustomButton title="Login" onPress={() => console.log("login")} />
-      </View>
+        <View style={styles.touchable}>
+          <CustomButton title="Login" onPress={() => console.log("login")} />
+        </View>
 
-      <View style={styles.touchable}>
-        <ClickableText
-          //after navigation is added will go to register screen
-          title="Register"
-          onPress={() => console.log("register")}
-        />
-      </View>
-    </ImageBackground>
+        <View style={styles.touchable}>
+          <ClickableText
+            //after navigation is added will go to register screen
+            title="Register"
+            onPress={() => console.log("register")}
+          />
+        </View>
+      </ImageBackground>
+    </ScreenSetUp>
   );
 }
 

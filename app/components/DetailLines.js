@@ -16,10 +16,10 @@ function DetailLines({ title, data }) {
 
 const styles = StyleSheet.create({
   dataLine: {
+    alignItems: "center",
+    flex: 1,
     flexDirection: "row",
     paddingLeft: 20,
-    flex: 1,
-    alignItems: "center",
   },
   dataValue: {
     alignItems: "flex-end",
