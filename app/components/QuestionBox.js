@@ -1,5 +1,4 @@
 import React from "react";
-import ScreenSetUp from "./ScreenSetUp";
 
 import { StyleSheet, Text } from "react-native";
 
