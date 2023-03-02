@@ -16,7 +16,7 @@ function LandingScreen(props) {
       >
         <Image style={styles.logo} source={require("../assets/TempLogo.png")} />
 
-        <View style={styles.touchable}>
+        <View style={styles.touchableButton}>
           <CustomButton title="Login" onPress={() => console.log("login")} />
         </View>
 
@@ -48,6 +48,14 @@ const styles = StyleSheet.create({
     borderRadius: 80,
   },
   touchable: {
+    justifyContent: "flex-end",
+    height: 70,
+    width: "60%",
+    paddingBottom: 20,
+  },
+  touchableButton: {
+    justifyContent: "flex-end",
+    height: 70,
     width: "60%",
     paddingBottom: 20,
   },

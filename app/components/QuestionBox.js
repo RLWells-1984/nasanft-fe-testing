@@ -1,15 +1,15 @@
 import React from "react";
-import ScreenSetUp from "./ScreenSetUp";
 
 import { StyleSheet, Text } from "react-native";
 
 import colors from "../config/colors";
 import { View } from "react-native";
+import AppText from "./AppText";
 
 function QuestionBox({ children, style }) {
   return (
     <View style={styles.screen}>
-      <Text style={[styles.text, style]}>{children}</Text>
+      <AppText style={[styles.text, style]}>{children}</AppText>
     </View>
   );
 }
@@ -23,7 +23,6 @@ const styles = StyleSheet.create({
     borderColor: colors.buttonColor,
     borderTopRightRadius: 50,
     borderWidth: 5,
-    color: colors.blue_text,
     fontSize: 20,
     marginTop: 30,
     padding: 15,

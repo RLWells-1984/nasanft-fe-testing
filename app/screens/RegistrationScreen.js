@@ -12,7 +12,6 @@ import { Ionicons } from "@expo/vector-icons";
 import colors from "../config/colors";
 import CustomButton from "../components/CustomButton";
 import ScreenSetUp from "../components/ScreenSetUp";
-import CustomText from "../components/CustomText";
 import AppText from "../components/AppText";
 
 function RegistrationScreen(props) {
@@ -38,7 +37,7 @@ function RegistrationScreen(props) {
             style={styles.logo}
             source={require("../assets/TempLogo.png")}
           />
-          <CustomText style={styles.register}>Register Account</CustomText>
+          <AppText style={styles.register}>Register Account</AppText>
         </View>
         <View style={styles.userContainer}>
           <AppText style={styles.displayName}> Display Name</AppText>
