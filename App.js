@@ -1,28 +1,30 @@
-import { StyleSheet, Text, View, Image, SafeAreaView } from "react-native";
-import LandingScreen from "./app/screens/LandingScreen";
-
 import * as React from "react";
-import WalletConnectProvider from "@walletconnect/react-native-dapp";
-import AsyncStorage from "@react-native-async-storage/async-storage";
+import { useCallback } from "react";
+import { StyleSheet } from "react-native";
+
+import { useFonts } from "expo-font";
+import * as SplashScreen from "expo-splash-screen";
+
+import LandingScreen from "./app/screens/LandingScreen";
 import HomeScreen from "./app/screens/HomeScreen";
 import UserDetailScreen from "./app/screens/UserDetailScreen";
 import HelpScreen from "./app/screens/HelpScreen";
 import RegistrationScreen from "./app/screens/RegistrationScreen";
 import QuizScreen from "./app/screens/QuizScreen";
+
+import WalletConnectProvider from "@walletconnect/react-native-dapp";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 import CustomTextInput from "./app/components/CustomTextInput";
 import ScreenSetUp from "./app/components/ScreenSetUp";
 import colors from "./app/config/colors";
-import { useFonts } from "expo-font";
-import * as SplashScreen from "expo-splash-screen";
-import { useCallback } from "react";
 
 export default function App() {
   const [fontsLoaded] = useFonts({
-    BlueCurve: require("./app/assets/fonts/Bluecurve-Regular.ttf"),
-    BlueCurve_L: require("./app/assets/fonts/Bluecurve-Light.ttf"),
-    BlueCurve_B: require("./app/assets/fonts/Bluecurve-Bold.ttf"),
-    Mona: require("./app/assets/fonts/Mona-Sans-Regular.otf"),
     Rag: require("./app/assets/fonts/Rag-Regular.otf"),
+    Rag_Bl: require("./app/assets/fonts/Rag-Black.otf"),
+    Rag_Bo: require("./app/assets/fonts/Rag-Bold.otf"),
+    Rag_B_I: require("./app/assets/fonts/Rag-BoldItalic.otf"),
+    Rag_I: require("./app/assets/fonts/Rag-Italic.otf"),
   });
 
   const onLayoutRootView = useCallback(async () => {
@@ -35,12 +37,7 @@ export default function App() {
     return null;
   }
 
-  return (
-    <QuizScreen />
-    //<ScreenSetUp>
-    //  <CustomTextInput placeholder="Display Name" icon="user-astronaut" />
-    //</ScreenSetUp>
-  );
+  return <QuizScreen />;
 
   //needs deep link URI scheme. More info and links https://www.npmjs.com/package/@walletconnect/react-native-dapp
   //return (
