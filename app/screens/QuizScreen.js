@@ -14,10 +14,10 @@ import QuestionBox from "../components/QuestionBox";
 import CustomButton from "../components/CustomButton";
 
 function QuizScreen(props) {
-  const answerA = "Answer A";
-  const answerB = "Answer B";
-  const answerC = "Answer C";
-  const answerD = "Answer D";
+  const answerA = "ABCDEFGHIJKLMNOPQRSTUVWXYZ abcdefghijklmnopqrstuvwxyz";
+  const answerB = "ABCDEFGHIJKLMNOPQRSTUVWXYZ abcdefghijklmnopqrstuvwxyz B";
+  const answerC = "ABCDEFGHIJKLMNOPQRSTUVWXYZ abcdefghijklmnopqrstuvwxyz C";
+  const answerD = "ABCDEFGHIJKLMNOPQRSTUVWXYZ abcdefghijklmnopqrstuvwxyz D";
 
   return (
     //timer up top
@@ -43,7 +43,7 @@ function QuizScreen(props) {
         </View>
         <Text style={styles.text}>Question</Text>
         <View style={styles.QuestionBox}>
-          <QuestionBox>
+          <QuestionBox style={{ fontFamily: "BlueCurve" }}>
             cjvlkasdjfglkasdjflkdsa LS;AKD FJALKSDFJLKSAD FSLKD FJASLKDFJ ALKSD
             LSADKFJJ ALSKDFJ ALKSDF SALDKFJ ASLKD FJASLE ASLDKFJ LASKDJF
           </QuestionBox>
@@ -51,27 +51,27 @@ function QuizScreen(props) {
         <View style={styles.answers}>
           <CustomButton
             title={answerA}
-            fontSize={16}
+            marginVertical={5}
             onPress={() => console.log("AnswerA")}
-            style={{ marginVertical: 5 }}
+            style={{ fontFamily: "BlueCurve", fontSize: 16 }}
           ></CustomButton>
           <CustomButton
             title={answerB}
-            fontSize={16}
+            marginVertical={5}
             onPress={() => console.log("AnswerB")}
-            style={{ marginVertical: 5 }}
+            style={{ fontFamily: "BlueCurve_L", fontSize: 16 }}
           ></CustomButton>
           <CustomButton
             title={answerC}
-            fontSize={16}
+            marginVertical={5}
             onPress={() => console.log("AnswerC")}
-            style={{ marginVertical: 5 }}
+            style={{ fontFamily: "Mona", fontSize: 16 }}
           ></CustomButton>
           <CustomButton
             title={answerD}
-            fontSize={16}
+            marginVertical={5}
             onPress={() => console.log("AnswerD")}
-            style={{ marginVertical: 5 }}
+            style={{ fontFamily: "Rag", fontSize: 16 }}
           ></CustomButton>
         </View>
         <View style={styles.touchable}>

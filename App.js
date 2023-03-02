@@ -12,8 +12,29 @@ import QuizScreen from "./app/screens/QuizScreen";
 import CustomTextInput from "./app/components/CustomTextInput";
 import ScreenSetUp from "./app/components/ScreenSetUp";
 import colors from "./app/config/colors";
+import { useFonts } from "expo-font";
+import * as SplashScreen from "expo-splash-screen";
+import { useCallback } from "react";
 
 export default function App() {
+  const [fontsLoaded] = useFonts({
+    BlueCurve: require("./app/assets/fonts/Bluecurve-Regular.ttf"),
+    BlueCurve_L: require("./app/assets/fonts/Bluecurve-Light.ttf"),
+    BlueCurve_B: require("./app/assets/fonts/Bluecurve-Bold.ttf"),
+    Mona: require("./app/assets/fonts/Mona-Sans-Regular.otf"),
+    Rag: require("./app/assets/fonts/Rag-Regular.otf"),
+  });
+
+  const onLayoutRootView = useCallback(async () => {
+    if (fontsLoaded) {
+      await SplashScreen.hideAsync();
+    }
+  }, [fontsLoaded]);
+
+  if (!fontsLoaded) {
+    return null;
+  }
+
   return (
     <QuizScreen />
     //<ScreenSetUp>

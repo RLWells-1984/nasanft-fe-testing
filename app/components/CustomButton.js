@@ -6,17 +6,20 @@ import colors from "../config/colors";
 function CustomButton({
   children,
   color = "buttonColor",
-  fontSize = 20,
+  marginVertical,
   onPress,
   style,
   title,
 }) {
   return (
     <TouchableOpacity
-      style={[styles.button, style, { backgroundColor: colors[color] }]}
+      style={[
+        styles.button,
+        { backgroundColor: colors[color], marginVertical: marginVertical },
+      ]}
       onPress={onPress}
     >
-      <Text style={[styles.text, { fontSize: fontSize }]}>{title}</Text>
+      <Text style={[styles.text, style]}>{title}</Text>
     </TouchableOpacity>
   );
 }
@@ -28,7 +31,7 @@ const styles = StyleSheet.create({
     borderColor: colors.buttonBorder,
     borderRadius: 25,
     borderWidth: 5,
-    height: 50,
+    height: 55,
     justifyContent: "center",
     width: "100%",
     flex: 1,
@@ -37,7 +40,7 @@ const styles = StyleSheet.create({
     alignItems: "center",
     color: colors.blue_text,
     fontSize: 20,
-    fontWeight: "bold",
+    //fontWeight: "bold",
   },
 });
 export default CustomButton;
