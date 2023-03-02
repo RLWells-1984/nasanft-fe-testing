@@ -18,7 +18,8 @@ const styles = StyleSheet.create({
     backgroundColor: colors.transparent,
     color: colors.blue_text,
     fontSize: 18,
-    fontWeight: "bold",
+    fontFamily: "Rag",
+    flex: 1,
   },
 });
 

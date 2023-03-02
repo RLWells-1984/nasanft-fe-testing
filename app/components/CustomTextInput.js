@@ -37,6 +37,7 @@ const styles = StyleSheet.create({
   text: {
     fontSize: 18,
     color: colors.blue_text,
+    fontFamily: "Rag",
   },
 });
 export default CustomTextInput;

@@ -2,6 +2,7 @@ import React from "react";
 import { StyleSheet, Text, TouchableOpacity } from "react-native";
 
 import colors from "../config/colors";
+import AppText from "./AppText";
 
 function CustomButton({
   children,
@@ -19,7 +20,7 @@ function CustomButton({
       ]}
       onPress={onPress}
     >
-      <Text style={[styles.text, style]}>{title}</Text>
+      <AppText style={[styles.text, style]}>{title}</AppText>
     </TouchableOpacity>
   );
 }
@@ -31,16 +32,15 @@ const styles = StyleSheet.create({
     borderColor: colors.buttonBorder,
     borderRadius: 25,
     borderWidth: 5,
-    height: 55,
     justifyContent: "center",
     width: "100%",
     flex: 1,
   },
   text: {
     alignItems: "center",
-    color: colors.blue_text,
-    fontSize: 20,
-    //fontWeight: "bold",
+    textAlign: "center",
+    textAlignVertical: "center",
+    fontSize: 24,
   },
 });
 export default CustomButton;

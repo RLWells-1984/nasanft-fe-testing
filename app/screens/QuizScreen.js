@@ -43,7 +43,7 @@ function QuizScreen(props) {
         </View>
         <Text style={styles.text}>Question</Text>
         <View style={styles.QuestionBox}>
-          <QuestionBox style={{ fontFamily: "BlueCurve" }}>
+          <QuestionBox style={{ fontFamily: "Rag" }}>
             cjvlkasdjfglkasdjflkdsa LS;AKD FJALKSDFJLKSAD FSLKD FJASLKDFJ ALKSD
             LSADKFJJ ALSKDFJ ALKSDF SALDKFJ ASLKD FJASLE ASLDKFJ LASKDJF
           </QuestionBox>
@@ -53,25 +53,25 @@ function QuizScreen(props) {
             title={answerA}
             marginVertical={5}
             onPress={() => console.log("AnswerA")}
-            style={{ fontFamily: "BlueCurve", fontSize: 16 }}
+            style={{ fontSize: 16 }}
           ></CustomButton>
           <CustomButton
             title={answerB}
             marginVertical={5}
             onPress={() => console.log("AnswerB")}
-            style={{ fontFamily: "BlueCurve_L", fontSize: 16 }}
+            style={{ fontSize: 16 }}
           ></CustomButton>
           <CustomButton
             title={answerC}
             marginVertical={5}
             onPress={() => console.log("AnswerC")}
-            style={{ fontFamily: "Mona", fontSize: 16 }}
+            style={{ fontSize: 16 }}
           ></CustomButton>
           <CustomButton
             title={answerD}
             marginVertical={5}
             onPress={() => console.log("AnswerD")}
-            style={{ fontFamily: "Rag", fontSize: 16 }}
+            style={{ fontSize: 16 }}
           ></CustomButton>
         </View>
         <View style={styles.touchable}>

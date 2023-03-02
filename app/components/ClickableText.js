@@ -20,7 +20,7 @@ const styles = StyleSheet.create({
     backgroundColor: colors.transparent,
     color: colors.red,
     fontSize: 16,
-    fontWeight: "bold",
+    fontFamily: "Rag_B_I",
   },
 });
 export default ClickableText;
