@@ -21,11 +21,11 @@ const totalPoints = 0;
 const earned = 0;
 const ranking = 0;
 
-function UserDetailScreen(props) {
+function UserDetailScreen({ navigation }) {
   return (
-    <ScreenSetUp style={styles.screen}>
+    <ScreenSetUp style={{ backgroundColor: colors.backgroundGrey }}>
       <View style={{ height: "10%" }}>
-        <TouchableOpacity onPress={() => console.log("go back")}>
+        <TouchableOpacity onPress={() => navigation.goBack()}>
           <Ionicons
             name="arrow-back"
             size={28}
@@ -103,10 +103,7 @@ const styles = StyleSheet.create({
     width: "50%",
     alignSelf: "center",
     justifyContent: "flex-end",
-    flex: 0.5,
-  },
-  screen: {
-    backgroundColor: colors.buttonBorder,
+    height: 70,
   },
   userContainer: {
     flexDirection: "row",

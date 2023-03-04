@@ -12,8 +12,11 @@ import ScreenSetUp from "../components/ScreenSetUp";
 import colors from "../config/colors";
 import QuestionBox from "../components/QuestionBox";
 import CustomButton from "../components/CustomButton";
+import AppText from "../components/AppText";
+import HeaderBar from "../components/HeaderBar";
+import HelpButton from "../components/HelpButton";
 
-function QuizScreen(props) {
+function QuizScreen({ navigation }) {
   const answerA = "ABCDEFGHIJKLMNOPQRSTUVWXYZ abcdefghijklmnopqrstuvwxyz";
   const answerB = "ABCDEFGHIJKLMNOPQRSTUVWXYZ abcdefghijklmnopqrstuvwxyz B";
   const answerC = "ABCDEFGHIJKLMNOPQRSTUVWXYZ abcdefghijklmnopqrstuvwxyz C";
@@ -21,29 +24,14 @@ function QuizScreen(props) {
 
   return (
     //timer up top
-    <ScreenSetUp style={styles.screen}>
+    <ScreenSetUp style={{ backgroundColor: colors.backgroundGrey }}>
       <ScrollView contentContainerStyle={{ flexGrow: 1, paddingBottom: 300 }}>
-        <TouchableOpacity onPress={() => console.log("user icon")}>
-          <FontAwesome5
-            name="user-astronaut"
-            size={30}
-            color={colors.blue_text}
-            style={styles.userIcon}
-          />
-        </TouchableOpacity>
-        <View style={{ height: "10%" }}>
-          <TouchableOpacity onPress={() => console.log("go back")}>
-            <Ionicons
-              name="arrow-back"
-              size={28}
-              color={colors.blue_text}
-              style={styles.backArrow}
-            />
-          </TouchableOpacity>
-        </View>
-        <Text style={styles.text}>Question</Text>
+        <HeaderBar navigation={navigation}></HeaderBar>
+        <AppText fontSize={30} style={styles.text}>
+          Question
+        </AppText>
         <View style={styles.QuestionBox}>
-          <QuestionBox style={{ fontFamily: "Rag" }}>
+          <QuestionBox>
             cjvlkasdjfglkasdjflkdsa LS;AKD FJALKSDFJLKSAD FSLKD FJASLKDFJ ALKSD
             LSADKFJJ ALSKDFJ ALKSDF SALDKFJ ASLKD FJASLE ASLDKFJ LASKDJF
           </QuestionBox>
@@ -77,6 +65,8 @@ function QuizScreen(props) {
         <View style={styles.touchable}>
           <CustomButton title="Submit" onPress={() => console.log("submit")} />
         </View>
+
+        <HelpButton navigation={navigation} />
       </ScrollView>
     </ScreenSetUp>
   );
@@ -121,7 +111,7 @@ const styles = StyleSheet.create({
     justifyContent: "flex-end",
     width: "60%",
     paddingBottom: 20,
-    flex: 1,
+    height: 70,
     marginTop: 30,
   },
   userIcon: {
