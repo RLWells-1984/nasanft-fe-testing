@@ -5,22 +5,30 @@ import colors from "../config/colors";
 import AppText from "./AppText";
 
 function CustomButton({
+  borderColor = "backgroundGrey",
   children,
   color = "buttonColor",
   marginVertical,
   onPress,
-  style,
   title,
+  fontSize,
+  fontFamily,
 }) {
   return (
     <TouchableOpacity
       style={[
         styles.button,
-        { backgroundColor: colors[color], marginVertical: marginVertical },
+        {
+          backgroundColor: colors[color],
+          marginVertical: marginVertical,
+          borderColor: colors[borderColor],
+        },
       ]}
       onPress={onPress}
     >
-      <AppText style={[styles.text, style]}>{title}</AppText>
+      <AppText style={styles.text} fontSize={fontSize} fontFamily={fontFamily}>
+        {title}
+      </AppText>
     </TouchableOpacity>
   );
 }
@@ -29,7 +37,6 @@ const styles = StyleSheet.create({
   button: {
     alignItems: "center",
     backgroundColor: colors.buttonColor,
-    borderColor: colors.buttonBorder,
     borderRadius: 25,
     borderWidth: 5,
     justifyContent: "center",

@@ -8,22 +8,20 @@ import AppText from "./AppText";
 
 function QuestionBox({ children, style }) {
   return (
-    <View style={styles.screen}>
+    <View>
       <AppText style={[styles.text, style]}>{children}</AppText>
     </View>
   );
 }
 
 const styles = StyleSheet.create({
-  screen: {
-    backgroundColor: colors.buttonBorder,
-  },
   text: {
     borderBottomLeftRadius: 50,
     borderColor: colors.buttonColor,
     borderTopRightRadius: 50,
     borderWidth: 5,
     fontSize: 20,
+    fontFamily: "Rag",
     marginTop: 30,
     padding: 15,
   },
