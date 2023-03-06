@@ -7,6 +7,7 @@ import {
   View,
 } from "react-native";
 import { FontAwesome5, Ionicons } from "@expo/vector-icons";
+import { useCountdown } from "react-native-countdown-circle-timer";
 
 import ScreenSetUp from "../components/ScreenSetUp";
 import colors from "../config/colors";
@@ -15,6 +16,7 @@ import CustomButton from "../components/CustomButton";
 import AppText from "../components/AppText";
 import HeaderBar from "../components/HeaderBar";
 import HelpButton from "../components/HelpButton";
+import Timer from "../components/Timer";
 
 function QuizScreen({ navigation }) {
   const answerA = "ABCDEFGHIJKLMNOPQRSTUVWXYZ abcdefghijklmnopqrstuvwxyz";
@@ -27,6 +29,7 @@ function QuizScreen({ navigation }) {
     <ScreenSetUp style={{ backgroundColor: colors.backgroundGrey }}>
       <ScrollView contentContainerStyle={{ flexGrow: 1, paddingBottom: 300 }}>
         <HeaderBar navigation={navigation}></HeaderBar>
+        <Timer></Timer>
         <AppText fontSize={30} style={styles.text}>
           Question
         </AppText>
