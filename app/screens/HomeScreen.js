@@ -1,7 +1,7 @@
-import React, { useState } from "react";
+import React, { useState, useRef, useEffect } from "react";
 
-import { FontAwesome5, Ionicons } from "@expo/vector-icons";
-import { StyleSheet, Text, TouchableOpacity, View } from "react-native";
+import { Ionicons } from "@expo/vector-icons";
+import { StyleSheet, View } from "react-native";
 
 import CountDown from "react-native-countdown-component";
 
@@ -9,7 +9,6 @@ import colors from "../config/colors";
 import CustomButton from "../components/CustomButton";
 import AppText from "../components/AppText";
 import ScreenSetUp from "../components/ScreenSetUp";
-import defaultStyles from "../config/styles";
 import HeaderBar from "../components/HeaderBar";
 import HelpButton from "../components/HelpButton";
 

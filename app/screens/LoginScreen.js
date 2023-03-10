@@ -1,12 +1,43 @@
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
 import { Image, ImageBackground, StyleSheet, View } from "react-native";
 
 import colors from "../config/colors";
 import CustomButton from "../components/CustomButton";
-import ClickableText from "../components/ClickableText";
 import ScreenSetUp from "../components/ScreenSetUp";
+import AuthContext from "../auth/context";
+import authApi from "../api/auth";
 
-function LandingScreen({ navigation }) {
+function LoginScreen({ navigation }) {
+  useContext(AuthContext);
+  const [loginFailed, setLoginFailed] = useState(false);
+  const udata = { username: "GiveMeSomeSpace", password: "YodaBest" };
+
+  const fetchData = async () => {
+    const response = await fetch("http://192.168.1.177:3000/api/token/login", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(udata),
+    })
+      .then((response) => response.json())
+      .then((udata) => {
+        console.log("data", udata);
+      })
+      .catch((error) => {
+        console.error("error", error);
+      });
+  };
+
+  const handleSubmit = async ({ username, password }) => {
+    const result = await authApi.login("TestUser", "Open123");
+    console.log(result.problem);
+    if (!result.ok) return setLoginFailed(true);
+    setLoginFailed(false);
+    //const user = result.data;
+    //console.log(user);
+  };
+
   return (
     <ScreenSetUp>
       <ImageBackground
@@ -21,22 +52,14 @@ function LandingScreen({ navigation }) {
             title="Login"
             fontFamily={"Rag_Bo"}
             fontSize={26}
-            onPress={() => navigation.navigate("HomeScreen")}
-          />
-        </View>
-
-        <View style={styles.touchable}>
-          <ClickableText
-            //after navigation is added will go to register screen
-            title="Register"
-            onPress={() => navigation.navigate("RegistrationScreen")}
+            //onPress={() => navigation.navigate("HomeScreen")}
+            onPress={fetchData}
           />
         </View>
       </ImageBackground>
     </ScreenSetUp>
   );
 }
-
 const styles = StyleSheet.create({
   background: {
     flex: 1,
@@ -66,4 +89,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default LandingScreen;
+export default LoginScreen;
