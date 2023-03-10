@@ -2,6 +2,7 @@
   "expo": {
     "name": "NasaFT_Trivia",
     "slug": "NasaFT_Trivia",
+    "scheme": "walletconnect-example",
     "version": "1.0.0",
     "orientation": "default ",
     "icon": "./app/assets/icon.png",

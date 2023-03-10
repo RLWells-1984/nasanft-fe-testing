@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import {
   StyleSheet,
   Text,
@@ -14,6 +14,7 @@ import AppText from "../components/AppText";
 import CustomButton from "../components/CustomButton";
 import DetailLines from "../components/DetailLines";
 import ScreenSetUp from "../components/ScreenSetUp";
+import userApi from "../api/users";
 
 const attempted = 0; //import from db
 const correct = 0;
@@ -22,6 +23,17 @@ const earned = 0;
 const ranking = 0;
 
 function UserDetailScreen({ navigation }) {
+  const [userData, setUserData] = useState([]);
+
+  useEffect(() => {
+    loadUserData();
+  }, []);
+
+  const loadUserData = async () => {
+    const response = await userApi.getUserData();
+    setUserData(response.data);
+  };
+
   return (
     <ScreenSetUp style={{ backgroundColor: colors.backgroundGrey }}>
       <View style={{ height: "10%" }}>
