@@ -1,11 +1,18 @@
+import "./global";
+
 import React, { useCallback, useState, useContext, useEffect } from "react";
 import { StyleSheet, View, Platform } from "react-native";
 
 import { useFonts } from "expo-font";
 import * as SplashScreen from "expo-splash-screen";
 
-import { NavigationContainer } from "@react-navigation/native";
+import WalletConnectProvider from "@walletconnect/react-native-dapp";
+import AsyncStorage from "@react-native-async-storage/async-storage";
+import WalletConnectExperience from "./app/screens/walletConnectExperience";
+const SCHEME_FROM_APP_JSON = "walletconnect-example";
+import { StatusBar } from "expo-status-bar";
 
+import { NavigationContainer } from "@react-navigation/native";
 import AuthNavigator from "./app/navigation/AuthNavigator";
 import navigationTheme from "./app/navigation/navigationTheme";
 import AppNavigator from "./app/navigation/AppNavigator";
@@ -34,7 +41,23 @@ export default function App() {
   }
 
   return (
-    <LoginScreen />
+    <WalletConnectProvider
+      redirectUrl={
+        Platform.OS === "web"
+          ? window.location.origin
+          : `${SCHEME_FROM_APP_JSON}://`
+      }
+      storageOptions={{
+        asyncStorage: AsyncStorage,
+      }}
+    >
+      <View style={styles.container}>
+        <WalletConnectExperience />
+        <StatusBar style="auto" />
+      </View>
+    </WalletConnectProvider>
+
+    //<LoginScreen />
     //<AuthContext.Provider value={{ user, setUser }}>
     //  <NavigationContainer theme={navigationTheme}>
     //    <AppNavigator />
