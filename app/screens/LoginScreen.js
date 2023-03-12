@@ -1,5 +1,13 @@
+import "../global";
+
 import React, { useContext, useState } from "react";
 import { Image, ImageBackground, StyleSheet, View } from "react-native";
+
+import WalletConnectProvider from "@walletconnect/react-native-dapp";
+import AsyncStorage from "@react-native-async-storage/async-storage";
+import WalletConnectExperience from "./walletConnectExperience";
+const SCHEME_FROM_APP_JSON = "walletconnect-example";
+import { StatusBar } from "expo-status-bar";
 
 import colors from "../config/colors";
 import CustomButton from "../components/CustomButton";
@@ -29,15 +37,6 @@ function LoginScreen({ navigation }) {
       });
   };
 
-  const handleSubmit = async ({ username, password }) => {
-    const result = await authApi.login("TestUser", "Open123");
-    console.log(result.problem);
-    if (!result.ok) return setLoginFailed(true);
-    setLoginFailed(false);
-    //const user = result.data;
-    //console.log(user);
-  };
-
   return (
     <ScreenSetUp>
       <ImageBackground
@@ -46,15 +45,11 @@ function LoginScreen({ navigation }) {
         source={require("../assets/PIA13110_large.jpg")}
       >
         <Image style={styles.logo} source={require("../assets/TempLogo.png")} />
-
         <View style={styles.touchableButton}>
-          <CustomButton
-            title="Login"
-            fontFamily={"Rag_Bo"}
-            fontSize={26}
-            //onPress={() => navigation.navigate("HomeScreen")}
-            onPress={fetchData}
-          />
+          <View style={styles.container}>
+            <WalletConnectExperience navigation={navigation} />
+            <StatusBar style="auto" />
+          </View>
         </View>
       </ImageBackground>
     </ScreenSetUp>
@@ -83,9 +78,9 @@ const styles = StyleSheet.create({
   },
   touchableButton: {
     justifyContent: "flex-end",
-    height: 70,
+    height: 170,
     width: "60%",
-    paddingBottom: 20,
+    paddingBottom: 40,
   },
 });
 
