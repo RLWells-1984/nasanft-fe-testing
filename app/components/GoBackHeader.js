@@ -1,7 +1,7 @@
 import React from "react";
-import { StyleSheet, Text, TouchableOpacity, View } from "react-native";
+import { StyleSheet, TouchableOpacity, View } from "react-native";
 
-import { FontAwesome5, Ionicons } from "@expo/vector-icons";
+import { Ionicons } from "@expo/vector-icons";
 import colors from "../config/colors";
 
 function GoBackHeader({ navigation, color = "white" }) {
@@ -23,10 +23,10 @@ function GoBackHeader({ navigation, color = "white" }) {
 
 const styles = StyleSheet.create({
   backArrow: {
-    position: "absolute",
-    top: 50,
-    right: "90%",
     borderRadius: 80,
+    position: "absolute",
+    right: "90%",
+    top: 50,
   },
 });
 export default GoBackHeader;

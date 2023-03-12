@@ -1,9 +1,8 @@
 import React from "react";
 
-import { StyleSheet, Text } from "react-native";
+import { StyleSheet, View } from "react-native";
 
 import colors from "../config/colors";
-import { View } from "react-native";
 import AppText from "./AppText";
 
 function QuestionBox({ children, style }) {
@@ -20,8 +19,8 @@ const styles = StyleSheet.create({
     borderColor: colors.buttonColor,
     borderTopRightRadius: 50,
     borderWidth: 5,
-    fontSize: 20,
     fontFamily: "Rag",
+    fontSize: 20,
     marginTop: 30,
     padding: 15,
   },

@@ -1,23 +1,20 @@
 import "./app/global";
 
-import React, { useCallback, useState, useContext, useEffect } from "react";
-import { StyleSheet, View, Platform } from "react-native";
+import React, { useCallback, useState } from "react";
+import { Platform, StyleSheet } from "react-native";
 
 import { useFonts } from "expo-font";
 import * as SplashScreen from "expo-splash-screen";
 
 import WalletConnectProvider from "@walletconnect/react-native-dapp";
 import AsyncStorage from "@react-native-async-storage/async-storage";
-import WalletConnectExperience from "./app/screens/walletConnectExperience";
 const SCHEME_FROM_APP_JSON = "walletconnect-example";
-import { StatusBar } from "expo-status-bar";
 
 import { NavigationContainer } from "@react-navigation/native";
 import AuthNavigator from "./app/navigation/AuthNavigator";
 import navigationTheme from "./app/navigation/navigationTheme";
 import AppNavigator from "./app/navigation/AppNavigator";
 import AuthContext from "./app/auth/context";
-import LoginScreen from "./app/screens/LoginScreen";
 
 export default function App() {
   const [user, setUser] = useState();
@@ -71,9 +68,9 @@ export default function App() {
 
 const styles = StyleSheet.create({
   container: {
-    flex: 1,
-    backgroundColor: "white",
     alignItems: "center",
+    backgroundColor: "white",
+    flex: 1,
     justifyContent: "center",
   },
 });

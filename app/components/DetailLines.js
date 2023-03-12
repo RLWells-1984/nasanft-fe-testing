@@ -3,7 +3,7 @@ import { StyleSheet, View } from "react-native";
 
 import AppText from "./AppText";
 
-function DetailLines({ title, data }) {
+function DetailLines({ data, title }) {
   return (
     <View style={styles.dataLine}>
       <AppText>{title}</AppText>

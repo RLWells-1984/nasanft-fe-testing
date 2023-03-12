@@ -1,38 +1,28 @@
 import React from "react";
 import { View, StyleSheet, Text } from "react-native";
 import Svg, { Path, LinearGradient, Defs } from "react-native-svg";
-import Constants from "expo-constants";
 import { useCountdown } from "react-native-countdown-circle-timer";
-import colors from "../config/colors";
 
 function Timer(props) {
   const duration = 60;
 
   const {
+    elapsedTime,
     path,
     pathLength,
+    remainingTime,
     stroke,
     strokeDashoffset,
-    remainingTime,
-    elapsedTime,
   } = useCountdown({
-    isPlaying: true,
-    duration,
     colors: ["#8fce00", "#ffc000", "#cc0000"],
     colorsTime: [60, 30, 15],
+    duration,
+    isPlaying: true,
   });
 
   return (
     <View style={styles.container}>
-      <View
-        style={{
-          width: 180,
-          height: 180,
-          alignItems: "center",
-          justifyContent: "center",
-          paddingBottom: 10,
-        }}
-      >
+      <View style={styles.alignmentView}>
         <Svg
           width="70%"
           height="70%"
@@ -70,24 +60,31 @@ function Timer(props) {
 }
 
 const styles = StyleSheet.create({
-  container: {
-    flex: 1,
+  alignmentView: {
+    alignItems: "center",
+    height: 180,
     justifyContent: "center",
+    paddingBottom: 10,
+    width: 180,
+  },
+  container: {
     alignItems: "center",
     alignSelf: "center",
-    padding: 8,
+    flex: 1,
     height: 100,
+    justifyContent: "center",
+    padding: 8,
     width: 100,
   },
   time: {
-    display: "flex",
-    justifyContent: "center",
     alignItems: "center",
-    position: "absolute",
+    display: "flex",
+    height: "100%",
+    justifyContent: "center",
     left: 0,
+    position: "absolute",
     top: 0,
     width: "100%",
-    height: "100%",
   },
 });
 export default Timer;

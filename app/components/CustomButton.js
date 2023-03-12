@@ -1,18 +1,17 @@
 import React from "react";
-import { StyleSheet, Text, TouchableOpacity } from "react-native";
+import { StyleSheet, TouchableOpacity } from "react-native";
 
-import colors from "../config/colors";
 import AppText from "./AppText";
+import colors from "../config/colors";
 
 function CustomButton({
   borderColor = "backgroundGrey",
-  children,
   color = "buttonColor",
+  fontFamily,
+  fontSize,
   marginVertical,
   onPress,
   title,
-  fontSize,
-  fontFamily,
 }) {
   return (
     <TouchableOpacity
@@ -20,13 +19,13 @@ function CustomButton({
         styles.button,
         {
           backgroundColor: colors[color],
-          marginVertical: marginVertical,
           borderColor: colors[borderColor],
+          marginVertical: marginVertical,
         },
       ]}
       onPress={onPress}
     >
-      <AppText style={styles.text} fontSize={fontSize} fontFamily={fontFamily}>
+      <AppText fontFamily={fontFamily} fontSize={fontSize} style={styles.text}>
         {title}
       </AppText>
     </TouchableOpacity>
@@ -39,15 +38,15 @@ const styles = StyleSheet.create({
     backgroundColor: colors.buttonColor,
     borderRadius: 25,
     borderWidth: 5,
+    flex: 1,
     justifyContent: "center",
     width: "100%",
-    flex: 1,
   },
   text: {
     alignItems: "center",
+    fontSize: 24,
     textAlign: "center",
     textAlignVertical: "center",
-    fontSize: 24,
   },
 });
 export default CustomButton;

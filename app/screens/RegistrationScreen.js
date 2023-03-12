@@ -1,11 +1,11 @@
 import React, { useState } from "react";
 import { Image, StyleSheet, TextInput, View } from "react-native";
 
+import AppText from "../components/AppText";
 import colors from "../config/colors";
 import CustomButton from "../components/CustomButton";
-import ScreenSetUp from "../components/ScreenSetUp";
-import AppText from "../components/AppText";
 import GoBackHeader from "../components/GoBackHeader";
+import ScreenSetUp from "../components/ScreenSetUp";
 
 function RegistrationScreen({ navigation }) {
   return (
@@ -53,51 +53,51 @@ function RegistrationScreen({ navigation }) {
 
 const styles = StyleSheet.create({
   container: {
+    alignSelf: "center",
+    flex: 1,
     position: "absolute",
     top: 100,
-    flex: 1,
-    alignSelf: "center",
   },
   displayName: {
     backgroundColor: colors.backgroundGrey,
+    borderColor: colors.buttonColor,
+    borderWidth: 4,
     height: 34,
     paddingHorizontal: 20,
     paddingTop: 5,
-    borderWidth: 4,
-    borderColor: colors.buttonColor,
   },
   logo: {
-    width: 80,
-    height: 80,
-    borderWidth: 5,
+    alignSelf: "center",
     borderColor: colors.buttonBorder,
     borderRadius: 40,
-    alignSelf: "center",
+    borderWidth: 5,
+    height: 80,
+    width: 80,
   },
   touchableButton: {
-    height: 70,
-    width: "60%",
-    paddingBottom: 20,
     alignSelf: "center",
+    height: 70,
+    paddingBottom: 20,
     top: 300,
+    width: "60%",
   },
   userContainer: {
-    flexDirection: "row",
-    paddingRight: 30,
-    paddingLeft: 20,
-    paddingBottom: 30,
     alignItems: "center",
+    flexDirection: "row",
+    paddingBottom: 30,
+    paddingLeft: 20,
+    paddingRight: 30,
   },
   usernameInput: {
+    alignItems: "center",
+    backgroundColor: "white",
     borderBottomColor: colors.buttonBorder,
     borderBottomWidth: 1,
     fontSize: 16,
     fontWeight: "bold",
     height: 30,
-    width: "45%",
     marginLeft: 30,
-    alignItems: "center",
-    backgroundColor: "white",
+    width: "45%",
   },
 });
 

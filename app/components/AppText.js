@@ -6,9 +6,9 @@ import colors from "../config/colors";
 function AppText({
   children,
   color = "blue_text",
-  style,
-  fontSize = 16,
   fontFamily = "Rag",
+  fontSize = 16,
+  style,
 }) {
   return (
     <View style={styles.text}>
@@ -16,7 +16,7 @@ function AppText({
         style={[
           styles.text,
           style,
-          { color: colors[color], fontSize: fontSize, fontFamily: fontFamily },
+          { color: colors[color], fontFamily: fontFamily, fontSize: fontSize },
         ]}
       >
         {children}

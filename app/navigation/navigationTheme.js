@@ -5,7 +5,7 @@ export default {
   ...DefaultTheme,
   colors: {
     ...DefaultTheme.colors,
-    primary: colors.buttonColor,
     background: colors.buttonBorder,
+    primary: colors.buttonColor,
   },
 };

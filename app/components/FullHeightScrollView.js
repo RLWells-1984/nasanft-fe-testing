@@ -1,5 +1,5 @@
 import * as React from "react";
-import { ScrollView, ScrollViewProps, StyleSheet } from "react-native";
+import { ScrollView, StyleSheet } from "react-native";
 
 export function FullHeightScrollView(props) {
   return (

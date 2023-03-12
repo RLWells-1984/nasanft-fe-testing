@@ -7,7 +7,7 @@ function ScreenSetUp({ children, style }) {
     <SafeAreaView style={[styles.screen, style]}>
       <ImageBackground
         style={styles.background}
-        //source={{}} will be from nasa image of the day api
+        //source={{}} will be from nasa image of the day api as a future improvement
         source={require("../assets/PIA13110_large.jpg")}
       >
         <View style={[styles.view, style]}>{children}</View>
@@ -25,9 +25,9 @@ const styles = StyleSheet.create({
     paddingTop: Constants.statusBarHeight,
   },
   view: {
+    alignSelf: "center",
     flex: 1,
     width: "90%",
-    alignSelf: "center",
   },
 });
 

@@ -3,7 +3,6 @@ import { StyleSheet, TextInput, View } from "react-native";
 import { FontAwesome5 } from "@expo/vector-icons";
 
 import colors from "../config/colors";
-import ScreenSetUp from "./ScreenSetUp";
 
 function CustomTextInput({ icon, ...otherProps }) {
   return (
@@ -23,21 +22,21 @@ function CustomTextInput({ icon, ...otherProps }) {
 
 const styles = StyleSheet.create({
   container: {
+    alignSelf: "center",
     backgroundColor: colors.lightGrey,
     borderRadius: 25,
     flexDirection: "row",
-    width: "90%",
-    padding: 15,
     marginVertical: 10,
-    alignSelf: "center",
+    padding: 15,
+    width: "90%",
   },
   icon: {
     marginRight: 10,
   },
   text: {
-    fontSize: 18,
     color: colors.blue_text,
     fontFamily: "Rag",
+    fontSize: 18,
   },
 });
 export default CustomTextInput;
