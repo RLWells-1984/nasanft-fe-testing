@@ -1,4 +1,4 @@
-import "./global";
+import "./app/global";
 
 import React, { useCallback, useState, useContext, useEffect } from "react";
 import { StyleSheet, View, Platform } from "react-native";
@@ -20,7 +20,8 @@ import AuthContext from "./app/auth/context";
 import LoginScreen from "./app/screens/LoginScreen";
 
 export default function App() {
-  //const [user, setUser] = useState();
+  const [user, setUser] = useState();
+  const [publicAddress, setPublicAddress] = useState();
   const [fontsLoaded] = useFonts({
     Rag: require("./app/assets/fonts/Rag-Regular.otf"),
     Rag_Bl: require("./app/assets/fonts/Rag-Black.otf"),
@@ -41,40 +42,31 @@ export default function App() {
   }
 
   return (
-    <WalletConnectProvider
-      redirectUrl={
-        Platform.OS === "web"
-          ? window.location.origin
-          : `${SCHEME_FROM_APP_JSON}://`
-      }
-      storageOptions={{
-        asyncStorage: AsyncStorage,
-      }}
+    <AuthContext.Provider
+      value={{ user, setUser, publicAddress, setPublicAddress }}
     >
-      <View style={styles.container}>
-        <WalletConnectExperience />
-        <StatusBar style="auto" />
-      </View>
-    </WalletConnectProvider>
+      <WalletConnectProvider
+        redirectUrl={
+          Platform.OS === "web"
+            ? window.location.origin
+            : `${SCHEME_FROM_APP_JSON}://`
+        }
+        storageOptions={{
+          asyncStorage: AsyncStorage,
+        }}
+      >
+        <NavigationContainer theme={navigationTheme}>
+          <AuthNavigator />
+        </NavigationContainer>
+      </WalletConnectProvider>
+    </AuthContext.Provider>
 
-    //<LoginScreen />
     //<AuthContext.Provider value={{ user, setUser }}>
     //  <NavigationContainer theme={navigationTheme}>
     //    <AppNavigator />
     //  </NavigationContainer>
     //</AuthContext.Provider>
   );
-
-  //needs deep link URI scheme. More info and links https://www.npmjs.com/package/@walletconnect/react-native-dapp
-  //return (
-  //  <WalletConnectProvider
-  //    redirectUrl={Platform.OS === 'web' ? window.location.origin : 'yourappscheme://'}
-  //    storageOptions= {{
-  //      AsyncStorage,
-  //    }}>
-  //    <>{/* awesome app here */}</>
-  //  </WalletConnectProvider>
-  //);
 }
 
 const styles = StyleSheet.create({
