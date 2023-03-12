@@ -9,8 +9,8 @@ import {
 
 import { Feather, FontAwesome5, Ionicons } from "@expo/vector-icons";
 
-import colors from "../config/colors";
 import AppText from "../components/AppText";
+import colors from "../config/colors";
 import CustomButton from "../components/CustomButton";
 import DetailLines from "../components/DetailLines";
 import ScreenSetUp from "../components/ScreenSetUp";
@@ -90,52 +90,52 @@ function UserDetailScreen({ navigation }) {
 
 const styles = StyleSheet.create({
   backArrow: {
-    position: "absolute",
-    top: 50,
-    right: "90%",
     borderRadius: 80,
+    position: "absolute",
+    right: "90%",
+    top: 50,
   },
   dataContainer: {
     flex: 1,
   },
   header: {
-    fontSize: 22,
-    color: colors.red,
-    fontWeight: "bold",
     alignSelf: "center",
+    color: colors.red,
+    fontSize: 22,
+    fontWeight: "bold",
     marginBottom: 20,
   },
   logout: {
-    flex: 0.5,
     alignItems: "flex-end",
+    flex: 0.5,
     justifyContent: "flex-end",
     padding: 10,
   },
   save: {
-    width: "50%",
     alignSelf: "center",
-    justifyContent: "flex-end",
     height: 70,
+    justifyContent: "flex-end",
+    width: "50%",
   },
   userContainer: {
-    flexDirection: "row",
-    paddingRight: 30,
-    paddingLeft: 20,
-    flex: 1,
     alignItems: "center",
+    flex: 1,
+    flexDirection: "row",
+    paddingLeft: 20,
+    paddingRight: 30,
   },
   usernameInput: {
-    borderBottomColor: colors.buttonBorder,
-    borderBottomWidth: 1,
-    fontSize: 16,
-    fontWeight: "bold",
-    paddingLeft: 40,
-    paddingRight: 40,
-    marginLeft: 30,
-    marginRight: 30,
     alignItems: "center",
     backgroundColor: "white",
+    borderBottomColor: colors.buttonBorder,
+    borderBottomWidth: 1,
     flex: 1,
+    fontSize: 16,
+    fontWeight: "bold",
+    marginLeft: 30,
+    marginRight: 30,
+    paddingLeft: 40,
+    paddingRight: 40,
   },
 });
 export default UserDetailScreen;

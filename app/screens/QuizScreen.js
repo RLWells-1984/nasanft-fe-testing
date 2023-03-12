@@ -1,21 +1,13 @@
 import React, { useState } from "react";
-import {
-  ScrollView,
-  StyleSheet,
-  Text,
-  TouchableOpacity,
-  View,
-} from "react-native";
-import { FontAwesome5, Ionicons } from "@expo/vector-icons";
-import { useCountdown } from "react-native-countdown-circle-timer";
+import { ScrollView, StyleSheet, View } from "react-native";
 
-import ScreenSetUp from "../components/ScreenSetUp";
-import colors from "../config/colors";
-import QuestionBox from "../components/QuestionBox";
-import CustomButton from "../components/CustomButton";
 import AppText from "../components/AppText";
+import colors from "../config/colors";
+import CustomButton from "../components/CustomButton";
 import HeaderBar from "../components/HeaderBar";
 import HelpButton from "../components/HelpButton";
+import QuestionBox from "../components/QuestionBox";
+import ScreenSetUp from "../components/ScreenSetUp";
 import Timer from "../components/Timer";
 
 function QuizScreen({ navigation }) {
@@ -77,52 +69,52 @@ function QuizScreen({ navigation }) {
 
 const styles = StyleSheet.create({
   answers: {
+    alignSelf: "center",
     flex: 1,
     width: "90%",
-    alignSelf: "center",
   },
   backArrow: {
-    position: "absolute",
-    top: 30,
-    right: "90%",
     borderRadius: 80,
-  },
-  screen: {
-    flex: 1,
-    backgroundColor: colors.buttonBorder,
+    position: "absolute",
+    right: "90%",
+    top: 30,
   },
   QuestionBox: {
     flex: 1,
-    width: "100%",
     flexGrow: 1,
-    paddingHorizontal: 10,
     marginBottom: 20,
+    paddingHorizontal: 10,
+    width: "100%",
+  },
+  screen: {
+    backgroundColor: colors.buttonBorder,
+    flex: 1,
   },
   text: {
-    fontSize: 24,
-    color: colors.blue_text,
     borderBottomColor: colors.red,
     borderBottomWidth: 5,
     borderTopColor: colors.red,
     borderTopWidth: 5,
+    color: colors.blue_text,
+    fontSize: 24,
     marginTop: 12,
     textAlign: "center",
     textAlignVertical: "center",
   },
   touchable: {
     alignSelf: "center",
-    justifyContent: "flex-end",
-    width: "60%",
-    paddingBottom: 20,
     height: 70,
+    justifyContent: "flex-end",
     marginTop: 30,
+    paddingBottom: 20,
+    width: "60%",
   },
   userIcon: {
-    position: "absolute",
-    top: 30,
-    left: "90%",
     borderColor: colors.buttonBorder,
     borderRadius: 80,
+    left: "90%",
+    position: "absolute",
+    top: 30,
   },
 });
 export default QuizScreen;

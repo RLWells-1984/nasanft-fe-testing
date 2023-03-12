@@ -1,13 +1,11 @@
 import React, { useState } from "react";
-
 import {
   ScrollView,
   StyleSheet,
   Text,
-  View,
   TouchableOpacity,
+  View,
 } from "react-native";
-
 import * as Animatable from "react-native-animatable";
 import Accordion from "react-native-collapsible/Accordion";
 
@@ -36,7 +34,6 @@ const CONTENT = [
 
 function HelpScreen({ navigation }) {
   const [activeSections, setActiveSections] = useState([]);
-
   const [collapsed, setCollapsed] = useState(true);
 
   const toggleExpanded = () => {
@@ -114,37 +111,37 @@ function HelpScreen({ navigation }) {
 export default HelpScreen;
 
 const styles = StyleSheet.create({
-  container: {
-    flex: 1,
+  active: {
+    backgroundColor: colors.white,
   },
   contactUs: {
     flex: 1,
     justifyContent: "flex-end",
     marginBottom: 20,
   },
-  title: {
-    textAlign: "center",
-    marginBottom: 20,
-  },
-  header: {
-    padding: 10,
-    color: colors.blue_text,
-  },
-  headerText: {
-    textAlign: "center",
-    fontSize: 18,
-    color: colors.blue_text,
-    fontFamily: "Rag_B_I",
+  container: {
+    flex: 1,
   },
   content: {
     padding: 20,
   },
-  active: {
-    backgroundColor: colors.white,
+  header: {
+    color: colors.blue_text,
+    padding: 10,
+  },
+  headerText: {
+    color: colors.blue_text,
+    fontFamily: "Rag_B_I",
+    fontSize: 18,
+    textAlign: "center",
   },
   inactive: {
     backgroundColor: colors.backgroundGrey,
     borderBottomColor: colors.blue_text,
     borderBottomWidth: 2,
+  },
+  title: {
+    marginBottom: 20,
+    textAlign: "center",
   },
 });

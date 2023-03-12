@@ -1,16 +1,14 @@
-import React, { useState, useRef, useEffect } from "react";
-
+import React from "react";
 import { Ionicons } from "@expo/vector-icons";
 import { StyleSheet, View } from "react-native";
-
 import CountDown from "react-native-countdown-component";
 
+import AppText from "../components/AppText";
 import colors from "../config/colors";
 import CustomButton from "../components/CustomButton";
-import AppText from "../components/AppText";
-import ScreenSetUp from "../components/ScreenSetUp";
 import HeaderBar from "../components/HeaderBar";
 import HelpButton from "../components/HelpButton";
+import ScreenSetUp from "../components/ScreenSetUp";
 
 const duration = 2 * 24 * 60 * 60 - 1;
 const timerExpired = false;
@@ -25,16 +23,7 @@ function HomeScreen({ navigation }) {
           8100 points
         </AppText>
       </View>
-      <View
-        style={{
-          alignItems: "center",
-          height: 150,
-          borderWidth: 5,
-          borderColor: "yellow",
-          paddingTop: 20,
-          marginBottom: 50,
-        }}
-      >
+      <View style={styles.timerBox}>
         <AppText fontSize={22}>Time until next quiz</AppText>
         <View style={{ flex: 1 }}>
           <View style={styles.counter1}>
@@ -99,47 +88,55 @@ function HomeScreen({ navigation }) {
 
 const styles = StyleSheet.create({
   backArrow: {
-    position: "absolute",
-    top: 50,
-    right: "90%",
     borderRadius: 80,
-  },
-  counter1: {
-    flexWrap: "wrap",
-    flexDirection: "row",
-    alignItems: "center",
-    justifyContent: "center",
+    position: "absolute",
+    right: "90%",
+    top: 50,
   },
   counter: {
-    flexWrap: "wrap",
-    flexDirection: "row",
     alignItems: "center",
+    flexDirection: "row",
+    flexWrap: "wrap",
+    justifyContent: "center",
+  },
+  counter1: {
+    alignItems: "center",
+    flexDirection: "row",
+    flexWrap: "wrap",
     justifyContent: "center",
   },
   counterIcon: {
     alignSelf: "center",
   },
   points: {
-    top: 10,
     alignItems: "center",
     height: 100,
+    top: 10,
   },
   text: {
     alignSelf: "center",
   },
-  userIcon: {
-    position: "absolute",
-    top: 50,
-    left: "90%",
-    borderColor: colors.backgroundGrey,
-    borderRadius: 80,
+  timerBox: {
+    alignItems: "center",
+    borderColor: "yellow",
+    borderWidth: 5,
+    height: 150,
+    marginBottom: 50,
+    paddingTop: 20,
   },
   quizButton: {
-    width: "80%",
     alignSelf: "center",
     height: 80,
     marginBottom: 40,
     paddingBottom: 20,
+    width: "80%",
+  },
+  userIcon: {
+    borderColor: colors.backgroundGrey,
+    borderRadius: 80,
+    left: "90%",
+    position: "absolute",
+    top: 50,
   },
 });
 export default HomeScreen;

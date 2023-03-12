@@ -1,5 +1,5 @@
 import React from "react";
-import { StyleSheet, Text, TouchableOpacity, View } from "react-native";
+import { StyleSheet, TouchableOpacity, View } from "react-native";
 
 import { FontAwesome5, Ionicons } from "@expo/vector-icons";
 import colors from "../config/colors";
@@ -33,17 +33,17 @@ function HeaderBar({ navigation }) {
 
 const styles = StyleSheet.create({
   backArrow: {
-    position: "absolute",
-    top: 50,
-    right: "90%",
     borderRadius: 80,
+    position: "absolute",
+    right: "90%",
+    top: 50,
   },
   userIcon: {
-    position: "absolute",
-    top: 50,
-    left: "90%",
     borderColor: colors.backgroundGrey,
     borderRadius: 80,
+    left: "90%",
+    position: "absolute",
+    top: 50,
   },
 });
 export default HeaderBar;

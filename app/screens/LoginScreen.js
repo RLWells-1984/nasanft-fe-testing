@@ -1,25 +1,23 @@
 import "../global";
-
 import React, { useContext, useState } from "react";
 import { Image, ImageBackground, StyleSheet, View } from "react-native";
 
-import WalletConnectProvider from "@walletconnect/react-native-dapp";
-import AsyncStorage from "@react-native-async-storage/async-storage";
 import WalletConnectExperience from "./walletConnectExperience";
-const SCHEME_FROM_APP_JSON = "walletconnect-example";
 import { StatusBar } from "expo-status-bar";
 
-import colors from "../config/colors";
-import CustomButton from "../components/CustomButton";
-import ScreenSetUp from "../components/ScreenSetUp";
-import AuthContext from "../auth/context";
 import authApi from "../api/auth";
+import AuthContext from "../auth/context";
+import colors from "../config/colors";
+import ScreenSetUp from "../components/ScreenSetUp";
+
+const SCHEME_FROM_APP_JSON = "walletconnect-example";
 
 function LoginScreen({ navigation }) {
   useContext(AuthContext);
   const [loginFailed, setLoginFailed] = useState(false);
   const udata = { username: "GiveMeSomeSpace", password: "YodaBest" };
 
+  //uses temp user email password to set up connection pending connection implementation for wallet connect and personal sign
   const fetchData = async () => {
     const response = await fetch("http://192.168.1.177:3000/api/token/login", {
       method: "POST",
@@ -41,7 +39,7 @@ function LoginScreen({ navigation }) {
     <ScreenSetUp>
       <ImageBackground
         style={styles.background}
-        //source={{}} will be from nasa image of the day api
+        //source={{}} will be from nasa image of the day api to be implemented later
         source={require("../assets/PIA13110_large.jpg")}
       >
         <Image style={styles.logo} source={require("../assets/TempLogo.png")} />
@@ -57,30 +55,30 @@ function LoginScreen({ navigation }) {
 }
 const styles = StyleSheet.create({
   background: {
+    alignItems: "center",
     flex: 1,
     justifyContent: "flex-end",
-    alignItems: "center",
   },
   logo: {
-    width: 200,
-    height: 200,
-    borderWidth: 5,
-    position: "absolute",
-    top: 100,
     borderColor: colors.backgroundGrey,
     borderRadius: 80,
+    borderWidth: 5,
+    height: 200,
+    position: "absolute",
+    top: 100,
+    width: 200,
   },
   touchable: {
-    justifyContent: "flex-end",
     height: 70,
-    width: "60%",
+    justifyContent: "flex-end",
     paddingBottom: 20,
+    width: "60%",
   },
   touchableButton: {
-    justifyContent: "flex-end",
     height: 170,
-    width: "60%",
+    justifyContent: "flex-end",
     paddingBottom: 40,
+    width: "60%",
   },
 });
 

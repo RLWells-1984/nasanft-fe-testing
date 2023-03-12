@@ -11,7 +11,7 @@ function WelcomeScreen({ navigation }) {
     <ScreenSetUp>
       <ImageBackground
         style={styles.background}
-        //source={{}} will be from nasa image of the day api
+        //source={{}} will be from nasa image of the day api future implementation
         source={require("../assets/PIA13110_large.jpg")}
       >
         <Image style={styles.logo} source={require("../assets/TempLogo.png")} />
@@ -27,7 +27,6 @@ function WelcomeScreen({ navigation }) {
 
         <View style={styles.touchable}>
           <ClickableText
-            //after navigation is added will go to register screen
             title="Register"
             onPress={() => navigation.navigate("RegistrationScreen")}
           />
@@ -39,30 +38,30 @@ function WelcomeScreen({ navigation }) {
 
 const styles = StyleSheet.create({
   background: {
+    alignItems: "center",
     flex: 1,
     justifyContent: "flex-end",
-    alignItems: "center",
   },
   logo: {
-    width: 200,
-    height: 200,
-    borderWidth: 5,
-    position: "absolute",
-    top: 100,
     borderColor: colors.backgroundGrey,
     borderRadius: 80,
+    borderWidth: 5,
+    height: 200,
+    position: "absolute",
+    top: 100,
+    width: 200,
   },
   touchable: {
     justifyContent: "flex-end",
     height: 70,
-    width: "60%",
     paddingBottom: 20,
+    width: "60%",
   },
   touchableButton: {
     justifyContent: "flex-end",
     height: 70,
-    width: "60%",
     paddingBottom: 20,
+    width: "60%",
   },
 });
 
