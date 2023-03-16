@@ -1,6 +1,7 @@
 import "../global";
 import React, { useContext, useState } from "react";
 import { Image, ImageBackground, StyleSheet, View } from "react-native";
+import axios from "axios";
 
 import WalletConnectExperience from "./walletConnectExperience";
 import { StatusBar } from "expo-status-bar";
@@ -8,18 +9,25 @@ import { StatusBar } from "expo-status-bar";
 import authApi from "../api/auth";
 import AuthContext from "../auth/context";
 import colors from "../config/colors";
+import CustomButton from "../components/CustomButton";
 import ScreenSetUp from "../components/ScreenSetUp";
 
 const SCHEME_FROM_APP_JSON = "walletconnect-example";
+//var token = null;
 
 function LoginScreen({ navigation }) {
-  useContext(AuthContext);
+  const authContext = useContext(AuthContext);
   const [loginFailed, setLoginFailed] = useState(false);
-  const udata = { username: "GiveMeSomeSpace", password: "YodaBest" };
+  const udata = { username: "GiveMeSomeSpace", password: "YodaBest" }; //temp till nonce is set
 
-  //uses temp user email password to set up connection pending connection implementation for wallet connect and personal sign
-  const fetchData = async () => {
-    const response = await fetch("http://192.168.1.177:3000/api/token/login", {
+  //should go to the authContext storage
+  const [token, setToken] = useState();
+  const [refreshToken, setRefreshToken] = useState();
+  const [user, setUser] = useState([]);
+
+  //uses temp user email password to get auth token here
+  const fetchToken = async () => {
+    return await fetch("http://192.168.1.177:3000/api/token/login", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -27,11 +35,39 @@ function LoginScreen({ navigation }) {
       body: JSON.stringify(udata),
     })
       .then((response) => response.json())
-      .then((udata) => {
-        console.log("data", udata);
+      .then((data) => {
+        console.log("data", data); //has text "Login Successful", accessToken: 'Bearer blahblah', refreshToken: 'Bearer blah bhal'
+        const dataToken = data.accessToken;
+        const refreshToken = data.refreshToken;
+        setToken(dataToken);
+        setRefreshToken(refreshToken);
+        console.log("token", dataToken); // has accessToken
+        return dataToken;
       })
       .catch((error) => {
         console.error("error", error);
+      });
+  };
+
+  const fetchUserDetails = async () => {
+    const userToken = await fetchToken();
+    console.log("user token", userToken); //token is here
+    const response = await fetch(
+      "http://192.168.1.177:3000/api/users/TestUser",
+      {
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json",
+          "x-auth-token": userToken,
+        },
+      }
+    )
+      .then((response) => response.json())
+      .then((data) => {
+        const userDetails = data;
+        setUser(userDetails);
+        authContext.setUser(userDetails);
+        console.log(userDetails);
       });
   };
 
@@ -44,10 +80,13 @@ function LoginScreen({ navigation }) {
       >
         <Image style={styles.logo} source={require("../assets/TempLogo.png")} />
         <View style={styles.touchableButton}>
-          <View style={styles.container}>
-            <WalletConnectExperience navigation={navigation} />
-            <StatusBar style="auto" />
-          </View>
+          <CustomButton
+            title="Login"
+            fontFamily={"Rag_Bo"}
+            fontSize={26}
+            //onPress={() => navigation.navigate("HomeScreen")}
+            onPress={fetchUserDetails}
+          />
         </View>
       </ImageBackground>
     </ScreenSetUp>
@@ -75,7 +114,7 @@ const styles = StyleSheet.create({
     width: "60%",
   },
   touchableButton: {
-    height: 170,
+    height: 110,
     justifyContent: "flex-end",
     paddingBottom: 40,
     width: "60%",
@@ -83,3 +122,11 @@ const styles = StyleSheet.create({
 });
 
 export default LoginScreen;
+
+//wallet connect path - removed while testing user details data
+//<View style={styles.touchableButton}>
+//<View style={styles.container}>
+//  <WalletConnectExperience navigation={navigation} />
+//  <StatusBar style="auto" />
+//</View>
+//</View>

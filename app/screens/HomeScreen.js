@@ -6,21 +6,22 @@ import CountDown from "react-native-countdown-component";
 import AppText from "../components/AppText";
 import colors from "../config/colors";
 import CustomButton from "../components/CustomButton";
-import HeaderBar from "../components/HeaderBar";
 import HelpButton from "../components/HelpButton";
 import ScreenSetUp from "../components/ScreenSetUp";
+import UserIconBar from "../components/UserIconBar";
 
 const duration = 2 * 24 * 60 * 60 - 1;
 const timerExpired = false;
 
 function HomeScreen({ navigation }) {
+  const { user } = useContext(AuthContext);
   return (
     <ScreenSetUp style={{ backgroundColor: colors.backgroundGrey }}>
-      <HeaderBar navigation={navigation}></HeaderBar>
+      <UserIconBar navigation={navigation}></UserIconBar>
 
       <View style={styles.points}>
         <AppText color="red" fontSize={26}>
-          8100 points
+          {user.current_score}
         </AppText>
       </View>
       <View style={styles.timerBox}>

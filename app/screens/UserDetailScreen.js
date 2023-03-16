@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import {
   StyleSheet,
   Text,
@@ -14,30 +14,16 @@ import colors from "../config/colors";
 import CustomButton from "../components/CustomButton";
 import DetailLines from "../components/DetailLines";
 import ScreenSetUp from "../components/ScreenSetUp";
-import userApi from "../api/users";
-
-const attempted = 0; //import from db
-const correct = 0;
-const totalPoints = 0;
-const earned = 0;
-const ranking = 0;
+import AuthContext from "../auth/context";
 
 function UserDetailScreen({ navigation }) {
-  const [userData, setUserData] = useState([]);
-
-  useEffect(() => {
-    loadUserData();
-  }, []);
-
-  const loadUserData = async () => {
-    const response = await userApi.getUserData();
-    setUserData(response.data);
-  };
+  const { user } = useContext(AuthContext);
+  const name = user.user_name + " Details";
 
   return (
     <ScreenSetUp style={{ backgroundColor: colors.backgroundGrey }}>
       <View style={{ height: "10%" }}>
-        <TouchableOpacity onPress={() => navigation.goBack()}>
+        <TouchableOpacity onPressIn={() => navigation.goBack()}>
           <Ionicons
             name="arrow-back"
             size={28}
@@ -47,22 +33,25 @@ function UserDetailScreen({ navigation }) {
         </TouchableOpacity>
       </View>
       <View style={styles.dataContainer}>
-        <Text style={styles.header}>USER DETAILS</Text>
+        <Text style={styles.header}>{name}</Text>
         <View style={styles.userContainer}>
           <AppText>Display Name</AppText>
           <TextInput
-            placeholder="Display Name"
-            style={styles.usernameInput} //needs to get current user name from db
+            placeholder={user.user_name}
+            style={styles.usernameInput}
           ></TextInput>
           <TouchableOpacity onPress={() => console.log("edit name")}>
             <Feather name="edit" size={20} color={colors.blue_text} />
           </TouchableOpacity>
         </View>
-        <DetailLines title="Questions Attempted" data={attempted} />
-        <DetailLines title="Questions Correct" data={correct} />
-        <DetailLines title="Total Points Earned" data={totalPoints} />
-        <DetailLines title="NFTs Earned" data={earned} />
-        <DetailLines title="Overall Ranking" data={ranking} />
+        <DetailLines
+          title="Questions Attempted"
+          data={user.questions_answered}
+        />
+        <DetailLines title="Questions Correct" data={user.questions_correct} />
+        <DetailLines title="Total Points Earned" data={user.overall_score} />
+        <DetailLines title="NFTs Earned" data={user.nft_earned} />
+        <DetailLines title="Overall Ranking" data={user.overall_rank} />
       </View>
       <View style={styles.save}>
         <CustomButton
