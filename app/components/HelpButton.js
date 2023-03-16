@@ -4,7 +4,7 @@ import { Feather } from "@expo/vector-icons";
 
 function HelpButton({ navigation }) {
   return (
-    <TouchableOpacity onPress={() => navigation.navigate("HelpScreen")}>
+    <TouchableOpacity onPressIn={() => navigation.navigate("HelpScreen")}>
       <View style={styles.button}>
         <Feather name="help-circle" size={28} color="white" />
       </View>

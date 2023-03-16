@@ -53,7 +53,7 @@ export default function App() {
         }}
       >
         <NavigationContainer theme={navigationTheme}>
-          <AuthNavigator />
+          {user ? <AppNavigator /> : <AuthNavigator />}
         </NavigationContainer>
       </WalletConnectProvider>
     </AuthContext.Provider>

@@ -4,7 +4,7 @@ import { StyleSheet, TouchableOpacity, View } from "react-native";
 import { FontAwesome5, Ionicons } from "@expo/vector-icons";
 import colors from "../config/colors";
 
-function HeaderBar({ navigation }) {
+function UserIconBar({ navigation }) {
   return (
     <View>
       <TouchableOpacity
@@ -17,27 +17,10 @@ function HeaderBar({ navigation }) {
           style={styles.userIcon}
         />
       </TouchableOpacity>
-      <View style={{ height: "10%" }}>
-        <TouchableOpacity onPressIn={() => navigation.goBack()}>
-          <Ionicons
-            name="arrow-back"
-            size={32}
-            color={colors.blue_text}
-            style={styles.backArrow}
-          />
-        </TouchableOpacity>
-      </View>
     </View>
   );
 }
-
 const styles = StyleSheet.create({
-  backArrow: {
-    //borderRadius: 80,
-    position: "absolute",
-    right: "87%",
-    top: 50,
-  },
   userIcon: {
     borderColor: colors.backgroundGrey,
     //borderRadius: 80,
@@ -46,4 +29,5 @@ const styles = StyleSheet.create({
     top: 50,
   },
 });
-export default HeaderBar;
+
+export default UserIconBar;

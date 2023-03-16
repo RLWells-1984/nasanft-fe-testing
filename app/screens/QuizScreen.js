@@ -11,6 +11,7 @@ import ScreenSetUp from "../components/ScreenSetUp";
 import Timer from "../components/Timer";
 
 function QuizScreen({ navigation }) {
+  const { user } = useContext(AuthContext);
   const answerA = "ABCDEFGHIJKLMNOPQRSTUVWXYZ abcdefghijklmnopqrstuvwxyz";
   const answerB = "ABCDEFGHIJKLMNOPQRSTUVWXYZ abcdefghijklmnopqrstuvwxyz B";
   const answerC = "ABCDEFGHIJKLMNOPQRSTUVWXYZ abcdefghijklmnopqrstuvwxyz C";

@@ -8,7 +8,7 @@ function GoBackHeader({ navigation, color = "white" }) {
   return (
     <View>
       <View style={{ height: "10%" }}>
-        <TouchableOpacity onPress={() => navigation.goBack()}>
+        <TouchableOpacity onPressIn={() => navigation.goBack()}>
           <Ionicons
             name="arrow-back"
             size={28}
