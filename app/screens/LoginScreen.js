@@ -1,13 +1,12 @@
 import "../global";
 import React, { useContext, useState } from "react";
-import { Image, ImageBackground, StyleSheet, View } from "react-native";
-import axios from "axios";
+import { Alert, Image, ImageBackground, StyleSheet, View } from "react-native";
 
 import WalletConnectExperience from "./walletConnectExperience";
 import { StatusBar } from "expo-status-bar";
 
-import authApi from "../api/auth";
 import AuthContext from "../auth/context";
+import cache from "../utility/cache";
 import colors from "../config/colors";
 import CustomButton from "../components/CustomButton";
 import ScreenSetUp from "../components/ScreenSetUp";
@@ -16,14 +15,13 @@ const SCHEME_FROM_APP_JSON = "walletconnect-example";
 //var token = null;
 
 function LoginScreen({ navigation }) {
-  const authContext = useContext(AuthContext);
   const [loginFailed, setLoginFailed] = useState(false);
-  const udata = { username: "GiveMeSomeSpace", password: "YodaBest" }; //temp till nonce is set
-
-  //should go to the authContext storage
-  const [token, setToken] = useState();
-  const [refreshToken, setRefreshToken] = useState();
-  const [user, setUser] = useState([]);
+  const authContext = useContext(AuthContext);
+  const udata = {
+    username: "TestUser",
+    signedNonce: "INeedSpace",
+    publicAddress: "123",
+  }; //temp till nonce is set
 
   //uses temp user email password to get auth token here
   const fetchToken = async () => {
@@ -36,13 +34,20 @@ function LoginScreen({ navigation }) {
     })
       .then((response) => response.json())
       .then((data) => {
-        console.log("data", data); //has text "Login Successful", accessToken: 'Bearer blahblah', refreshToken: 'Bearer blah bhal'
-        const dataToken = data.accessToken;
-        const refreshToken = data.refreshToken;
-        setToken(dataToken);
-        setRefreshToken(refreshToken);
-        console.log("token", dataToken); // has accessToken
-        return dataToken;
+        const response = data.text;
+        if (!response.localeCompare("Login Successful") == 0) {
+          Alert.alert("Login Failed", response);
+          return Promise.reject(data.text);
+        }
+        if (response == "Login Successful") {
+          const dataToken = data.accessToken;
+          const refreshToken = data.refreshToken;
+          authContext.setToken(dataToken);
+          authContext.setRefreshToken(refreshToken);
+          cache.store("token", dataToken);
+          cache.store("refreshToken", refreshToken);
+          return dataToken;
+        }
       })
       .catch((error) => {
         console.error("error", error);
@@ -51,23 +56,21 @@ function LoginScreen({ navigation }) {
 
   const fetchUserDetails = async () => {
     const userToken = await fetchToken();
-    console.log("user token", userToken); //token is here
-    const response = await fetch(
-      "http://192.168.1.177:3000/api/users/TestUser",
-      {
-        method: "GET",
-        headers: {
-          "Content-Type": "application/json",
-          "x-auth-token": userToken,
-        },
-      }
-    )
+    if (userToken == undefined) {
+      return Promise.reject("Unsuccessful Login");
+    }
+    const response = await fetch("http://192.168.1.177:3000/api/users/", {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+        "x-auth-token": userToken,
+      },
+    })
       .then((response) => response.json())
       .then((data) => {
         const userDetails = data;
-        setUser(userDetails);
         authContext.setUser(userDetails);
-        console.log(userDetails);
+        cache.store("user", userDetails);
       });
   };
 
@@ -84,7 +87,6 @@ function LoginScreen({ navigation }) {
             title="Login"
             fontFamily={"Rag_Bo"}
             fontSize={26}
-            //onPress={() => navigation.navigate("HomeScreen")}
             onPress={fetchUserDetails}
           />
         </View>

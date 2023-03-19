@@ -15,10 +15,14 @@ import AuthNavigator from "./app/navigation/AuthNavigator";
 import navigationTheme from "./app/navigation/navigationTheme";
 import AppNavigator from "./app/navigation/AppNavigator";
 import AuthContext from "./app/auth/context";
+import Blank from "./app/screens/Blank";
 
 export default function App() {
   const [user, setUser] = useState();
   const [publicAddress, setPublicAddress] = useState();
+  const [token, setToken] = useState();
+  const [refreshToken, setRefreshToken] = useState();
+
   const [fontsLoaded] = useFonts({
     Rag: require("./app/assets/fonts/Rag-Regular.otf"),
     Rag_Bl: require("./app/assets/fonts/Rag-Black.otf"),
@@ -39,8 +43,18 @@ export default function App() {
   }
 
   return (
+    //<Blank />
     <AuthContext.Provider
-      value={{ user, setUser, publicAddress, setPublicAddress }}
+      value={{
+        user,
+        setUser,
+        publicAddress,
+        setPublicAddress,
+        token,
+        setToken,
+        refreshToken,
+        setRefreshToken,
+      }}
     >
       <WalletConnectProvider
         redirectUrl={
