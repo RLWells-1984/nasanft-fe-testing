@@ -134,6 +134,7 @@ function QuizScreen({ navigation }) {
         </View>
         <View style={styles.answers}>
           <CustomButton
+            borderColor="blue_text"
             color={selected === 0 ? "red" : "buttonColor"}
             textColor={selected === 0 ? "white" : "blue_text"}
             marginVertical={5}
@@ -147,6 +148,7 @@ function QuizScreen({ navigation }) {
             title={quiz.questions[questionNumber].answers[0].answer}
           ></CustomButton>
           <CustomButton
+            borderColor="blue_text"
             color={selected === 1 ? "red" : "buttonColor"}
             textColor={selected === 1 ? "white" : "blue_text"}
             marginVertical={5}
@@ -160,6 +162,7 @@ function QuizScreen({ navigation }) {
             title={quiz.questions[questionNumber].answers[1].answer}
           ></CustomButton>
           <CustomButton
+            borderColor="blue_text"
             color={selected === 2 ? "red" : "buttonColor"}
             textColor={selected === 2 ? "white" : "blue_text"}
             marginVertical={5}
@@ -173,6 +176,7 @@ function QuizScreen({ navigation }) {
             title={quiz.questions[questionNumber].answers[2].answer}
           ></CustomButton>
           <CustomButton
+            borderColor="blue_text"
             color={selected === 3 ? "red" : "buttonColor"}
             textColor={selected === 3 ? "white" : "blue_text"}
             marginVertical={5}
@@ -188,6 +192,7 @@ function QuizScreen({ navigation }) {
         </View>
         <View style={styles.touchable}>
           <CustomButton
+            borderColor="blue_text"
             title={questionNumber === 9 ? "Submit" : "Next"}
             onPress={() => {
               questionNumber === 9 ? handleSubmit() : handleNext();

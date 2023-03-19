@@ -1,6 +1,6 @@
 import React, { useContext, useEffect, useState } from "react";
 import { Ionicons } from "@expo/vector-icons";
-import { StyleSheet, View } from "react-native";
+import { StyleSheet, Text, View } from "react-native";
 import CountDown from "react-native-countdown-component";
 
 import AppText from "../components/AppText";
@@ -17,6 +17,8 @@ function HomeScreen({ navigation }) {
   const { user, token } = useContext(AuthContext);
   const [neoTime, setNeoTime] = useState(1679432820000);
   const [duration, setDuration] = useState(10);
+  const [nextQuiz, setNextQuiz] = useState(10);
+  const [loading, setLoading] = useState(true);
 
   const getNEO = async () => {
     return await fetch("http://192.168.1.177:3000/api/nft_data", {
@@ -35,6 +37,7 @@ function HomeScreen({ navigation }) {
   };
 
   const getNFTDuration = () => {
+    setLoading(true);
     const currentTime = Date.now();
     const endTime = neoTime;
     const difference = endTime - currentTime;
@@ -48,14 +51,33 @@ function HomeScreen({ navigation }) {
     );
     const seconds = Math.floor(difference / 1000).toFixed(0);
     setDuration(seconds);
+    setLoading(false);
+  };
+
+  const getTilMidnight = () => {
+    setLoading(true);
+    var midnight = new Date();
+    midnight.setHours(24);
+    midnight.setMinutes(0);
+    midnight.setSeconds(0);
+    midnight.setMilliseconds(0);
+    const remaining = Math.floor(
+      (midnight.getTime() - new Date().getTime()) / 1000
+    );
+    console.log("remaining " + remaining);
+    setNextQuiz(remaining);
+    setLoading(false);
   };
 
   useEffect(() => {
     //getNEO();
     getNFTDuration();
-  }, [duration]);
+    getTilMidnight();
+  }, [duration, nextQuiz]);
 
-  return (
+  return loading ? (
+    <Text>Loading</Text>
+  ) : (
     <ScreenSetUp style={{ backgroundColor: colors.backgroundGrey }}>
       <UserIconBar navigation={navigation}></UserIconBar>
 
@@ -71,7 +93,7 @@ function HomeScreen({ navigation }) {
             <Ionicons name="timer-outline" size={26} color={colors.blue_text} />
             <CountDown
               //has id prop to use to reset
-              until={60 * 60 * 24 - 1}
+              until={nextQuiz}
               size={30}
               onFinish={() => (timerExpired = true)}
               digitStyle={{ backgroundColor: "transparent" }}
