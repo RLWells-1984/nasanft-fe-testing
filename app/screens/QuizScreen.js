@@ -125,7 +125,6 @@ function QuizScreen({ navigation }) {
     <ScreenSetUp style={{ backgroundColor: colors.backgroundGrey }}>
       <ScrollView contentContainerStyle={{ flexGrow: 1, paddingBottom: 300 }}>
         <ActivityIndicator animating={loading} size="large" />
-        <HeaderBar navigation={navigation}></HeaderBar>
         <Timer></Timer>
         <AppText fontSize={30} style={styles.text}>
           {questNum}
