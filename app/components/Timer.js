@@ -4,7 +4,7 @@ import Svg, { Path, LinearGradient, Defs } from "react-native-svg";
 import { useCountdown } from "react-native-countdown-circle-timer";
 
 function Timer(props) {
-  const duration = 60;
+  const duration = 90;
 
   const {
     elapsedTime,
@@ -15,7 +15,7 @@ function Timer(props) {
     strokeDashoffset,
   } = useCountdown({
     colors: ["#8fce00", "#ffc000", "#cc0000"],
-    colorsTime: [60, 30, 15],
+    colorsTime: [90, 60, 30],
     duration,
     isPlaying: true,
   });

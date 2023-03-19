@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useContext } from "react";
 import { Ionicons } from "@expo/vector-icons";
 import { StyleSheet, View } from "react-native";
 import CountDown from "react-native-countdown-component";
@@ -8,6 +8,7 @@ import colors from "../config/colors";
 import CustomButton from "../components/CustomButton";
 import HelpButton from "../components/HelpButton";
 import ScreenSetUp from "../components/ScreenSetUp";
+import AuthContext from "../auth/context";
 import UserIconBar from "../components/UserIconBar";
 
 const duration = 2 * 24 * 60 * 60 - 1;

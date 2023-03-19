@@ -11,6 +11,7 @@ function CustomButton({
   fontSize,
   marginVertical,
   onPress,
+  textColor,
   title,
 }) {
   return (
@@ -25,7 +26,12 @@ function CustomButton({
       ]}
       onPress={onPress}
     >
-      <AppText fontFamily={fontFamily} fontSize={fontSize} style={styles.text}>
+      <AppText
+        fontFamily={fontFamily}
+        fontSize={fontSize}
+        style={styles.text}
+        color={textColor}
+      >
         {title}
       </AppText>
     </TouchableOpacity>
@@ -39,6 +45,7 @@ const styles = StyleSheet.create({
     borderRadius: 25,
     borderWidth: 5,
     flex: 1,
+    height: 40,
     justifyContent: "center",
     width: "100%",
   },

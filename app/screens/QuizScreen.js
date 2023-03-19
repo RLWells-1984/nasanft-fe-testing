@@ -1,5 +1,12 @@
-import React, { useState } from "react";
-import { ScrollView, StyleSheet, View } from "react-native";
+import React, { useContext, useEffect, useState } from "react";
+import {
+  ActivityIndicator,
+  Alert,
+  ScrollView,
+  StyleSheet,
+  Text,
+  View,
+} from "react-native";
 
 import AppText from "../components/AppText";
 import colors from "../config/colors";
@@ -9,57 +16,184 @@ import HelpButton from "../components/HelpButton";
 import QuestionBox from "../components/QuestionBox";
 import ScreenSetUp from "../components/ScreenSetUp";
 import Timer from "../components/Timer";
+import AuthContext from "../auth/context";
+import cache from "../utility/cache";
 
 function QuizScreen({ navigation }) {
-  const { user } = useContext(AuthContext);
-  const answerA = "ABCDEFGHIJKLMNOPQRSTUVWXYZ abcdefghijklmnopqrstuvwxyz";
-  const answerB = "ABCDEFGHIJKLMNOPQRSTUVWXYZ abcdefghijklmnopqrstuvwxyz B";
-  const answerC = "ABCDEFGHIJKLMNOPQRSTUVWXYZ abcdefghijklmnopqrstuvwxyz C";
-  const answerD = "ABCDEFGHIJKLMNOPQRSTUVWXYZ abcdefghijklmnopqrstuvwxyz D";
+  const { user, setUser, token } = useContext(AuthContext);
+  const updateDate = {
+    user: user,
+    user_name: user.user_name,
+  };
 
-  return (
-    //timer up top
+  const getQuiz = async () => {
+    setLoading(true);
+    return await fetch("http://192.168.1.177:3000/api/quizzes", {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+        "x-auth-token": token,
+      },
+    })
+      .then((response) => response.json())
+      .then((data) => {
+        setQuiz(data);
+        cache.store("quiz", data);
+        setLoading(false);
+        return data;
+      });
+  };
+
+  const handleclick = (id, right) => {
+    setSelected(id);
+    if (right) {
+      setCorrect(correct + 1);
+    }
+  };
+
+  const handleNext = () => {
+    setQuestionNumber(questionNumber + 1);
+    setDisplayNumber(displayNumber + 1);
+    setSelected(5);
+  };
+
+  const handleSubmit = () => {
+    const points = correct * 100;
+    updateUserDetails();
+    Alert.alert(
+      "Quiz Completed",
+      "You got " +
+        correct +
+        " answers correct! You earned " +
+        points +
+        " points!",
+      [
+        {
+          text: "OK",
+          onPress: () => navigation.navigate("HomeScreen"),
+        },
+      ]
+    );
+    updateUserDetails(points);
+  };
+
+  const updateUserDetails = (points) => {
+    setUser({
+      ...user,
+      current_quiz_score: points,
+      current_score: user.current_score + points,
+      overall_score: user.overall_score + points,
+      questions_answered: user.questions_answered + 10,
+      questions_correct: user.questions_correct + correct,
+    });
+  };
+
+  const updateDB = async () => {
+    return await fetch("http://192.168.1.177:3000/api/users/", {
+      method: "PUT",
+      headers: {
+        "Content-Type": "application/json",
+        "x-auth-token": token,
+      },
+      body: JSON.stringify(updateDate),
+    })
+      .then((response) => response.json())
+      .then((data) => {
+        console.log(data);
+      });
+  };
+
+  useEffect(() => {
+    updateDB();
+  }, [user]);
+
+  const [quiz, setQuiz] = useState([]);
+  const [questionNumber, setQuestionNumber] = useState(0);
+  const [loading, setLoading] = useState(true);
+  const [selected, setSelected] = useState(5);
+  const [correct, setCorrect] = useState(0);
+  const [displayNumber, setDisplayNumber] = useState(1);
+  const questNum = "Question: " + displayNumber;
+
+  useEffect(() => {
+    getQuiz();
+  }, []);
+
+  return loading ? (
+    <Text>loading</Text>
+  ) : (
     <ScreenSetUp style={{ backgroundColor: colors.backgroundGrey }}>
       <ScrollView contentContainerStyle={{ flexGrow: 1, paddingBottom: 300 }}>
+        <ActivityIndicator animating={loading} size="large" />
         <HeaderBar navigation={navigation}></HeaderBar>
         <Timer></Timer>
         <AppText fontSize={30} style={styles.text}>
-          Question
+          {questNum}
         </AppText>
         <View style={styles.QuestionBox}>
-          <QuestionBox>
-            cjvlkasdjfglkasdjflkdsa LS;AKD FJALKSDFJLKSAD FSLKD FJASLKDFJ ALKSD
-            LSADKFJJ ALSKDFJ ALKSDF SALDKFJ ASLKD FJASLE ASLDKFJ LASKDJF
-          </QuestionBox>
+          <QuestionBox>{quiz.questions[questionNumber].question}</QuestionBox>
         </View>
         <View style={styles.answers}>
           <CustomButton
-            title={answerA}
+            color={selected === 0 ? "red" : "buttonColor"}
+            textColor={selected === 0 ? "white" : "blue_text"}
             marginVertical={5}
-            onPress={() => console.log("AnswerA")}
+            onPress={() =>
+              handleclick(
+                0,
+                quiz.questions[questionNumber].answers[0].correct_answer
+              )
+            }
             style={{ fontSize: 16 }}
+            title={quiz.questions[questionNumber].answers[0].answer}
           ></CustomButton>
           <CustomButton
-            title={answerB}
+            color={selected === 1 ? "red" : "buttonColor"}
+            textColor={selected === 1 ? "white" : "blue_text"}
             marginVertical={5}
-            onPress={() => console.log("AnswerB")}
+            onPress={() =>
+              handleclick(
+                1,
+                quiz.questions[questionNumber].answers[1].correct_answer
+              )
+            }
             style={{ fontSize: 16 }}
+            title={quiz.questions[questionNumber].answers[1].answer}
           ></CustomButton>
           <CustomButton
-            title={answerC}
+            color={selected === 2 ? "red" : "buttonColor"}
+            textColor={selected === 2 ? "white" : "blue_text"}
             marginVertical={5}
-            onPress={() => console.log("AnswerC")}
+            onPress={() =>
+              handleclick(
+                2,
+                quiz.questions[questionNumber].answers[2].correct_answer
+              )
+            }
             style={{ fontSize: 16 }}
+            title={quiz.questions[questionNumber].answers[2].answer}
           ></CustomButton>
           <CustomButton
-            title={answerD}
+            color={selected === 3 ? "red" : "buttonColor"}
+            textColor={selected === 3 ? "white" : "blue_text"}
             marginVertical={5}
-            onPress={() => console.log("AnswerD")}
+            onPress={() =>
+              handleclick(
+                3,
+                quiz.questions[questionNumber].answers[3].correct_answer
+              )
+            }
             style={{ fontSize: 16 }}
+            title={quiz.questions[questionNumber].answers[3].answer}
           ></CustomButton>
         </View>
         <View style={styles.touchable}>
-          <CustomButton title="Submit" onPress={() => console.log("submit")} />
+          <CustomButton
+            title={questionNumber === 9 ? "Submit" : "Next"}
+            onPress={() => {
+              questionNumber === 9 ? handleSubmit() : handleNext();
+            }}
+          />
         </View>
 
         <HelpButton navigation={navigation} />

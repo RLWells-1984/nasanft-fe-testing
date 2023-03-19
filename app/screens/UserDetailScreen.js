@@ -17,8 +17,38 @@ import ScreenSetUp from "../components/ScreenSetUp";
 import AuthContext from "../auth/context";
 
 function UserDetailScreen({ navigation }) {
-  const { user } = useContext(AuthContext);
+  const { user, setUser, token } = useContext(AuthContext);
+  const [newName, setNewName] = useState("");
   const name = user.user_name + " Details";
+  const updateDate = {
+    user: user,
+    user_name: user.user_name,
+  };
+
+  const editUserName = () => {
+    setUser({
+      ...user,
+      user_name: newName,
+      overall_rank: 43,
+    });
+  };
+
+  const saveEdit = async () => {
+    return await fetch("http://192.168.1.177:3000/api/users/", {
+      method: "PUT",
+      headers: {
+        "Content-Type": "application/json",
+        "x-auth-token": token,
+      },
+      body: JSON.stringify(updateDate),
+    })
+      .then((response) => response.json())
+      .then((data) => {});
+  };
+
+  useEffect(() => {
+    saveEdit();
+  }, [user]);
 
   return (
     <ScreenSetUp style={{ backgroundColor: colors.backgroundGrey }}>
@@ -37,10 +67,11 @@ function UserDetailScreen({ navigation }) {
         <View style={styles.userContainer}>
           <AppText>Display Name</AppText>
           <TextInput
+            onChangeText={(text) => setNewName(text)}
             placeholder={user.user_name}
             style={styles.usernameInput}
           ></TextInput>
-          <TouchableOpacity onPress={() => console.log("edit name")}>
+          <TouchableOpacity>
             <Feather name="edit" size={20} color={colors.blue_text} />
           </TouchableOpacity>
         </View>
@@ -54,10 +85,7 @@ function UserDetailScreen({ navigation }) {
         <DetailLines title="Overall Ranking" data={user.overall_rank} />
       </View>
       <View style={styles.save}>
-        <CustomButton
-          title="Save"
-          onPress={() => console.log("Update Username")}
-        />
+        <CustomButton title="Save" onPress={() => editUserName()} />
       </View>
       <View style={styles.logout}>
         <TouchableOpacity onPress={() => console.log("go logout")}>
@@ -110,11 +138,10 @@ const styles = StyleSheet.create({
     alignItems: "center",
     flex: 1,
     flexDirection: "row",
-    paddingLeft: 20,
-    paddingRight: 30,
+    marginLeft: 20,
+    marginRight: 30,
   },
   usernameInput: {
-    alignItems: "center",
     backgroundColor: "white",
     borderBottomColor: colors.buttonBorder,
     borderBottomWidth: 1,
@@ -123,8 +150,6 @@ const styles = StyleSheet.create({
     fontWeight: "bold",
     marginLeft: 30,
     marginRight: 30,
-    paddingLeft: 40,
-    paddingRight: 40,
   },
 });
 export default UserDetailScreen;
