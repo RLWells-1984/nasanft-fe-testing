@@ -1,4 +1,4 @@
-import React, { useContext } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { Ionicons } from "@expo/vector-icons";
 import { StyleSheet, View } from "react-native";
 import CountDown from "react-native-countdown-component";
@@ -11,11 +11,50 @@ import ScreenSetUp from "../components/ScreenSetUp";
 import AuthContext from "../auth/context";
 import UserIconBar from "../components/UserIconBar";
 
-const duration = 2 * 24 * 60 * 60 - 1;
 const timerExpired = false;
 
 function HomeScreen({ navigation }) {
-  const { user } = useContext(AuthContext);
+  const { user, token } = useContext(AuthContext);
+  const [neoTime, setNeoTime] = useState(1679432820000);
+  const [duration, setDuration] = useState(10);
+
+  const getNEO = async () => {
+    return await fetch("http://192.168.1.177:3000/api/nft_data", {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+        "x-auth-token": token,
+      },
+    })
+      .then((response) => response.json())
+      .then((data) => {
+        setNeoTime(data.date);
+        cache.store("neoTime", data.date);
+        return data;
+      });
+  };
+
+  const getNFTDuration = () => {
+    const currentTime = Date.now();
+    const endTime = neoTime;
+    const difference = endTime - currentTime;
+    console.log(
+      "current " +
+        currentTime +
+        " endTime " +
+        endTime +
+        " difference " +
+        difference
+    );
+    const seconds = Math.floor(difference / 1000).toFixed(0);
+    setDuration(seconds);
+  };
+
+  useEffect(() => {
+    //getNEO();
+    getNFTDuration();
+  }, [duration]);
+
   return (
     <ScreenSetUp style={{ backgroundColor: colors.backgroundGrey }}>
       <UserIconBar navigation={navigation}></UserIconBar>
