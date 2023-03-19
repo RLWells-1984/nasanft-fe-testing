@@ -2,20 +2,21 @@ import React, { useContext, useEffect, useState } from "react";
 import {
   ActivityIndicator,
   Alert,
+  Animated,
   ScrollView,
   StyleSheet,
   Text,
   View,
 } from "react-native";
+import Constants from "expo-constants";
+import { CountdownCircleTimer } from "react-native-countdown-circle-timer";
 
 import AppText from "../components/AppText";
 import colors from "../config/colors";
 import CustomButton from "../components/CustomButton";
-import HeaderBar from "../components/HeaderBar";
 import HelpButton from "../components/HelpButton";
 import QuestionBox from "../components/QuestionBox";
 import ScreenSetUp from "../components/ScreenSetUp";
-import Timer from "../components/Timer";
 import AuthContext from "../auth/context";
 import cache from "../utility/cache";
 
@@ -125,7 +126,28 @@ function QuizScreen({ navigation }) {
     <ScreenSetUp style={{ backgroundColor: colors.backgroundGrey }}>
       <ScrollView contentContainerStyle={{ flexGrow: 1, paddingBottom: 300 }}>
         <ActivityIndicator animating={loading} size="large" />
-        <Timer></Timer>
+        <View style={styles.container}>
+          <CountdownCircleTimer
+            isPlaying
+            duration={90}
+            colors={["#38761d", "#8fce00", "#ffc000", "#cc0000"]}
+            colorsTime={[90, 60, 30, 0]}
+            size={120}
+            onComplete={() => {
+              console.log("DONE");
+              handleSubmit();
+              return [false, 0];
+            }}
+          >
+            {({ remainingTime, animatedColor }) => (
+              <Animated.Text
+                style={{ ...styles.remainingTime, color: animatedColor }}
+              >
+                {remainingTime}
+              </Animated.Text>
+            )}
+          </CountdownCircleTimer>
+        </View>
         <AppText fontSize={30} style={styles.text}>
           {questNum}
         </AppText>
@@ -218,12 +240,23 @@ const styles = StyleSheet.create({
     right: "90%",
     top: 30,
   },
+  container: {
+    flex: 1,
+    justifyContent: "center",
+    alignItems: "center",
+    paddingTop: Constants.statusBarHeight,
+    backgroundColor: colors.backgroundGrey,
+    padding: 8,
+  },
   QuestionBox: {
     flex: 1,
     flexGrow: 1,
     marginBottom: 20,
     paddingHorizontal: 10,
     width: "100%",
+  },
+  remainingTime: {
+    fontSize: 46,
   },
   screen: {
     backgroundColor: colors.buttonBorder,
