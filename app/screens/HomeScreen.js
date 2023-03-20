@@ -83,7 +83,7 @@ function HomeScreen({ navigation }) {
 
       <View style={styles.points}>
         <AppText color="red" fontSize={26}>
-          {user.current_score}
+          SCORE PLACEHOLDER
         </AppText>
       </View>
       <View style={styles.timerBox}>
@@ -203,3 +203,5 @@ const styles = StyleSheet.create({
   },
 });
 export default HomeScreen;
+
+// goes where score placeholder is when user is set          {user.current_score}

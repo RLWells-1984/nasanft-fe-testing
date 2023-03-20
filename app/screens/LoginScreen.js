@@ -1,6 +1,13 @@
 import "../global";
 import React, { useContext, useState } from "react";
-import { Alert, Image, ImageBackground, StyleSheet, View } from "react-native";
+import {
+  Alert,
+  Image,
+  ImageBackground,
+  StyleSheet,
+  Text,
+  View,
+} from "react-native";
 
 import WalletConnectExperience from "./walletConnectExperience";
 import { StatusBar } from "expo-status-bar";
@@ -83,12 +90,10 @@ function LoginScreen({ navigation }) {
       >
         <Image style={styles.logo} source={require("../assets/TempLogo.png")} />
         <View style={styles.touchableButton}>
-          <CustomButton
-            title="Login"
-            fontFamily={"Rag_Bo"}
-            fontSize={26}
-            onPress={fetchUserDetails}
-          />
+          <View style={styles.container}>
+            <WalletConnectExperience navigation={navigation} />
+            <StatusBar style="auto" />
+          </View>
         </View>
       </ImageBackground>
     </ScreenSetUp>
@@ -131,4 +136,13 @@ export default LoginScreen;
 //  <WalletConnectExperience navigation={navigation} />
 //  <StatusBar style="auto" />
 //</View>
+//</View>
+
+//<View style={styles.touchableButton}>
+//<CustomButton
+//  title="Login"
+//  fontFamily={"Rag_Bo"}
+//  fontSize={26}
+//  onPress={fetchUserDetails}
+///>
 //</View>
