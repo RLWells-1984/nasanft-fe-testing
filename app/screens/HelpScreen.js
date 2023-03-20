@@ -8,6 +8,7 @@ import {
 } from "react-native";
 import * as Animatable from "react-native-animatable";
 import Accordion from "react-native-collapsible/Accordion";
+import * as Linking from "expo-linking";
 
 import ClickableText from "../components/ClickableText";
 import ScreenSetUp from "../components/ScreenSetUp";
@@ -35,6 +36,10 @@ const CONTENT = [
 function HelpScreen({ navigation }) {
   const [activeSections, setActiveSections] = useState([]);
   const [collapsed, setCollapsed] = useState(true);
+
+  const openEmail = () => {
+    Linking.openURL("mailto:NasaFTApp@gmail.com");
+  };
 
   const toggleExpanded = () => {
     setCollapsed(!collapsed);
@@ -99,10 +104,7 @@ function HelpScreen({ navigation }) {
         </ScrollView>
       </View>
       <View style={styles.contactUs}>
-        <ClickableText
-          title="Contact Us"
-          onPress={() => console.log("contact")}
-        />
+        <ClickableText title="Contact Us" onPress={() => openEmail()} />
       </View>
     </ScreenSetUp>
   );

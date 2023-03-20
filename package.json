@@ -10,6 +10,7 @@
     "postinstall": "del-cli ./node_modules/@walletconnect/react-native-dapp/node_modules/react-native-svg"
   },
   "dependencies": {
+    "@expo/html-elements": "^0.4.1",
     "@expo/webpack-config": "^0.17.2",
     "@metamask/sdk": "^0.1.0",
     "@react-native-async-storage/async-storage": "~1.17.3",
@@ -31,8 +32,10 @@
     "dns.js": "^1.0.1",
     "expo": "^46.0.0",
     "expo-constants": "~13.2.4",
+    "expo-contacts": "~10.3.0",
     "expo-crypto-polyfills": "^1.1.0",
     "expo-font": "~10.2.0",
+    "expo-linking": "^4.0.1",
     "expo-splash-screen": "~0.16.2",
     "expo-status-bar": "~1.4.2",
     "https-browserify": "^0.0.1",
