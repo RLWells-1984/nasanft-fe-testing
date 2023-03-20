@@ -46,8 +46,8 @@ export default function WalletConnectExperience({ navigation }) {
         console.log([results]);
         if (results != null) {
           setResults(results);
+          console.log(results);
           navigation.navigate("HomeScreen");
-          console.log("got here");
         }
       })
       .catch((error) => {
@@ -102,8 +102,9 @@ const styles = StyleSheet.create({
     borderColor: colors.backgroundGrey,
     borderRadius: 25,
     borderWidth: 5,
+    height: 70,
     paddingHorizontal: 16,
-    paddingVertical: 12,
+    paddingTop: 10,
     marginVertical: 15,
   },
   text: {
