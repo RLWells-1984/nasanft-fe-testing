@@ -13,8 +13,6 @@ const shortenAddress = (address) => {
     address.length
   )}`;
 };
-
-const message = "Hi Travis, I am in NasaFT right now";
 //const msgParams = [convertUtf8ToHex(message), account[0]];
 
 function Button({ onPress, label }) {
@@ -39,11 +37,29 @@ export default function WalletConnectExperience({ navigation }) {
   const connector = useWalletConnect();
 
   const personalSign = async (publicAddress, navigation) => {
-    //const getNonce = await AuthenticatorAssertionResponse.getNonce(public address); this will be the message
+    const nonceRes = await fetch("http://192.168.1.177:3000/api/token/" + publicAddress, {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+      },
+    }).then(response => response.json());
+    const nonce = nonceRes.nonce;
+
     connector
-      .signPersonalMessage([message, publicAddress, navigation])
-      .then((results) => {
+      .signPersonalMessage([nonce, publicAddress, navigation])
+      .then(async (results) => {
         console.log([results]);
+        const loginRes = await fetch("http://192.168.1.177:3000/api/token/login", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            public_address: publicAddress,
+            signed_nonce: results
+          }),
+        }).then(response => response.json());
+        console.log(loginRes);
         if (results != null) {
           setResults(results);
           console.log(results);
