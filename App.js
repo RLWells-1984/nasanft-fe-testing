@@ -33,7 +33,6 @@ export default function App() {
 
   const onLayoutRootView = useCallback(async () => {
     if (fontsLoaded) {
-      r;
       await SplashScreen.hideAsync();
     }
   }, [fontsLoaded]);
@@ -71,12 +70,6 @@ export default function App() {
         </NavigationContainer>
       </WalletConnectProvider>
     </AuthContext.Provider>
-
-    //<AuthContext.Provider value={{ user, setUser }}>
-    //  <NavigationContainer theme={navigationTheme}>
-    //    <AppNavigator />
-    //  </NavigationContainer>
-    //</AuthContext.Provider>
   );
 }
 
