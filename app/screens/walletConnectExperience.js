@@ -7,14 +7,6 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
 import colors from "../config/colors";
 import AuthContext from "../auth/context";
 
-const shortenAddress = (address) => {
-  return `${address.slice(0, 6)}...${address.slice(
-    address.length - 4,
-    address.length
-  )}`;
-};
-//const msgParams = [convertUtf8ToHex(message), account[0]];
-
 function Button({ onPress, label }) {
   return (
     <TouchableOpacity onPress={onPress} style={styles.button}>
@@ -25,7 +17,7 @@ function Button({ onPress, label }) {
 
 function DisplayAddress({ pubAddress }) {
   if (pubAddress != null) {
-    return <Text style={styles.resultText}>{pubAddress}</Text>;
+    return <Text style={styles.resultText}>Public Address: {pubAddress}</Text>;
   } else {
     return <Text style={styles.resultText}>NO ADDRESS</Text>;
   }
@@ -37,32 +29,40 @@ export default function WalletConnectExperience({ navigation }) {
   const connector = useWalletConnect();
 
   const personalSign = async (publicAddress, navigation) => {
-    const nonceRes = await fetch("http://192.168.1.177:3000/api/token/" + publicAddress, {
-      method: "GET",
-      headers: {
-        "Content-Type": "application/json",
-      },
-    }).then(response => response.json());
+    const nonceRes = await fetch(
+      "http://192.168.1.177:3000/api/token/" + publicAddress,
+      {
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json",
+        },
+      }
+    ).then((response) => response.json());
     const nonce = nonceRes.nonce;
 
     connector
       .signPersonalMessage([nonce, publicAddress, navigation])
       .then(async (results) => {
-        console.log([results]);
-        const loginRes = await fetch("http://192.168.1.177:3000/api/token/login", {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify({
-            public_address: publicAddress,
-            signed_nonce: results
-          }),
-        }).then(response => response.json());
-        console.log(loginRes);
+        const loginRes = await fetch(
+          "http://192.168.1.177:3000/api/token/login",
+          {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+            },
+            body: JSON.stringify({
+              public_address: publicAddress,
+              signed_nonce: results,
+            }),
+          }
+        ).then((response) => response.json());
+        console.log("object");
+        console.log(loginRes); //object
         if (results != null) {
           setResults(results);
-          console.log(results);
+          authContext.setToken(loginRes.accessToken);
+          authContext.setRefreshToken(loginRes.refreshToken);
+          authContext.setUser(loginRes.user);
           navigation.navigate("HomeScreen");
         }
       })
@@ -80,17 +80,11 @@ export default function WalletConnectExperience({ navigation }) {
     return connector.killSession();
   }, [connector]);
 
-  // Previous display of responses.
-
-  //        <Text style={styles.resultText}>
-  //          {shortenAddress(connector.accounts[0])}
-  //        </Text>
-  //        <Text style={styles.resultText}>
-  //          {[connector, connector.accounts]}
-  //        </Text>
-
   useEffect(() => {
-    if (connector.connected) setPubAddress(connector.accounts[0]);
+    if (connector.connected) {
+      setPubAddress(connector.accounts[0]);
+      authContext.setPublicAddress(connector.accounts[0]);
+    }
   });
 
   return (

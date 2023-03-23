@@ -11,14 +11,16 @@ import ScreenSetUp from "../components/ScreenSetUp";
 import AuthContext from "../auth/context";
 import UserIconBar from "../components/UserIconBar";
 
-const timerExpired = false;
+var timerExpired = false;
 
 function HomeScreen({ navigation }) {
   const { user, token } = useContext(AuthContext);
-  const [neoTime, setNeoTime] = useState(1679432820000);
-  const [duration, setDuration] = useState(10);
-  const [nextQuiz, setNextQuiz] = useState(10);
+  const [neoTime, setNeoTime] = useState(1679764500000);
+  const [duration, setDuration] = useState(+10);
+  const [nextQuiz, setNextQuiz] = useState(+10);
   const [loading, setLoading] = useState(true);
+  const quizTimer = Number(nextQuiz);
+  const nftTimer = Number(duration);
 
   const getNEO = async () => {
     return await fetch("http://192.168.1.177:3000/api/nft_data", {
@@ -41,14 +43,6 @@ function HomeScreen({ navigation }) {
     const currentTime = Date.now();
     const endTime = neoTime;
     const difference = endTime - currentTime;
-    console.log(
-      "current " +
-        currentTime +
-        " endTime " +
-        endTime +
-        " difference " +
-        difference
-    );
     const seconds = Math.floor(difference / 1000).toFixed(0);
     setDuration(seconds);
     setLoading(false);
@@ -64,7 +58,6 @@ function HomeScreen({ navigation }) {
     const remaining = Math.floor(
       (midnight.getTime() - new Date().getTime()) / 1000
     );
-    console.log("remaining " + remaining);
     setNextQuiz(remaining);
     setLoading(false);
   };
@@ -83,7 +76,7 @@ function HomeScreen({ navigation }) {
 
       <View style={styles.points}>
         <AppText color="red" fontSize={26}>
-          SCORE PLACEHOLDER
+          {user.current_score}
         </AppText>
       </View>
       <View style={styles.timerBox}>
@@ -92,8 +85,9 @@ function HomeScreen({ navigation }) {
           <View style={styles.counter1}>
             <Ionicons name="timer-outline" size={26} color={colors.blue_text} />
             <CountDown
+              //TIMER FOR QUIZ
               //has id prop to use to reset
-              until={nextQuiz}
+              until={quizTimer}
               size={30}
               onFinish={() => (timerExpired = true)}
               digitStyle={{ backgroundColor: "transparent" }}
@@ -131,8 +125,9 @@ function HomeScreen({ navigation }) {
         <View style={styles.counter}>
           <Ionicons name="timer-outline" size={26} color={colors.blue_text} />
           <CountDown
+            //TIMER FOR NFT
             //has id prop to use to reset
-            until={duration}
+            until={nftTimer}
             size={30}
             onFinish={() => (timerExpired = true)}
             digitStyle={{ backgroundColor: "transparent" }}
@@ -203,5 +198,3 @@ const styles = StyleSheet.create({
   },
 });
 export default HomeScreen;
-
-// goes where score placeholder is when user is set          {user.current_score}
