@@ -8,6 +8,7 @@ import { StatusBar } from "expo-status-bar";
 import AuthContext from "../auth/context";
 import colors from "../config/colors";
 import ScreenSetUp from "../components/ScreenSetUp";
+import GoBackHeader from "../components/GoBackHeader";
 
 const SCHEME_FROM_APP_JSON = "walletconnect-example";
 
@@ -17,36 +18,43 @@ function LoginScreen({ navigation }) {
 
   return (
     <ScreenSetUp>
-      <ImageBackground
-        style={styles.background}
-        //source={{}} will be from nasa image of the day api to be implemented later
-        source={require("../assets/PIA13110_large.jpg")}
-      >
+      <View style={styles.goBack}>
+        <GoBackHeader navigation={navigation}></GoBackHeader>
+      </View>
+      <View style={styles.logoBox}>
         <Image style={styles.logo} source={require("../assets/TempLogo.png")} />
-        <View style={styles.touchableButton}>
-          <View style={styles.container}>
-            <WalletConnectExperience navigation={navigation} />
-            <StatusBar style="auto" />
-          </View>
+      </View>
+      <View style={styles.touchableButton}>
+        <View>
+          <WalletConnectExperience navigation={navigation} />
+          <StatusBar style="auto" />
         </View>
-      </ImageBackground>
+      </View>
     </ScreenSetUp>
   );
 }
 const styles = StyleSheet.create({
-  background: {
-    alignItems: "center",
+  goBack: {
     flex: 1,
-    justifyContent: "flex-end",
+    height: 20,
+    position: "absolute",
+    right: "90%",
+    top: 10,
   },
   logo: {
     borderColor: colors.backgroundGrey,
     borderRadius: 80,
     borderWidth: 5,
     height: 200,
-    position: "absolute",
-    top: 100,
     width: 200,
+  },
+  logoBox: {
+    flex: 1,
+    alignSelf: "center",
+    alignItems: "center",
+    justifyContent: "flex-start",
+    top: 100,
+    width: "100%",
   },
   touchable: {
     height: 70,
@@ -55,10 +63,10 @@ const styles = StyleSheet.create({
     width: "60%",
   },
   touchableButton: {
-    height: 110,
+    flex: 1,
     justifyContent: "flex-end",
-    paddingBottom: 40,
-    width: "60%",
+    marginVertical: 20,
+    width: "100%",
   },
 });
 

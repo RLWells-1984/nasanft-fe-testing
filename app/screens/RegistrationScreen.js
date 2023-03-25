@@ -1,13 +1,65 @@
-import React, { useState } from "react";
-import { Image, StyleSheet, TextInput, View } from "react-native";
+import "../global";
+import React, { useContext, useEffect, useState } from "react";
+import { Alert, Image, StyleSheet, Text, TextInput, View } from "react-native";
+
+import RegistrationConnect from "./RegistrationConnect";
+import { StatusBar } from "expo-status-bar";
 
 import AppText from "../components/AppText";
+import AuthContext from "../auth/context";
 import colors from "../config/colors";
 import CustomButton from "../components/CustomButton";
 import GoBackHeader from "../components/GoBackHeader";
 import ScreenSetUp from "../components/ScreenSetUp";
 
+const SCHEME_FROM_APP_JSON = "walletconnect-example";
+
 function RegistrationScreen({ navigation }) {
+  const authContext = useContext(AuthContext);
+  const [newName, setNewName] = useState("");
+  const user = {
+    user: {
+      public_address: authContext.publicAddress,
+      user_name: newName,
+    },
+  };
+
+  const registerAccount = async (user) => {
+    console.log("what data is here");
+    console.log(user);
+    return await fetch("http://192.168.1.177:3000/api/users/", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(user),
+    })
+      .then((response) => response.json())
+      .then((data) => {
+        if (
+          data.text.localeCompare(
+            'duplicate key value violates unique constraint "user_data_public_address_key"'
+          ) == 0
+        ) {
+          Alert.alert(
+            "Registration Failed",
+            "Your public address is already registered! Please login instead.",
+            [
+              {
+                text: "OK",
+                onPress: () => navigation.navigate("LoginScreen"),
+              },
+            ]
+          );
+          return Promise.reject(data.text);
+        }
+        if (data.text.localeCompare("Created") == 0) {
+          navigation.navigate("LoginScreen");
+        }
+        console.log(data);
+      });
+  };
+
   return (
     <ScreenSetUp>
       <GoBackHeader color="white" navigation={navigation}></GoBackHeader>
@@ -18,34 +70,34 @@ function RegistrationScreen({ navigation }) {
           Register Account
         </AppText>
       </View>
-
       <View style={{ flex: 0.5, top: 200 }}>
         <View style={styles.userContainer}>
           <AppText style={styles.displayName}> Display Name</AppText>
           <TextInput
+            onChangeText={(text) => setNewName(text)}
             placeholder=" Enter Display Name" //need to set limits on char length and type
             style={styles.usernameInput}
           ></TextInput>
         </View>
-        <View
-          style={{
-            backgroundColor: "white",
-            alignItems: "center",
-          }}
-        >
-          <AppText style={{ padding: 10 }}>
-            Public wallet address from login
-          </AppText>
+        <View style={styles.touchableButton}>
+          <View>
+            <RegistrationConnect navigation={navigation} />
+            <StatusBar style="auto" />
+          </View>
+          {!authContext.publicAddress ? (
+            <AppText></AppText>
+          ) : (
+            <View style={styles.registerButtonView}>
+              <CustomButton
+                fontFamily="Rag_Bo"
+                fontSize={18}
+                marginVertical={7}
+                onPress={() => registerAccount(user)}
+                title="Register"
+              />
+            </View>
+          )}
         </View>
-      </View>
-
-      <View style={styles.touchableButton}>
-        <CustomButton
-          title="Connect Wallet"
-          fontSize={20}
-          fontFamily="Rag_Bo"
-          onPress={() => navigation.navigate("HomeScreen")}
-        />
       </View>
     </ScreenSetUp>
   );
@@ -63,7 +115,7 @@ const styles = StyleSheet.create({
     borderColor: colors.buttonColor,
     borderWidth: 4,
     height: 34,
-    paddingHorizontal: 20,
+    paddingHorizontal: 5,
     paddingTop: 5,
   },
   logo: {
@@ -74,12 +126,16 @@ const styles = StyleSheet.create({
     height: 80,
     width: 80,
   },
+  registerButtonView: {
+    alignItems: "center",
+    alignSelf: "center",
+    height: 80,
+    width: "80%",
+  },
   touchableButton: {
     alignSelf: "center",
-    height: 70,
-    paddingBottom: 20,
-    top: 300,
-    width: "60%",
+    marginVertical: 20,
+    width: "100%",
   },
   userContainer: {
     alignItems: "center",
@@ -90,14 +146,14 @@ const styles = StyleSheet.create({
   },
   usernameInput: {
     alignItems: "center",
-    backgroundColor: "white",
-    borderBottomColor: colors.buttonBorder,
-    borderBottomWidth: 1,
+    backgroundColor: colors.white,
+    borderColor: colors.buttonColor,
+    borderWidth: 4,
     fontSize: 16,
     fontWeight: "bold",
-    height: 30,
+    height: 35,
     marginLeft: 30,
-    width: "45%",
+    width: "55%",
   },
 });
 
