@@ -22,60 +22,11 @@ function DisplayAddress({ pubAddress }) {
     return <Text style={styles.resultText}>NO ADDRESS</Text>;
   }
 }
-export default function WalletConnectExperience({ navigation }) {
+
+export default function RegistrationConnect({ navigation }) {
   const authContext = useContext(AuthContext);
   const [pubAddress, setPubAddress] = useState([]);
-  const [results, setResults] = useState([]);
   const connector = useWalletConnect();
-
-  const personalSign = async (publicAddress, navigation) => {
-    const nonceRes = await fetch(
-      "http://192.168.1.177:3000/api/token/" + publicAddress,
-      {
-        method: "GET",
-        headers: {
-          "Content-Type": "application/json",
-        },
-      }
-    ).then((response) => {
-      if (!response.ok) {
-        console.log("not ok, likely not in the DB");
-      }
-      return response.json();
-    });
-    const nonce = nonceRes.nonce;
-
-    connector
-      .signPersonalMessage([nonce, publicAddress, navigation])
-      .then(async (results) => {
-        const loginRes = await fetch(
-          "http://192.168.1.177:3000/api/token/login",
-          {
-            method: "POST",
-            headers: {
-              "Content-Type": "application/json",
-            },
-            body: JSON.stringify({
-              public_address: publicAddress,
-              signed_nonce: results,
-            }),
-          }
-        ).then((response) => response.json());
-        console.log("object");
-        console.log(loginRes); //object
-        if (results != null) {
-          setResults(results);
-          authContext.setToken(loginRes.accessToken);
-          authContext.setRefreshToken(loginRes.refreshToken);
-          authContext.setUser(loginRes.user);
-          navigation.navigate("HomeScreen");
-        }
-      })
-      .catch((error) => {
-        // Error returned when rejected
-        console.error(error);
-      });
-  };
 
   const connectWallet = useCallback(() => {
     connector.connect();
@@ -102,11 +53,7 @@ export default function WalletConnectExperience({ navigation }) {
       ) : (
         <>
           <DisplayAddress pubAddress={pubAddress} />
-          <Button
-            onPress={() => personalSign(connector.accounts[0], navigation)}
-            label="sign"
-          />
-          <Button onPress={killSession} label="Log out" />
+          <Button onPress={killSession} label="Log out of WalletConnect" />
         </>
       )}
     </>
