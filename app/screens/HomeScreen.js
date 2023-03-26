@@ -75,9 +75,13 @@ function HomeScreen({ navigation }) {
       <UserIconBar navigation={navigation}></UserIconBar>
 
       <View style={styles.points}>
-        <AppText color="red" fontSize={26}>
-          {user.current_score}
-        </AppText>
+        {!user ? (
+          <AppText></AppText>
+        ) : (
+          <AppText color="red" fontSize={26}>
+            {user.current_score}
+          </AppText>
+        )}
       </View>
       <View style={styles.timerBox}>
         <AppText fontSize={22}>Time until next quiz</AppText>

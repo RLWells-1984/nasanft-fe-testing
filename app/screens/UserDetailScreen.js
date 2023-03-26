@@ -17,7 +17,8 @@ import ScreenSetUp from "../components/ScreenSetUp";
 import AuthContext from "../auth/context";
 
 function UserDetailScreen({ navigation }) {
-  const { user, setUser, token } = useContext(AuthContext);
+  const { user, setUser, token, setToken, setPublicAddress, setRefreshToken } =
+    useContext(AuthContext);
   const [newName, setNewName] = useState("");
   const name = user.user_name + " Details";
   const updateDate = {
@@ -44,6 +45,14 @@ function UserDetailScreen({ navigation }) {
     })
       .then((response) => response.json())
       .then((data) => {});
+  };
+
+  const logout = () => {
+    navigation.navigate("WelcomeScreen");
+    setUser(null);
+    setToken(null);
+    setPublicAddress(null);
+    setRefreshToken(null);
   };
 
   useEffect(() => {
@@ -88,7 +97,7 @@ function UserDetailScreen({ navigation }) {
         <CustomButton title="Save" onPress={() => editUserName()} />
       </View>
       <View style={styles.logout}>
-        <TouchableOpacity onPress={() => console.log("go logout")}>
+        <TouchableOpacity onPress={() => logout()}>
           <FontAwesome5
             name="space-shuttle"
             size={20}

@@ -27,7 +27,6 @@ function LoginScreen({ navigation }) {
       <View style={styles.touchableButton}>
         <View>
           <WalletConnectExperience navigation={navigation} />
-          <StatusBar style="auto" />
         </View>
       </View>
     </ScreenSetUp>
