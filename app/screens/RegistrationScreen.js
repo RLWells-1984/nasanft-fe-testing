@@ -3,7 +3,6 @@ import React, { useContext, useEffect, useState } from "react";
 import { Alert, Image, StyleSheet, Text, TextInput, View } from "react-native";
 
 import RegistrationConnect from "./RegistrationConnect";
-import { StatusBar } from "expo-status-bar";
 
 import AppText from "../components/AppText";
 import AuthContext from "../auth/context";
@@ -82,7 +81,6 @@ function RegistrationScreen({ navigation }) {
         <View style={styles.touchableButton}>
           <View>
             <RegistrationConnect navigation={navigation} />
-            <StatusBar style="auto" />
           </View>
           {!authContext.publicAddress ? (
             <AppText></AppText>
