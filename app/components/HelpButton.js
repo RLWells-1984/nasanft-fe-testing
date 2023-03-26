@@ -15,7 +15,7 @@ function HelpButton({ navigation }) {
 const styles = StyleSheet.create({
   button: {
     alignItems: "flex-end",
-    bottom: -50,
+    bottom: -10,
     justifyContent: "flex-end",
     paddingRight: 20,
   },

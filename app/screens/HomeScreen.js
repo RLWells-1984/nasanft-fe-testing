@@ -6,6 +6,7 @@ import CountDown from "react-native-countdown-component";
 import moment from "moment";
 
 import AppText from "../components/AppText";
+import cache from "../utility/cache";
 import colors from "../config/colors";
 import CustomButton from "../components/CustomButton";
 import HelpButton from "../components/HelpButton";
@@ -76,6 +77,22 @@ function HomeScreen({ navigation }) {
       setReady(true);
     } else setReady(false);
     setLoading(false);
+  };
+
+  const newNFT = () => {
+    //check cacheed neo time vs current time
+    //if neo time has pass run setUser and getNEO
+    const neoTime = cache.get("neoTime");
+    const now = new Date().getTime();
+
+    if (now > neoTime) {
+      setUser({
+        ...user,
+        current_quiz_score: 0,
+        current_score: 0,
+      });
+      //getNEO();
+    }
   };
 
   useEffect(() => {
@@ -170,7 +187,7 @@ function HomeScreen({ navigation }) {
             //has id prop to use to reset
             until={nftTimer}
             size={30}
-            onFinish={() => (timerExpired = true)}
+            onFinish={() => newNFT()}
             digitStyle={{ backgroundColor: "transparent" }}
             digitTxtStyle={{ color: colors.blue_text }}
             timeToShow={["D", "H", "M", "S"]}
