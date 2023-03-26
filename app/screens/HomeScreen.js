@@ -1,6 +1,7 @@
 import React, { useContext, useEffect, useState } from "react";
 import { Ionicons } from "@expo/vector-icons";
 import { StyleSheet, Text, View } from "react-native";
+import LottieView from "lottie-react-native";
 import CountDown from "react-native-countdown-component";
 import moment from "moment";
 
@@ -70,9 +71,10 @@ function HomeScreen({ navigation }) {
     const today = moment(new Date()).format("MM/DD/YYYY");
     console.log("today", today);
     console.log(user.date_completed);
-    if (!today == user.date_completed) {
+    console.log(!moment(today).isSame(user.date_completed));
+    if (!moment(today).isSame(user.date_completed)) {
       setReady(true);
-    }
+    } else setReady(false);
     setLoading(false);
   };
 
@@ -81,7 +83,7 @@ function HomeScreen({ navigation }) {
     quizReady();
     getNFTDuration();
     getTilMidnight();
-  }, [duration, nextQuiz, quizTimerDone]);
+  }, [duration, nextQuiz, quizTimerDone, user]);
 
   return loading ? (
     <Text>Loading</Text>
@@ -119,10 +121,24 @@ function HomeScreen({ navigation }) {
         </View>
       </View>
       {!ready ? (
-        <View style={{ alignItems: "center", height: 80 }}>
-          <AppText fontFamily="Rag_Bo" fontSize={22}>
-            Next quiz not availble yet!
-          </AppText>
+        <View>
+          <View
+            style={{
+              alignItems: "center",
+              height: 80,
+            }}
+          >
+            <AppText fontFamily="Rag_Bo" fontSize={22}>
+              Next quiz not availble yet!
+            </AppText>
+          </View>
+          <View style={{ height: 140 }}>
+            <LottieView
+              autoPlay
+              loop
+              source={require("../assets/animations/rocket.json")}
+            />
+          </View>
         </View>
       ) : (
         <View style={styles.quizButton}>
@@ -143,7 +159,7 @@ function HomeScreen({ navigation }) {
           borderWidth: 5,
           borderColor: "yellow",
           height: 150,
-          marginTop: 90,
+          marginTop: 60,
         }}
       >
         <AppText fontSize={20}>Time until next NFT is awarded</AppText>
