@@ -90,7 +90,7 @@ function QuizScreen({ navigation }) {
     });
   };
 
-  const updateDB = async () => {
+  const updateUserDB = async () => {
     return await fetch("http://192.168.1.177:3000/api/users/", {
       method: "PUT",
       headers: {
@@ -106,8 +106,31 @@ function QuizScreen({ navigation }) {
       });
   };
 
+  const updateWinnerDB = async () => {
+    if (correct >= 7) {
+      console.log("winner");
+      const userAddress = { public_address: user.public_address };
+      return await fetch("http://192.168.1.177:3000/api/quizzes/", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          "x-auth-token": token,
+        },
+        body: JSON.stringify(userAddress),
+      })
+        .then((response) => response.json())
+        .then((data) => {
+          console.log("DID ADD WINNER?");
+          console.log(data);
+        });
+    } else {
+      console.log("loser");
+    }
+  };
+
   useEffect(() => {
-    updateDB();
+    updateUserDB();
+    updateWinnerDB();
   }, [user]);
 
   const [quiz, setQuiz] = useState([]);
