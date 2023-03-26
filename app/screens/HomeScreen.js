@@ -2,6 +2,7 @@ import React, { useContext, useEffect, useState } from "react";
 import { Ionicons } from "@expo/vector-icons";
 import { StyleSheet, Text, View } from "react-native";
 import CountDown from "react-native-countdown-component";
+import moment from "moment";
 
 import AppText from "../components/AppText";
 import colors from "../config/colors";
@@ -19,6 +20,8 @@ function HomeScreen({ navigation }) {
   const [duration, setDuration] = useState(+10);
   const [nextQuiz, setNextQuiz] = useState(+10);
   const [loading, setLoading] = useState(true);
+  const [ready, setReady] = useState(false);
+  const [quizTimerDone, setQuizTimerDone] = useState(false);
   const quizTimer = Number(nextQuiz);
   const nftTimer = Number(duration);
 
@@ -62,11 +65,23 @@ function HomeScreen({ navigation }) {
     setLoading(false);
   };
 
+  const quizReady = () => {
+    setLoading(true);
+    const today = moment(new Date()).format("MM/DD/YYYY");
+    console.log("today", today);
+    console.log(user.date_completed);
+    if (!today == user.date_completed) {
+      setReady(true);
+    }
+    setLoading(false);
+  };
+
   useEffect(() => {
     //getNEO();
+    quizReady();
     getNFTDuration();
     getTilMidnight();
-  }, [duration, nextQuiz]);
+  }, [duration, nextQuiz, quizTimerDone]);
 
   return loading ? (
     <Text>Loading</Text>
@@ -90,10 +105,9 @@ function HomeScreen({ navigation }) {
             <Ionicons name="timer-outline" size={26} color={colors.blue_text} />
             <CountDown
               //TIMER FOR QUIZ
-              //has id prop to use to reset
               until={quizTimer}
               size={30}
-              onFinish={() => (timerExpired = true)}
+              onFinish={() => setQuizTimerDone(true)}
               digitStyle={{ backgroundColor: "transparent" }}
               digitTxtStyle={{ color: colors.blue_text }}
               timeToShow={["H", "M", "S"]}
@@ -104,17 +118,24 @@ function HomeScreen({ navigation }) {
           </View>
         </View>
       </View>
-
-      <View style={styles.quizButton}>
-        <CustomButton
-          //set unclickable till timerExpired = true
-          title="Start Daily Quiz"
-          onPress={() => navigation.navigate("QuizScreen")}
-          fontSize={28}
-          fontFamily="Rag_Bo"
-          borderColor="blue_text"
-        />
-      </View>
+      {!ready ? (
+        <View style={{ alignItems: "center", height: 80 }}>
+          <AppText fontFamily="Rag_Bo" fontSize={22}>
+            Next quiz not availble yet!
+          </AppText>
+        </View>
+      ) : (
+        <View style={styles.quizButton}>
+          <CustomButton
+            //set unclickable till timerExpired = true
+            title="Start Daily Quiz"
+            onPress={() => navigation.navigate("QuizScreen")}
+            fontSize={28}
+            fontFamily="Rag_Bo"
+            borderColor="blue_text"
+          />
+        </View>
+      )}
       <View
         style={{
           alignItems: "center",

@@ -9,6 +9,7 @@ import {
   View,
 } from "react-native";
 import Constants from "expo-constants";
+import moment from "moment";
 import { CountdownCircleTimer } from "react-native-countdown-circle-timer";
 
 import AppText from "../components/AppText";
@@ -24,7 +25,7 @@ function QuizScreen({ navigation }) {
   const { user, setUser, token } = useContext(AuthContext);
   const updateDate = {
     user: user,
-    user_name: user.user_name,
+    public_address: user.public_address,
   };
 
   const getQuiz = async () => {
@@ -60,7 +61,7 @@ function QuizScreen({ navigation }) {
 
   const handleSubmit = () => {
     const points = correct * 100;
-    updateUserDetails();
+    updateUserDetails(points);
     Alert.alert(
       "Quiz Completed",
       "You got " +
@@ -75,7 +76,6 @@ function QuizScreen({ navigation }) {
         },
       ]
     );
-    updateUserDetails(points);
   };
 
   const updateUserDetails = (points) => {
@@ -86,6 +86,7 @@ function QuizScreen({ navigation }) {
       overall_score: user.overall_score + points,
       questions_answered: user.questions_answered + 10,
       questions_correct: user.questions_correct + correct,
+      date_completed: moment(new Date()).format("MM/DD/YYYY"),
     });
   };
 
@@ -100,6 +101,7 @@ function QuizScreen({ navigation }) {
     })
       .then((response) => response.json())
       .then((data) => {
+        console.log("DID UPDATE?");
         console.log(data);
       });
   };
