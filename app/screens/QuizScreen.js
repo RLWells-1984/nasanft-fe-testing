@@ -100,10 +100,7 @@ function QuizScreen({ navigation }) {
       body: JSON.stringify(updateDate),
     })
       .then((response) => response.json())
-      .then((data) => {
-        console.log("DID UPDATE?");
-        console.log(data);
-      });
+      .then((data) => {});
   };
 
   const updateWinnerDB = async () => {
@@ -119,10 +116,7 @@ function QuizScreen({ navigation }) {
         body: JSON.stringify(userAddress),
       })
         .then((response) => response.json())
-        .then((data) => {
-          console.log("DID ADD WINNER?");
-          console.log(data);
-        });
+        .then((data) => {});
     } else {
       console.log("loser");
     }
@@ -159,7 +153,6 @@ function QuizScreen({ navigation }) {
             colorsTime={[90, 60, 30, 0]}
             size={120}
             onComplete={() => {
-              console.log("DONE");
               handleSubmit();
               return [false, 0];
             }}

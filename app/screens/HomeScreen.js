@@ -14,8 +14,6 @@ import ScreenSetUp from "../components/ScreenSetUp";
 import AuthContext from "../auth/context";
 import UserIconBar from "../components/UserIconBar";
 
-var timerExpired = false;
-
 function HomeScreen({ navigation }) {
   const { user, token } = useContext(AuthContext);
   const [neoTime, setNeoTime] = useState(1679764500000);
@@ -70,9 +68,6 @@ function HomeScreen({ navigation }) {
   const quizReady = () => {
     setLoading(true);
     const today = moment(new Date()).format("MM/DD/YYYY");
-    console.log("today", today);
-    console.log(user.date_completed);
-    console.log(!moment(today).isSame(user.date_completed));
     if (!moment(today).isSame(user.date_completed)) {
       setReady(true);
     } else setReady(false);
@@ -173,15 +168,15 @@ function HomeScreen({ navigation }) {
         style={{
           alignItems: "center",
           justifyContent: "flex-end",
-          borderWidth: 5,
-          borderColor: "yellow",
+          borderWidth: 10,
+          borderColor: colors.buttonColor,
           height: 150,
           marginTop: 60,
         }}
       >
         <AppText fontSize={20}>Time until next NFT is awarded</AppText>
         <View style={styles.counter}>
-          <Ionicons name="timer-outline" size={26} color={colors.blue_text} />
+          <Ionicons name="timer-outline" size={22} color={colors.blue_text} />
           <CountDown
             //TIMER FOR NFT
             //has id prop to use to reset
@@ -234,8 +229,8 @@ const styles = StyleSheet.create({
   },
   timerBox: {
     alignItems: "center",
-    borderColor: "yellow",
-    borderWidth: 5,
+    borderColor: colors.buttonColor,
+    borderWidth: 10,
     height: 150,
     marginBottom: 50,
     paddingTop: 20,

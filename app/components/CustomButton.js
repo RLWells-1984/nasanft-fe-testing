@@ -51,6 +51,8 @@ const styles = StyleSheet.create({
   },
   text: {
     alignItems: "center",
+    alignSelf: "center",
+    bottom: 3,
     fontSize: 24,
     textAlign: "center",
     textAlignVertical: "center",

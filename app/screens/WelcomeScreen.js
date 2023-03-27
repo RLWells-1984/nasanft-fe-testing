@@ -14,7 +14,7 @@ function WelcomeScreen({ navigation }) {
         //source={{}} will be from nasa image of the day api future implementation
         source={require("../assets/PIA13110_large.jpg")}
       >
-        <Image style={styles.logo} source={require("../assets/TempLogo.png")} />
+        <Image style={styles.logo} source={require("../assets/FullLogo.png")} />
 
         <View style={styles.touchableButton}>
           <CustomButton
@@ -43,9 +43,9 @@ const styles = StyleSheet.create({
     justifyContent: "flex-end",
   },
   logo: {
-    borderColor: colors.backgroundGrey,
-    borderRadius: 80,
-    borderWidth: 5,
+    //borderColor: colors.backgroundGrey,
+    borderRadius: 100,
+    //borderWidth: 5,
     height: 200,
     position: "absolute",
     top: 100,
