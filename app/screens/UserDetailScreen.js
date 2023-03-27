@@ -6,6 +6,7 @@ import {
   TouchableOpacity,
   View,
 } from "react-native";
+import LottieView from "lottie-react-native";
 
 import { Feather, FontAwesome5, Ionicons } from "@expo/vector-icons";
 
@@ -15,16 +16,15 @@ import CustomButton from "../components/CustomButton";
 import DetailLines from "../components/DetailLines";
 import ScreenSetUp from "../components/ScreenSetUp";
 import AuthContext from "../auth/context";
-import HelpButton from "../components/HelpButton";
 
 function UserDetailScreen({ navigation }) {
   const { user, setUser, token, setToken, setPublicAddress, setRefreshToken } =
     useContext(AuthContext);
   const [newName, setNewName] = useState("");
-  const name = user.user_name + " Details";
+  const name = user.user_name + "'s Details";
   const updateDate = {
     user: user,
-    user_name: user.user_name,
+    public_address: user.public_address,
   };
 
   const editUserName = () => {
@@ -45,7 +45,9 @@ function UserDetailScreen({ navigation }) {
       body: JSON.stringify(updateDate),
     })
       .then((response) => response.json())
-      .then((data) => {});
+      .then((data) => {
+        console.log(data);
+      });
   };
 
   const logout = () => {
@@ -62,8 +64,11 @@ function UserDetailScreen({ navigation }) {
 
   return (
     <ScreenSetUp style={{ backgroundColor: colors.backgroundGrey }}>
-      <View style={{ height: "10%" }}>
-        <TouchableOpacity onPressIn={() => navigation.goBack()}>
+      <View style={{ height: "10%", paddingBottom: 100 }}>
+        <TouchableOpacity
+          style={{ backgroundColor: colors.gold }}
+          onPressIn={() => navigation.goBack()}
+        >
           <Ionicons
             name="arrow-back"
             size={28}
@@ -71,6 +76,13 @@ function UserDetailScreen({ navigation }) {
             style={styles.backArrow}
           />
         </TouchableOpacity>
+        <View style={styles.spaceShip}>
+          <LottieView
+            autoPlay
+            loop
+            source={require("../assets/animations/83550-alien-saucer.json")}
+          />
+        </View>
       </View>
       <View style={styles.dataContainer}>
         <Text style={styles.header}>{name}</Text>
@@ -161,6 +173,11 @@ const styles = StyleSheet.create({
     height: 70,
     justifyContent: "flex-end",
     width: "50%",
+  },
+  spaceShip: {
+    alignSelf: "center",
+    height: 120,
+    width: 160,
   },
   userContainer: {
     alignItems: "center",

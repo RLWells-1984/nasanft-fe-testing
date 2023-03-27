@@ -2,11 +2,13 @@ import React from "react";
 import { StyleSheet, TouchableOpacity, View } from "react-native";
 import { Feather } from "@expo/vector-icons";
 
+import colors from "../config/colors";
+
 function HelpButton({ navigation }) {
   return (
     <TouchableOpacity onPressIn={() => navigation.navigate("HelpScreen")}>
       <View style={styles.button}>
-        <Feather name="help-circle" size={28} color="white" />
+        <Feather name="help-circle" size={28} color={colors.blue_text} />
       </View>
     </TouchableOpacity>
   );

@@ -64,7 +64,7 @@ function RegistrationScreen({ navigation }) {
       <GoBackHeader color="white" navigation={navigation}></GoBackHeader>
 
       <View style={styles.container}>
-        <Image style={styles.logo} source={require("../assets/TempLogo.png")} />
+        <Image style={styles.logo} source={require("../assets/FullLogo.png")} />
         <AppText color="white" fontSize={26}>
           Register Account
         </AppText>
@@ -119,10 +119,10 @@ const styles = StyleSheet.create({
   logo: {
     alignSelf: "center",
     borderColor: colors.buttonBorder,
-    borderRadius: 40,
+    borderRadius: 60,
     borderWidth: 5,
-    height: 80,
-    width: 80,
+    height: 120,
+    width: 120,
   },
   registerButtonView: {
     alignItems: "center",

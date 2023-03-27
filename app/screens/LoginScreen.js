@@ -22,7 +22,7 @@ function LoginScreen({ navigation }) {
         <GoBackHeader navigation={navigation}></GoBackHeader>
       </View>
       <View style={styles.logoBox}>
-        <Image style={styles.logo} source={require("../assets/TempLogo.png")} />
+        <Image style={styles.logo} source={require("../assets/FullLogo.png")} />
       </View>
       <View style={styles.touchableButton}>
         <View>
