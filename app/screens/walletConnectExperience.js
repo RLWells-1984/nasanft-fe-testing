@@ -13,6 +13,14 @@ function Button({ onPress, label }) {
   );
 }
 
+function Button1({ onPress, label }) {
+  return (
+    <TouchableOpacity onPress={onPress} style={styles.button1}>
+      <Text style={styles.text}>{label}</Text>
+    </TouchableOpacity>
+  );
+}
+
 function DisplayAddress({ pubAddress }) {
   if (pubAddress != null) {
     return <Text style={styles.resultText}>Public Address: {pubAddress}</Text>;
@@ -26,6 +34,7 @@ export default function WalletConnectExperience({ navigation }) {
   const [results, setResults] = useState([]);
   const connector = useWalletConnect();
 
+  //need to alert not console.log and prompt them to register. in the DB
   const personalSign = async (publicAddress, navigation) => {
     const nonceRes = await fetch(
       "http://192.168.1.177:3000/api/token/" + publicAddress,
@@ -104,7 +113,7 @@ export default function WalletConnectExperience({ navigation }) {
             onPress={() => personalSign(connector.accounts[0], navigation)}
             label="sign"
           />
-          <Button onPress={killSession} label="Log out" />
+          <Button1 onPress={killSession} label="Log out" />
         </>
       )}
     </>
@@ -117,6 +126,18 @@ const styles = StyleSheet.create({
     alignSelf: "center",
     backgroundColor: colors.buttonColor,
     borderColor: colors.backgroundGrey,
+    borderRadius: 25,
+    borderWidth: 5,
+    height: 70,
+    justifyContent: "center",
+    marginVertical: 20,
+    width: "80%",
+  },
+  button1: {
+    alignItems: "center",
+    alignSelf: "center",
+    backgroundColor: colors.buttonColor,
+    borderColor: colors.blue_text,
     borderRadius: 25,
     borderWidth: 5,
     height: 70,
