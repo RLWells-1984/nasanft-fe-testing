@@ -16,47 +16,52 @@ const SCHEME_FROM_APP_JSON = "walletconnect-example";
 function RegistrationScreen({ navigation }) {
   const authContext = useContext(AuthContext);
   const [newName, setNewName] = useState("");
-  const user = {
+  const userDetails = {
     user: {
       public_address: authContext.publicAddress,
       user_name: newName,
     },
   };
 
-  const registerAccount = async (user) => {
-    console.log("what data is here");
-    console.log(user);
-    return await fetch("http://192.168.1.177:3000/api/users/", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify(user),
-    })
-      .then((response) => response.json())
-      .then((data) => {
-        if (
-          data.text.localeCompare(
-            'duplicate key value violates unique constraint "user_data_public_address_key"'
-          ) == 0
-        ) {
-          Alert.alert(
-            "Registration Failed",
-            "Your public address is already registered! Please login instead.",
-            [
-              {
-                text: "OK",
-                onPress: () => navigation.navigate("LoginScreen"),
-              },
-            ]
-          );
-          return Promise.reject(data.text);
-        }
-        if (data.text.localeCompare("Created") == 0) {
-          navigation.navigate("LoginScreen");
-        }
-        console.log(data);
-      });
+  const registerAccount = async (userDetails) => {
+    if (userDetails.user.user_name.length < 4) {
+      Alert.alert(
+        "Invalid Registration",
+        "Username must be at least 4 characters."
+      );
+    } else {
+      return await fetch("http://192.168.1.177:3000/api/users/", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(userDetails),
+      })
+        .then((response) => response.json())
+        .then((data) => {
+          if (
+            data.text.localeCompare(
+              'duplicate key value violates unique constraint "user_data_public_address_key"'
+            ) == 0
+          ) {
+            Alert.alert(
+              "Registration Failed",
+              "Your public address is already registered! Please login instead.",
+              [
+                {
+                  text: "OK",
+                  onPress: () => navigation.navigate("LoginScreen"),
+                },
+              ]
+            );
+            return Promise.reject(data.text);
+          }
+          if (data.text.localeCompare("Created") == 0) {
+            navigation.navigate("LoginScreen");
+          }
+          console.log(data);
+        });
+    }
   };
 
   return (
@@ -90,7 +95,7 @@ function RegistrationScreen({ navigation }) {
                 fontFamily="Rag_Bo"
                 fontSize={18}
                 marginVertical={7}
-                onPress={() => registerAccount(user)}
+                onPress={() => registerAccount(userDetails)}
                 title="Register"
               />
             </View>
