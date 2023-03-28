@@ -1,5 +1,6 @@
 import React, { useCallback, useContext, useEffect, useState } from "react";
 import {
+  Alert,
   StyleSheet,
   Text,
   TextInput,
@@ -33,11 +34,18 @@ function UserDetailScreen({ navigation }) {
   };
 
   const editUserName = () => {
-    setUser({
-      ...user,
-      user_name: newName,
-      overall_rank: 43,
-    });
+    if (newName.length < 4) {
+      Alert.alert(
+        "Invalid Registration",
+        "Username must be at least 4 characters."
+      );
+    } else {
+      setUser({
+        ...user,
+        user_name: newName,
+        overall_rank: 43,
+      });
+    }
   };
 
   const saveEdit = async () => {
@@ -78,6 +86,7 @@ function UserDetailScreen({ navigation }) {
     })
       .then((response) => {
         if (response.ok) {
+          logout();
           navigation.navigate("WelcomeScreen");
           return response.json();
         }
