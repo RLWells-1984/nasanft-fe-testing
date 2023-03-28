@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useState } from "react";
+import React, { useCallback, useContext, useEffect, useState } from "react";
 import {
   StyleSheet,
   Text,
@@ -9,6 +9,7 @@ import {
 import LottieView from "lottie-react-native";
 
 import { Feather, FontAwesome5, Ionicons } from "@expo/vector-icons";
+import { useWalletConnect } from "@walletconnect/react-native-dapp";
 
 import AppText from "../components/AppText";
 import colors from "../config/colors";
@@ -22,6 +23,7 @@ function UserDetailScreen({ navigation }) {
     useContext(AuthContext);
   const [newName, setNewName] = useState("");
   const name = user.user_name + "'s Details";
+  const connector = useWalletConnect();
   const updateDate = {
     user: user,
     public_address: user.public_address,
@@ -51,12 +53,17 @@ function UserDetailScreen({ navigation }) {
       .then((data) => {});
   };
 
+  const killSession = useCallback(() => {
+    return connector.killSession();
+  }, [connector]);
+
   const logout = () => {
     navigation.navigate("WelcomeScreen");
     setUser(null);
     setToken(null);
     setPublicAddress(null);
     setRefreshToken(null);
+    killSession();
   };
 
   //formatted with error catching/response checking. change console logs to alerts or other handling
@@ -92,10 +99,7 @@ function UserDetailScreen({ navigation }) {
   return (
     <ScreenSetUp style={{ backgroundColor: colors.backgroundGrey }}>
       <View style={{ height: "10%", paddingBottom: 100 }}>
-        <TouchableOpacity
-          style={{ backgroundColor: colors.gold }}
-          onPressIn={() => navigation.goBack()}
-        >
+        <TouchableOpacity onPressIn={() => navigation.goBack()}>
           <Ionicons
             name="arrow-back"
             size={28}
@@ -190,12 +194,7 @@ const styles = StyleSheet.create({
     right: "90%",
     top: 50,
   },
-  buttonBox: {
-    backgroundColor: colors.white,
-  },
   dataContainer: {
-    backgroundColor: colors.gold,
-    //flex: 1,
     height: "45%",
   },
   header: {
