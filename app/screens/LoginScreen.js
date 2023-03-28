@@ -42,7 +42,7 @@ const styles = StyleSheet.create({
   },
   logo: {
     borderColor: colors.backgroundGrey,
-    borderRadius: 80,
+    borderRadius: 100,
     borderWidth: 5,
     height: 200,
     width: 200,

@@ -26,6 +26,9 @@ function UserDetailScreen({ navigation }) {
     user: user,
     public_address: user.public_address,
   };
+  const deleteData = {
+    public_address: user.public_address,
+  };
 
   const editUserName = () => {
     setUser({
@@ -45,9 +48,7 @@ function UserDetailScreen({ navigation }) {
       body: JSON.stringify(updateDate),
     })
       .then((response) => response.json())
-      .then((data) => {
-        console.log(data);
-      });
+      .then((data) => {});
   };
 
   const logout = () => {
@@ -56,6 +57,32 @@ function UserDetailScreen({ navigation }) {
     setToken(null);
     setPublicAddress(null);
     setRefreshToken(null);
+  };
+
+  //formatted with error catching/response checking. change console logs to alerts or other handling
+  const deleteUser = async () => {
+    return await fetch("http://192.168.1.177:3000/api/users/", {
+      method: "DELETE",
+      headers: {
+        "Content-Type": "application/json",
+        "x-auth-token": token,
+      },
+      body: JSON.stringify(deleteData),
+    })
+      .then((response) => {
+        if (response.ok) {
+          navigation.navigate("WelcomeScreen");
+          return response.json();
+        }
+        return Promise.reject(response);
+      })
+      .catch((error) => {
+        console.log("Something went wrong.", error);
+      });
+  };
+
+  const forceNFTGeneration = async () => {
+    console.log("Admin");
   };
 
   useEffect(() => {
@@ -106,14 +133,31 @@ function UserDetailScreen({ navigation }) {
         <DetailLines title="NFTs Earned" data={user.nft_earned} />
         <DetailLines title="Overall Ranking" data={user.overall_rank} />
       </View>
-      <View style={styles.save}>
-        <CustomButton
-          borderColor="blue_text"
-          title="Save"
-          onPress={() => editUserName()}
-        />
+      <View style={styles.buttonBox}>
+        <View style={styles.save}>
+          <CustomButton
+            borderColor="blue_text"
+            title="Save"
+            onPress={() => editUserName()}
+          />
+        </View>
+        <View style={styles.save}>
+          <CustomButton
+            borderColor="blue_text"
+            title="Delete Account"
+            onPress={() => deleteUser()}
+          />
+        </View>
+        <View style={styles.save}>
+          <CustomButton
+            borderColor="blue_text"
+            color="red"
+            title="Admin"
+            onPress={() => forceNFTGeneration()}
+          />
+        </View>
       </View>
-      <View style={{ flex: 0.5 }}>
+      <View style={{ height: "10%" }}>
         <TouchableOpacity style={styles.logout} onPress={() => logout()}>
           <FontAwesome5
             name="space-shuttle"
@@ -146,8 +190,13 @@ const styles = StyleSheet.create({
     right: "90%",
     top: 50,
   },
+  buttonBox: {
+    backgroundColor: colors.white,
+  },
   dataContainer: {
-    flex: 1,
+    backgroundColor: colors.gold,
+    //flex: 1,
+    height: "45%",
   },
   header: {
     alignSelf: "center",
@@ -172,6 +221,7 @@ const styles = StyleSheet.create({
     alignSelf: "center",
     height: 70,
     justifyContent: "flex-end",
+    marginVertical: 10,
     width: "50%",
   },
   spaceShip: {
