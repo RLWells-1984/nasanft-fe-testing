@@ -106,7 +106,7 @@ function UserDetailScreen({ navigation }) {
   }, [user]);
 
   return (
-    <ScreenSetUp style={{ backgroundColor: colors.backgroundGrey }}>
+    <ScreenSetUp style={{ backgroundColor: colors.white }}>
       <View style={{ height: "10%", paddingBottom: 100 }}>
         <TouchableOpacity onPressIn={() => navigation.goBack()}>
           <Ionicons

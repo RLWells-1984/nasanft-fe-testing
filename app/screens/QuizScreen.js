@@ -142,7 +142,7 @@ function QuizScreen({ navigation }) {
   return loading ? (
     <Text>loading</Text>
   ) : (
-    <ScreenSetUp style={{ backgroundColor: colors.backgroundGrey }}>
+    <ScreenSetUp style={{ backgroundColor: colors.white }}>
       <ScrollView contentContainerStyle={{ flexGrow: 1, paddingBottom: 300 }}>
         <ActivityIndicator animating={loading} size="large" />
         <View style={styles.container}>
@@ -263,7 +263,7 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     alignItems: "center",
     paddingTop: Constants.statusBarHeight,
-    backgroundColor: colors.backgroundGrey,
+    backgroundColor: colors.white,
     padding: 8,
   },
   QuestionBox: {

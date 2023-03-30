@@ -13,14 +13,6 @@ function Button({ onPress, label }) {
   );
 }
 
-function Button1({ onPress, label }) {
-  return (
-    <TouchableOpacity onPress={onPress} style={styles.button1}>
-      <Text style={styles.text}>{label}</Text>
-    </TouchableOpacity>
-  );
-}
-
 function DisplayAddress({ pubAddress }) {
   if (pubAddress != null) {
     return <Text style={styles.resultText}>Public Address: {pubAddress}</Text>;
@@ -113,7 +105,7 @@ export default function WalletConnectExperience({ navigation }) {
             onPress={() => personalSign(connector.accounts[0], navigation)}
             label="sign"
           />
-          <Button1 onPress={killSession} label="Log out" />
+          <Button onPress={killSession} label="Log out" />
         </>
       )}
     </>
@@ -125,19 +117,7 @@ const styles = StyleSheet.create({
     alignItems: "center",
     alignSelf: "center",
     backgroundColor: colors.buttonColor,
-    borderColor: colors.backgroundGrey,
-    borderRadius: 25,
-    borderWidth: 5,
-    height: 70,
-    justifyContent: "center",
-    marginVertical: 20,
-    width: "80%",
-  },
-  button1: {
-    alignItems: "center",
-    alignSelf: "center",
-    backgroundColor: colors.buttonColor,
-    borderColor: colors.blue_text,
+    borderColor: colors.white,
     borderRadius: 25,
     borderWidth: 5,
     height: 70,
@@ -152,7 +132,7 @@ const styles = StyleSheet.create({
   },
   resultText: {
     alignItems: "center",
-    backgroundColor: colors.backgroundGrey,
+    backgroundColor: colors.white,
     borderColor: colors.buttonColor,
     borderWidth: 5,
     color: colors.blue_text,

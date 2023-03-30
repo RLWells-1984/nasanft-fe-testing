@@ -5,7 +5,7 @@ import AppText from "./AppText";
 import colors from "../config/colors";
 
 function CustomButton({
-  borderColor = "backgroundGrey",
+  borderColor = "white",
   color = "buttonColor",
   fontFamily,
   fontSize,
