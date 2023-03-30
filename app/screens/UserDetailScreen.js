@@ -74,6 +74,22 @@ function UserDetailScreen({ navigation }) {
     killSession();
   };
 
+  const verifyDelete = () => {
+    Alert.alert(
+      "Delete User!",
+      "This action can not be undone. Do you want to permanently delete your account?",
+      [
+        {
+          text: "Delete",
+          onPress: () => deleteUser(),
+        },
+        {
+          text: "Cancel",
+        },
+      ]
+    );
+  };
+
   //formatted with error catching/response checking. change console logs to alerts or other handling
   const deleteUser = async () => {
     return await fetch("http://192.168.1.177:3000/api/users/", {
@@ -158,7 +174,7 @@ function UserDetailScreen({ navigation }) {
           <CustomButton
             borderColor="blue_text"
             title="Delete Account"
-            onPress={() => deleteUser()}
+            onPress={() => verifyDelete()}
           />
         </View>
         <View style={styles.save}>
