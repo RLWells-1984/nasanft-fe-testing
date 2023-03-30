@@ -28,6 +28,7 @@ function WelcomeScreen({ navigation }) {
         <View style={styles.touchable}>
           <ClickableText
             title="Register"
+            textColor={"white"}
             onPress={() => navigation.navigate("RegistrationScreen")}
           />
         </View>
@@ -43,9 +44,9 @@ const styles = StyleSheet.create({
     justifyContent: "flex-end",
   },
   logo: {
-    //borderColor: colors.backgroundGrey,
+    borderColor: colors.white,
     borderRadius: 100,
-    //borderWidth: 5,
+    borderWidth: 5,
     height: 200,
     position: "absolute",
     top: 100,

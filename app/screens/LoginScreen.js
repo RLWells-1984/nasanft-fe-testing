@@ -41,7 +41,7 @@ const styles = StyleSheet.create({
     top: 10,
   },
   logo: {
-    borderColor: colors.backgroundGrey,
+    borderColor: colors.white,
     borderRadius: 100,
     borderWidth: 5,
     height: 200,

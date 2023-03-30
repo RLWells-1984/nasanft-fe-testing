@@ -114,7 +114,7 @@ const styles = StyleSheet.create({
     top: 100,
   },
   displayName: {
-    backgroundColor: colors.backgroundGrey,
+    backgroundColor: colors.white,
     borderColor: colors.buttonColor,
     borderWidth: 4,
     height: 34,
@@ -123,7 +123,7 @@ const styles = StyleSheet.create({
   },
   logo: {
     alignSelf: "center",
-    borderColor: colors.buttonBorder,
+    borderColor: colors.white,
     borderRadius: 60,
     borderWidth: 5,
     height: 120,

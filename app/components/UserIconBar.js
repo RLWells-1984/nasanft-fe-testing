@@ -22,7 +22,7 @@ function UserIconBar({ navigation }) {
 }
 const styles = StyleSheet.create({
   userIcon: {
-    borderColor: colors.backgroundGrey,
+    borderColor: colors.white,
     //borderRadius: 80,
     left: "87%",
     position: "absolute",

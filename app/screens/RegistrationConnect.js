@@ -65,7 +65,7 @@ const styles = StyleSheet.create({
     alignItems: "center",
     alignSelf: "center",
     backgroundColor: colors.buttonColor,
-    borderColor: colors.backgroundGrey,
+    borderColor: colors.white,
     borderRadius: 25,
     borderWidth: 5,
     height: 70,
@@ -80,7 +80,7 @@ const styles = StyleSheet.create({
   },
   resultText: {
     alignItems: "center",
-    backgroundColor: colors.backgroundGrey,
+    backgroundColor: colors.white,
     borderColor: colors.buttonColor,
     borderWidth: 5,
     color: colors.blue_text,

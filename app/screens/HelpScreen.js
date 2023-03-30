@@ -79,7 +79,7 @@ function HelpScreen({ navigation }) {
   };
 
   return (
-    <ScreenSetUp style={{ backgroundColor: colors.backgroundGrey }}>
+    <ScreenSetUp style={{ backgroundColor: colors.white }}>
       <GoBackHeader color="blue_text" navigation={navigation} />
       <View style={styles.container}>
         <ScrollView>
@@ -138,7 +138,7 @@ const styles = StyleSheet.create({
     textAlign: "center",
   },
   inactive: {
-    backgroundColor: colors.backgroundGrey,
+    backgroundColor: colors.white,
     borderBottomColor: colors.blue_text,
     borderBottomWidth: 2,
   },

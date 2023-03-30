@@ -16,43 +16,47 @@ import UserIconBar from "../components/UserIconBar";
 
 function HomeScreen({ navigation }) {
   const { user, token } = useContext(AuthContext);
-  const [neoTime, setNeoTime] = useState(1679764500000);
-  const [duration, setDuration] = useState(+10);
-  const [nextQuiz, setNextQuiz] = useState(+10);
+  const [neoTime, setNeoTime] = useState();
+  const [duration, setDuration] = useState(-1);
+  const [nextQuiz, setNextQuiz] = useState();
   const [loading, setLoading] = useState(true);
   const [ready, setReady] = useState(false);
   const [quizTimerDone, setQuizTimerDone] = useState(false);
-  const quizTimer = Number(nextQuiz);
-  const nftTimer = Number(duration);
+  var quizTimer = Number(nextQuiz);
 
   const getNEO = async () => {
-    return await fetch("http://192.168.1.177:3000/api/nft_data", {
+    return await fetch("http://192.168.1.177:3000/api/neo", {
       method: "GET",
       headers: {
         "Content-Type": "application/json",
         "x-auth-token": token,
       },
     })
-      .then((response) => response.json())
+      .then((response) => {
+        if (response.ok) {
+          return response.json();
+        }
+        return Promise.reject(response);
+      })
       .then((data) => {
-        setNeoTime(data.date);
+        setNeoTime(data.neo.dateUTC);
+        console.log("NeoTime", data.neo.dateUTC);
         cache.store("neoTime", data.date);
-        return data;
+        return data.neo.dateUTC;
       });
   };
 
   const getNFTDuration = () => {
-    setLoading(true);
     const currentTime = Date.now();
     const endTime = neoTime;
     const difference = endTime - currentTime;
+    console.log("endTime", endTime);
+    console.log("difference", difference);
     const seconds = Math.floor(difference / 1000).toFixed(0);
     setDuration(seconds);
-    setLoading(false);
   };
 
   const getTilMidnight = () => {
-    setLoading(true);
     var midnight = new Date();
     midnight.setHours(24);
     midnight.setMinutes(0);
@@ -62,21 +66,18 @@ function HomeScreen({ navigation }) {
       (midnight.getTime() - new Date().getTime()) / 1000
     );
     setNextQuiz(remaining);
-    setLoading(false);
   };
 
   const quizReady = () => {
-    setLoading(true);
     const today = moment(new Date()).format("MM/DD/YYYY");
     if (!moment(today).isSame(user.date_completed)) {
       setReady(true);
     } else setReady(false);
-    setLoading(false);
   };
 
-  const newNFT = () => {
-    //check cacheed neo time vs current time
-    //if neo time has pass run setUser and getNEO
+  const newNFT = async () => {
+    //check cached neo time vs current time
+    //if neo time has passed run setUser and getNEO
     const neoTime = cache.get("neoTime");
     const now = new Date().getTime();
 
@@ -86,21 +87,40 @@ function HomeScreen({ navigation }) {
         current_quiz_score: 0,
         current_score: 0,
       });
-      //getNEO();
+
+      const newNeoTiming = await getNEO();
+      setNeoTime(newNeoTiming);
     }
   };
 
-  useEffect(() => {
-    //getNEO();
+  const handleQuizTimerDone = () => {
+    getTilMidnight();
     quizReady();
+  };
+
+  useEffect(() => {
+    getNEO();
+  }, []);
+
+  useEffect(() => {
     getNFTDuration();
     getTilMidnight();
-  }, [duration, nextQuiz, quizTimerDone, user]);
+    quizReady();
+  }, [quizTimerDone, user, neoTime]);
+
+  useEffect(() => {
+    setLoading(true);
+    console.log("ran this");
+    if (duration > 1) {
+      console.log("inside");
+      setLoading(false);
+    }
+  }, [duration]);
 
   return loading ? (
     <Text>Loading</Text>
   ) : (
-    <ScreenSetUp style={{ backgroundColor: colors.backgroundGrey }}>
+    <ScreenSetUp style={{ backgroundColor: colors.white }}>
       <UserIconBar navigation={navigation}></UserIconBar>
 
       <View style={styles.points}>
@@ -121,7 +141,7 @@ function HomeScreen({ navigation }) {
               //TIMER FOR QUIZ
               until={quizTimer}
               size={30}
-              onFinish={() => setQuizTimerDone(true)}
+              onFinish={() => handleQuizTimerDone()}
               digitStyle={{ backgroundColor: "transparent" }}
               digitTxtStyle={{ color: colors.blue_text }}
               timeToShow={["H", "M", "S"]}
@@ -155,7 +175,6 @@ function HomeScreen({ navigation }) {
       ) : (
         <View style={styles.quizButton}>
           <CustomButton
-            //set unclickable till timerExpired = true
             title="Start Daily Quiz"
             onPress={() => navigation.navigate("QuizScreen")}
             fontSize={28}
@@ -180,7 +199,7 @@ function HomeScreen({ navigation }) {
           <CountDown
             //TIMER FOR NFT
             //has id prop to use to reset
-            until={nftTimer}
+            until={Number(duration)}
             size={30}
             onFinish={() => newNFT()}
             digitStyle={{ backgroundColor: "transparent" }}
@@ -243,7 +262,7 @@ const styles = StyleSheet.create({
     width: "80%",
   },
   userIcon: {
-    borderColor: colors.backgroundGrey,
+    borderColor: colors.white,
     borderRadius: 80,
     left: "90%",
     position: "absolute",
