@@ -1,9 +1,8 @@
 import "../global";
-import React, { useContext, useState } from "react";
+import React, { useContext } from "react";
 import { Image, ImageBackground, StyleSheet, View } from "react-native";
 
 import WalletConnectExperience from "./walletConnectExperience";
-import { StatusBar } from "expo-status-bar";
 
 import AuthContext from "../auth/context";
 import colors from "../config/colors";
@@ -13,7 +12,6 @@ import GoBackHeader from "../components/GoBackHeader";
 const SCHEME_FROM_APP_JSON = "walletconnect-example";
 
 function LoginScreen({ navigation }) {
-  const [loginFailed, setLoginFailed] = useState(false);
   const authContext = useContext(AuthContext);
 
   return (

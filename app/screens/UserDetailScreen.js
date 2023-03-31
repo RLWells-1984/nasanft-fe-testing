@@ -57,8 +57,13 @@ function UserDetailScreen({ navigation }) {
       },
       body: JSON.stringify(updateDate),
     })
-      .then((response) => response.json())
-      .then((data) => {});
+      .then((response) => {
+        if (response.ok) {
+          return response.json();
+        }
+        return Promise.reject(response);
+      })
+      .catch((error) => console.log("error", error));
   };
 
   const killSession = useCallback(() => {

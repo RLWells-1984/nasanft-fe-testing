@@ -37,13 +37,19 @@ function QuizScreen({ navigation }) {
         "x-auth-token": token,
       },
     })
-      .then((response) => response.json())
+      .then((response) => {
+        if (response.ok) {
+          return response.json();
+        }
+        return Promise.reject(response);
+      })
       .then((data) => {
         setQuiz(data);
         cache.store("quiz", data);
         setLoading(false);
         return data;
-      });
+      })
+      .catch((error) => console.log("error", error));
   };
 
   const handleclick = (id, right) => {
