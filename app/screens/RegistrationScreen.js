@@ -60,6 +60,9 @@ function RegistrationScreen({ navigation }) {
             navigation.navigate("LoginScreen");
           }
           console.log(data);
+        })
+        .catch((error) => {
+          console.log("Something went wrong with registration" + error);
         });
     }
   };
@@ -111,7 +114,7 @@ const styles = StyleSheet.create({
     alignSelf: "center",
     flex: 1,
     position: "absolute",
-    top: 100,
+    top: 70,
   },
   displayName: {
     backgroundColor: colors.white,

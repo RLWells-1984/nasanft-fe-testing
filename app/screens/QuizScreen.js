@@ -37,13 +37,19 @@ function QuizScreen({ navigation }) {
         "x-auth-token": token,
       },
     })
-      .then((response) => response.json())
+      .then((response) => {
+        if (response.ok) {
+          return response.json();
+        }
+        return Promise.reject(response);
+      })
       .then((data) => {
         setQuiz(data);
         cache.store("quiz", data);
         setLoading(false);
         return data;
-      });
+      })
+      .catch((error) => console.log("error", error));
   };
 
   const handleclick = (id, right) => {
@@ -111,7 +117,6 @@ function QuizScreen({ navigation }) {
 
   const updateWinnerDB = async () => {
     if (correct >= 7) {
-      console.log("winner");
       const userAddress = { public_address: user.public_address };
       return await fetch("http://192.168.1.177:3000/api/quizzes/", {
         method: "POST",
@@ -124,7 +129,6 @@ function QuizScreen({ navigation }) {
         .then((response) => response.json())
         .then((data) => {});
     } else {
-      console.log("loser");
     }
   };
 

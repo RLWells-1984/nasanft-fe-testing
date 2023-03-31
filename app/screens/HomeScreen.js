@@ -50,7 +50,8 @@ function HomeScreen({ navigation }) {
         console.log("OLD NEO STILL IN USE");
         setNeoTime(data.neo.dateUTC);
         return data.neo.dateUTC;
-      });
+      })
+      .catch((error) => console.log("error", error));
   };
 
   const getNFTDuration = () => {
@@ -91,6 +92,7 @@ function HomeScreen({ navigation }) {
       setUser({
         ...user,
         nft_earned: nft_earned + 1,
+        winner: false,
       });
     }
   };

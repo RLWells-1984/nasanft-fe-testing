@@ -1,5 +1,5 @@
 import React, { useCallback, useContext, useEffect, useState } from "react";
-import { Text, TouchableOpacity, StyleSheet } from "react-native";
+import { Text, TouchableOpacity, StyleSheet, Alert } from "react-native";
 import { useWalletConnect } from "@walletconnect/react-native-dapp";
 
 import colors from "../config/colors";
@@ -36,12 +36,34 @@ export default function WalletConnectExperience({ navigation }) {
           "Content-Type": "application/json",
         },
       }
-    ).then((response) => {
-      if (!response.ok) {
-        console.log("not ok, likely not in the DB");
-      }
-      return response.json();
-    });
+    )
+      .then((response) => {
+        if (!response.ok) {
+          console.log("not ok, likely not in the DB");
+        }
+        return response.json();
+      })
+      .then((data) => {
+        console.log("data");
+        console.log(data);
+        if (data.text != undefined) {
+          if (
+            data.text.localeCompare(
+              "JSON object requested, multiple (or no) rows returned"
+            ) == 0
+          ) {
+            Alert.alert(
+              "Login Failed",
+              "Unable to retrieve an authentication token. Are you sure you registered an account?"
+            );
+            return Promise.reject(data.text);
+          }
+        }
+        return data;
+      })
+      .catch((error) => {
+        console.log("Unable to retrieve authentication token" + error);
+      });
     const nonce = nonceRes.nonce;
 
     connector
@@ -59,9 +81,12 @@ export default function WalletConnectExperience({ navigation }) {
               signed_nonce: results,
             }),
           }
-        ).then((response) => response.json());
-        console.log("object");
-        console.log(loginRes); //object
+        ).then((response) => {
+          if (!response.ok) {
+            console.log("problem with signature");
+          }
+          return response.json();
+        });
         if (results != null) {
           setResults(results);
           authContext.setToken(loginRes.accessToken);
@@ -72,7 +97,7 @@ export default function WalletConnectExperience({ navigation }) {
       })
       .catch((error) => {
         // Error returned when rejected
-        console.error(error);
+        console.log("Signature failed", error);
       });
   };
 
