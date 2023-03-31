@@ -25,6 +25,7 @@ function HomeScreen({ navigation }) {
   var quizTimer = Number(nextQuiz);
 
   const getNEO = async () => {
+    const testTime = await cache.get("neoTimeStamp");
     return await fetch("http://192.168.1.177:3000/api/neo", {
       method: "GET",
       headers: {
@@ -39,9 +40,15 @@ function HomeScreen({ navigation }) {
         return Promise.reject(response);
       })
       .then((data) => {
+        if (testTime != data.neo.dateUTC) {
+          console.log("NEW NEO ACQUIRED");
+          newNFTSetup();
+          setNeoTime(data.neo.dateUTC);
+          cache.store("neoTimeStamp", data.neo.dateUTC);
+          return data.neo.dateUTC;
+        }
+        console.log("OLD NEO STILL IN USE");
         setNeoTime(data.neo.dateUTC);
-        console.log("NeoTime", data.neo.dateUTC);
-        cache.store("neoTime", data.date);
         return data.neo.dateUTC;
       });
   };
@@ -50,8 +57,6 @@ function HomeScreen({ navigation }) {
     const currentTime = Date.now();
     const endTime = neoTime;
     const difference = endTime - currentTime;
-    console.log("endTime", endTime);
-    console.log("difference", difference);
     const seconds = Math.floor(difference / 1000).toFixed(0);
     setDuration(seconds);
   };
@@ -75,21 +80,18 @@ function HomeScreen({ navigation }) {
     } else setReady(false);
   };
 
-  const newNFT = async () => {
-    //check cached neo time vs current time
-    //if neo time has passed run setUser and getNEO
-    const neoTime = cache.get("neoTime");
-    const now = new Date().getTime();
-
-    if (now > neoTime) {
+  const newNFTSetup = async () => {
+    setUser({
+      ...user,
+      current_quiz_score: 0,
+      current_score: 0,
+    });
+    const winner = user.winner;
+    if (winner) {
       setUser({
         ...user,
-        current_quiz_score: 0,
-        current_score: 0,
+        nft_earned: nft_earned + 1,
       });
-
-      const newNeoTiming = await getNEO();
-      setNeoTime(newNeoTiming);
     }
   };
 
@@ -110,9 +112,7 @@ function HomeScreen({ navigation }) {
 
   useEffect(() => {
     setLoading(true);
-    console.log("ran this");
     if (duration > 1) {
-      console.log("inside");
       setLoading(false);
     }
   }, [duration]);
