@@ -117,7 +117,6 @@ function QuizScreen({ navigation }) {
 
   const updateWinnerDB = async () => {
     if (correct >= 7) {
-      console.log("winner");
       const userAddress = { public_address: user.public_address };
       return await fetch("http://192.168.1.177:3000/api/quizzes/", {
         method: "POST",
@@ -130,7 +129,6 @@ function QuizScreen({ navigation }) {
         .then((response) => response.json())
         .then((data) => {});
     } else {
-      console.log("loser");
     }
   };
 
