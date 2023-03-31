@@ -60,7 +60,13 @@ function QuizScreen({ navigation }) {
   };
 
   const handleSubmit = () => {
-    const points = correct * 100;
+    var points = correct * 100;
+    if (points >= 700) {
+      setUser({
+        ...user,
+        winner: true,
+      });
+    }
     updateUserDetails(points);
     Alert.alert(
       "Quiz Completed",
