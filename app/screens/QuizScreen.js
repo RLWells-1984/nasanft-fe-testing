@@ -27,6 +27,14 @@ function QuizScreen({ navigation }) {
     user: user,
     public_address: user.public_address,
   };
+  const [quiz, setQuiz] = useState([]);
+  const [questionNumber, setQuestionNumber] = useState(0);
+  const [loading, setLoading] = useState(true);
+  const [selected, setSelected] = useState(5);
+  const [correct, setCorrect] = useState(0);
+  const [displayNumber, setDisplayNumber] = useState(1);
+  const [quizDone, setQuizDone] = useState(false);
+  const questNum = "Question: " + displayNumber;
 
   const getQuiz = async () => {
     setLoading(true);
@@ -47,6 +55,7 @@ function QuizScreen({ navigation }) {
         setQuiz(data);
         cache.store("quiz", data);
         setLoading(false);
+        setQuizDone(false);
         return data;
       })
       .catch((error) => console.log("error", error));
@@ -66,13 +75,8 @@ function QuizScreen({ navigation }) {
   };
 
   const handleSubmit = () => {
+    setQuizDone(true);
     var points = correct * 100;
-    if (points >= 700) {
-      setUser({
-        ...user,
-        winner: true,
-      });
-    }
     updateUserDetails(points);
     Alert.alert(
       "Quiz Completed",
@@ -91,15 +95,29 @@ function QuizScreen({ navigation }) {
   };
 
   const updateUserDetails = (points) => {
-    setUser({
-      ...user,
-      current_quiz_score: points,
-      current_score: user.current_score + points,
-      overall_score: user.overall_score + points,
-      questions_answered: user.questions_answered + 10,
-      questions_correct: user.questions_correct + correct,
-      date_completed: moment(new Date()).format("MM/DD/YYYY"),
-    });
+    console.log(user);
+    if (points >= 700) {
+      setUser({
+        ...user,
+        winner: true,
+        current_quiz_score: points,
+        current_score: user.current_score + points,
+        overall_score: user.overall_score + points,
+        questions_answered: user.questions_answered + 10,
+        questions_correct: user.questions_correct + correct,
+        date_completed: moment(new Date()).format("MM/DD/YYYY"),
+      });
+    } else {
+      setUser({
+        ...user,
+        current_quiz_score: points,
+        current_score: user.current_score + points,
+        overall_score: user.overall_score + points,
+        questions_answered: user.questions_answered + 10,
+        questions_correct: user.questions_correct + correct,
+        date_completed: moment(new Date()).format("MM/DD/YYYY"),
+      });
+    }
   };
 
   const updateUserDB = async () => {
@@ -137,20 +155,12 @@ function QuizScreen({ navigation }) {
     updateWinnerDB();
   }, [user]);
 
-  const [quiz, setQuiz] = useState([]);
-  const [questionNumber, setQuestionNumber] = useState(0);
-  const [loading, setLoading] = useState(true);
-  const [selected, setSelected] = useState(5);
-  const [correct, setCorrect] = useState(0);
-  const [displayNumber, setDisplayNumber] = useState(1);
-  const questNum = "Question: " + displayNumber;
-
   useEffect(() => {
     getQuiz();
   }, []);
 
   return loading ? (
-    <Text>loading</Text>
+    <ActivityIndicator visible={true} />
   ) : (
     <ScreenSetUp style={{ backgroundColor: colors.white }}>
       <ScrollView contentContainerStyle={{ flexGrow: 1, paddingBottom: 300 }}>
@@ -163,7 +173,9 @@ function QuizScreen({ navigation }) {
             colorsTime={[90, 60, 30, 0]}
             size={120}
             onComplete={() => {
-              handleSubmit();
+              if (quizDone == false) {
+                handleSubmit();
+              }
               return [false, 0];
             }}
           >

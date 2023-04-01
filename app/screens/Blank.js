@@ -3,44 +3,25 @@
 //remove upon project completion
 
 import React, { useState } from "react";
-import { ButtonGroup } from "@rneui/themed";
-import { Text, StyleSheet } from "react-native";
+import { Text, StyleSheet, View } from "react-native";
 import ScreenSetUp from "../components/ScreenSetUp";
 import CustomButton from "../components/CustomButton";
+import LoadingIndicator from "../components/LoadingIndicator";
+import LottieView from "lottie-react-native";
 
 function Blank(props) {
-  const [selectedIndex, setSelectedIndex] = useState();
-  const button1 = (
-    <CustomButton
-      title={quiz.questions[questionNumber].answers[0].answer}
-      marginVertical={5}
-      onPress={() => handleclick(id)}
-      style={{ fontSize: 16 }}
-    ></CustomButton>
-  );
-  const buttons = [button1, button1];
-
   return (
     <ScreenSetUp>
-      <ButtonGroup
-        buttons={buttons}
-        selectedIndex={selectedIndex}
-        onPress={(value) => {
-          setSelectedIndex(value);
-        }}
-        containerStyle={{ marginBottom: 20 }}
-      />
+      <LoadingIndicator visible={true} />
     </ScreenSetUp>
   );
 }
 
 const styles = StyleSheet.create({
-  subHeader: {
-    backgroundColor: "#2089dc",
-    color: "white",
-    textAlign: "center",
-    paddingVertical: 5,
-    marginBottom: 10,
+  spaceShip: {
+    alignSelf: "center",
+    height: 120,
+    width: 160,
   },
 });
 
