@@ -1,6 +1,6 @@
 import React, { useContext, useEffect, useState } from "react";
 import { Ionicons } from "@expo/vector-icons";
-import { StyleSheet, Text, View } from "react-native";
+import { ActivityIndicator, StyleSheet, Text, View } from "react-native";
 import LottieView from "lottie-react-native";
 import CountDown from "react-native-countdown-component";
 import moment from "moment";
@@ -10,6 +10,7 @@ import cache from "../utility/cache";
 import colors from "../config/colors";
 import CustomButton from "../components/CustomButton";
 import HelpButton from "../components/HelpButton";
+import LoadingIndicator from "../components/LoadingIndicator";
 import ScreenSetUp from "../components/ScreenSetUp";
 import AuthContext from "../auth/context";
 import UserIconBar from "../components/UserIconBar";
@@ -82,17 +83,20 @@ function HomeScreen({ navigation }) {
   };
 
   const newNFTSetup = async () => {
-    setUser({
-      ...user,
-      current_quiz_score: 0,
-      current_score: 0,
-    });
     const winner = user.winner;
     if (winner) {
       setUser({
         ...user,
         nft_earned: nft_earned + 1,
+        current_quiz_score: 0,
+        current_score: 0,
         winner: false,
+      });
+    } else {
+      setUser({
+        ...user,
+        current_quiz_score: 0,
+        current_score: 0,
       });
     }
   };
@@ -120,7 +124,7 @@ function HomeScreen({ navigation }) {
   }, [duration]);
 
   return loading ? (
-    <Text>Loading</Text>
+    <LoadingIndicator visible={true} />
   ) : (
     <ScreenSetUp style={{ backgroundColor: colors.white }}>
       <UserIconBar navigation={navigation}></UserIconBar>
