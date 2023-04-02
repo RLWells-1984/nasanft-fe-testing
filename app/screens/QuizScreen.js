@@ -1,6 +1,5 @@
 import React, { useContext, useEffect, useState } from "react";
 import {
-  ActivityIndicator,
   Alert,
   Animated,
   ScrollView,
@@ -20,9 +19,11 @@ import QuestionBox from "../components/QuestionBox";
 import ScreenSetUp from "../components/ScreenSetUp";
 import AuthContext from "../auth/context";
 import cache from "../utility/cache";
+import LoadingIndicator from "../components/LoadingIndicator";
 
 function QuizScreen({ navigation }) {
-  const { user, setUser, token } = useContext(AuthContext);
+  const { user, setUser, refreshToken, setRefreshToken, token, setToken } =
+    useContext(AuthContext);
   const updateDate = {
     user: user,
     public_address: user.public_address,
@@ -36,8 +37,23 @@ function QuizScreen({ navigation }) {
   const [quizDone, setQuizDone] = useState(false);
   const questNum = "Question: " + displayNumber;
 
+  const useRefreshToken = async () => {
+    return await fetch("http://192.168.1.177:3000/api/token/refresh", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        "x-auth-token": refreshToken,
+      },
+    })
+      .then((response) => response.json())
+      .then((data) => {
+        if (data != null) {
+          setToken(data.accessToken);
+        }
+      });
+  };
+
   const getQuiz = async () => {
-    setLoading(true);
     return await fetch("http://192.168.1.177:3000/api/quizzes", {
       method: "GET",
       headers: {
@@ -45,18 +61,21 @@ function QuizScreen({ navigation }) {
         "x-auth-token": token,
       },
     })
-      .then((response) => {
-        if (response.ok) {
-          return response.json();
-        }
-        return Promise.reject(response);
-      })
+      .then((response) => response.json())
       .then((data) => {
-        setQuiz(data);
-        cache.store("quiz", data);
-        setLoading(false);
-        setQuizDone(false);
-        return data;
+        if (
+          data.text != undefined &&
+          data.text.localeCompare("jwt expired") == 0
+        ) {
+          useRefreshToken();
+        } else if (data.text == undefined) {
+          if (quiz.length == 0) {
+            setQuiz(data);
+            cache.store("quiz", data);
+            setQuizDone(false);
+            return data;
+          }
+        }
       })
       .catch((error) => console.log("error", error));
   };
@@ -95,7 +114,6 @@ function QuizScreen({ navigation }) {
   };
 
   const updateUserDetails = (points) => {
-    console.log(user);
     if (points >= 700) {
       setUser({
         ...user,
@@ -156,15 +174,18 @@ function QuizScreen({ navigation }) {
   }, [user]);
 
   useEffect(() => {
+    setLoading(true);
     getQuiz();
-  }, []);
+    if (quiz.length != 0) {
+      setLoading(false);
+    }
+  }, [token, quiz]);
 
   return loading ? (
-    <ActivityIndicator visible={true} />
+    <LoadingIndicator visible={true} />
   ) : (
     <ScreenSetUp style={{ backgroundColor: colors.white }}>
       <ScrollView contentContainerStyle={{ flexGrow: 1, paddingBottom: 300 }}>
-        <ActivityIndicator animating={loading} size="large" />
         <View style={styles.container}>
           <CountdownCircleTimer
             isPlaying

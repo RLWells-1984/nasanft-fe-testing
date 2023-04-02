@@ -27,6 +27,7 @@ function UserDetailScreen({ navigation }) {
     token,
     setToken,
     setPublicAddress,
+    refreshToken,
     setRefreshToken,
     setNeoTime,
   } = useContext(AuthContext);
@@ -39,6 +40,23 @@ function UserDetailScreen({ navigation }) {
   };
   const deleteData = {
     public_address: user.public_address,
+  };
+
+  const useRefreshToken = async () => {
+    return await fetch("http://192.168.1.177:3000/api/token/refresh", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        "x-auth-token": refreshToken,
+      },
+    })
+      .then((response) => response.json())
+      .then((data) => {
+        if (data != null) {
+          setToken(data.accessToken);
+          return data.accessToken;
+        }
+      });
   };
 
   const editUserName = () => {
@@ -65,11 +83,22 @@ function UserDetailScreen({ navigation }) {
       },
       body: JSON.stringify(updateDate),
     })
-      .then((response) => {
-        if (response.ok) {
-          return response.json();
+      .then((response) => response.json())
+      .then(async (data) => {
+        if (
+          data.text != undefined &&
+          data.text.localeCompare("jwt expired") == 0
+        ) {
+          const newToken = await useRefreshToken();
+          return await fetch("http://192.168.1.177:3000/api/users/", {
+            method: "PUT",
+            headers: {
+              "Content-Type": "application/json",
+              "x-auth-token": newToken,
+            },
+            body: JSON.stringify(updateDate),
+          });
         }
-        return Promise.reject(response);
       })
       .catch((error) => console.log("error", error));
   };
@@ -111,13 +140,23 @@ function UserDetailScreen({ navigation }) {
         "x-auth-token": token,
       },
     })
-      .then((response) => {
-        if (response.ok) {
-          console.log("all good nixed");
-          newNeo();
-          return response.json();
+      .then((response) => response.json())
+      .then(async (data) => {
+        if (
+          data.text != undefined &&
+          data.text.localeCompare("jwt expired") == 0
+        ) {
+          const newToken = await useRefreshToken();
+          return await fetch("http://192.168.1.177:3000/api/neo/", {
+            method: "PUT",
+            headers: {
+              "Content-Type": "application/json",
+              "x-auth-token": newToken,
+            },
+          });
         }
-        return Promise.reject(response);
+        newNeo();
+        return data;
       })
       .catch((error) => console.log("error", error));
   };

@@ -48,7 +48,6 @@ function HomeScreen({ navigation }) {
           cache.store("neoTimeStamp", data.neo.dateUTC);
           return data.neo.dateUTC;
         }
-        console.log("OLD NEO STILL IN USE");
         setNeoTime(data.neo.dateUTC);
         return data.neo.dateUTC;
       })
