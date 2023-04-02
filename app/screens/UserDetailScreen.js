@@ -87,6 +87,22 @@ function UserDetailScreen({ navigation }) {
     killSession();
   };
 
+  const promptForce = () => {
+    Alert.alert(
+      "Force NFT Disbursement",
+      "Do you really want to force disbursement?",
+      [
+        {
+          text: "Send",
+          onPress: () => forceNFTGeneration(),
+        },
+        {
+          text: "Cancel",
+        },
+      ]
+    );
+  };
+
   const forceNFTGeneration = async () => {
     return await fetch("http://192.168.1.177:3000/api/neo/", {
       method: "PUT",
@@ -253,7 +269,7 @@ function UserDetailScreen({ navigation }) {
             borderColor="blue_text"
             color="red"
             title="Admin"
-            onPress={() => forceNFTGeneration()}
+            onPress={() => promptForce()}
           />
         </View>
       </View>
@@ -275,7 +291,7 @@ function UserDetailScreen({ navigation }) {
           onPressIn={() => navigation.navigate("HelpScreen")}
         >
           <View>
-            <Feather name="help-circle" size={28} color="white" />
+            <Feather name="help-circle" size={28} color={colors.blue_text} />
           </View>
         </TouchableOpacity>
       </View>

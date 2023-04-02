@@ -1,6 +1,7 @@
 import React, { useContext, useEffect, useState } from "react";
+import { useFocusEffect } from "@react-navigation/native";
 import { Ionicons } from "@expo/vector-icons";
-import { ActivityIndicator, StyleSheet, Text, View } from "react-native";
+import { StyleSheet, View } from "react-native";
 import LottieView from "lottie-react-native";
 import CountDown from "react-native-countdown-component";
 import moment from "moment";
@@ -122,6 +123,11 @@ function HomeScreen({ navigation }) {
     }
   }, [duration]);
 
+  useFocusEffect(
+    React.useCallback(() => {
+      getNFTDuration();
+    })
+  );
   return loading ? (
     <LoadingIndicator visible={true} />
   ) : (
