@@ -1,6 +1,7 @@
 import React, { useContext, useEffect, useState } from "react";
+import { useFocusEffect } from "@react-navigation/native";
 import { Ionicons } from "@expo/vector-icons";
-import { ActivityIndicator, StyleSheet, Text, View } from "react-native";
+import { StyleSheet, View } from "react-native";
 import LottieView from "lottie-react-native";
 import CountDown from "react-native-countdown-component";
 import moment from "moment";
@@ -16,8 +17,7 @@ import AuthContext from "../auth/context";
 import UserIconBar from "../components/UserIconBar";
 
 function HomeScreen({ navigation }) {
-  const { user, token } = useContext(AuthContext);
-  const [neoTime, setNeoTime] = useState();
+  const { user, token, neoTime, setNeoTime } = useContext(AuthContext);
   const [duration, setDuration] = useState(-1);
   const [nextQuiz, setNextQuiz] = useState();
   const [loading, setLoading] = useState(true);
@@ -123,6 +123,11 @@ function HomeScreen({ navigation }) {
     }
   }, [duration]);
 
+  useFocusEffect(
+    React.useCallback(() => {
+      getNFTDuration();
+    })
+  );
   return loading ? (
     <LoadingIndicator visible={true} />
   ) : (
