@@ -16,8 +16,7 @@ import AuthContext from "../auth/context";
 import UserIconBar from "../components/UserIconBar";
 
 function HomeScreen({ navigation }) {
-  const { user, token } = useContext(AuthContext);
-  const [neoTime, setNeoTime] = useState();
+  const { user, token, neoTime, setNeoTime } = useContext(AuthContext);
   const [duration, setDuration] = useState(-1);
   const [nextQuiz, setNextQuiz] = useState();
   const [loading, setLoading] = useState(true);

@@ -18,18 +18,20 @@ import AppText from "../components/AppText";
 
 const CONTENT = [
   {
-    title: "Q1",
-    content: "ANSWER_ONE blah blah bhabhablahblakbhalkfhdlkasdjhflksd",
+    title: "When do I get my NFT?",
+    content:
+      "Each NFT is available for a limited time as displayed on the NFT countdown timer.  Once this timer" +
+      " reaches zero everyone who has earned an NFT will recieve one.",
   },
   {
-    title: "Q2",
+    title: "How do I earn and NFT?",
     content:
-      "ANSWER_ONE sdjkfjaslkdf kasfjdlkasdj flaskdjf lkas aksldfjalksd jflkasdjflaksdj flksdfjnlksdjf",
+      "To earn the current NFT you must score at least 700 on a single quiz. You will have at least 2 quizzes per NFT.",
   },
   {
-    title: "Q3",
+    title: "What if my question isn't answered here?",
     content:
-      " sakldjfalksd aksldjf laksdj flkasdjfalskd fjlksd jalskdfjANSWER_ONE",
+      "Please use the contact us button below to send and email and we will get back to you soon!",
   },
 ];
 

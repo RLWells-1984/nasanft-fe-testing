@@ -13,6 +13,7 @@ import { Feather, FontAwesome5, Ionicons } from "@expo/vector-icons";
 import { useWalletConnect } from "@walletconnect/react-native-dapp";
 
 import AppText from "../components/AppText";
+import cache from "../utility/cache";
 import colors from "../config/colors";
 import CustomButton from "../components/CustomButton";
 import DetailLines from "../components/DetailLines";
@@ -20,8 +21,15 @@ import ScreenSetUp from "../components/ScreenSetUp";
 import AuthContext from "../auth/context";
 
 function UserDetailScreen({ navigation }) {
-  const { user, setUser, token, setToken, setPublicAddress, setRefreshToken } =
-    useContext(AuthContext);
+  const {
+    user,
+    setUser,
+    token,
+    setToken,
+    setPublicAddress,
+    setRefreshToken,
+    setNeoTime,
+  } = useContext(AuthContext);
   const [newName, setNewName] = useState("");
   const name = user.user_name + "'s Details";
   const connector = useWalletConnect();
@@ -79,6 +87,68 @@ function UserDetailScreen({ navigation }) {
     killSession();
   };
 
+  const forceNFTGeneration = async () => {
+    return await fetch("http://192.168.1.177:3000/api/neo/", {
+      method: "PUT",
+      headers: {
+        "Content-Type": "application/json",
+        "x-auth-token": token,
+      },
+    })
+      .then((response) => {
+        if (response.ok) {
+          console.log("all good nixed");
+          newNeo();
+          return response.json();
+        }
+        return Promise.reject(response);
+      })
+      .catch((error) => console.log("error", error));
+  };
+
+  const newNeo = async () => {
+    return await fetch("http://192.168.1.177:3000/api/neo/", {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+        "x-auth-token": token,
+      },
+    })
+      .then((response) => {
+        if (response.ok) {
+          console.log("new one aquired");
+          return response.json();
+        }
+        return Promise.reject(response);
+      })
+      .then((data) => {
+        newNFTSetup();
+        setNeoTime(data.neo.dateUTC);
+        cache.store("neoTimeStamp", data.neo.dateUTC);
+        return data.neo.dateUTC;
+      })
+      .catch((error) => console.log("error", error));
+  };
+
+  const newNFTSetup = async () => {
+    const winner = user.winner;
+    if (winner) {
+      setUser({
+        ...user,
+        nft_earned: user.nft_earned + 1,
+        current_quiz_score: 0,
+        current_score: 0,
+        winner: false,
+      });
+    } else {
+      setUser({
+        ...user,
+        current_quiz_score: 0,
+        current_score: 0,
+      });
+    }
+  };
+
   const verifyDelete = () => {
     Alert.alert(
       "Delete User!",
@@ -116,10 +186,6 @@ function UserDetailScreen({ navigation }) {
       .catch((error) => {
         console.log("Something went wrong.", error);
       });
-  };
-
-  const forceNFTGeneration = async () => {
-    console.log("Admin");
   };
 
   useEffect(() => {
