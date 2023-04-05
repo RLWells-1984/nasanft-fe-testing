@@ -30,7 +30,7 @@ function RegistrationScreen({ navigation }) {
         "Username must be at least 4 characters."
       );
     } else {
-      return await fetch("http://192.168.1.177:3000/api/users/", {
+      return await fetch("https://nasaft-tbact528.b4a.run/api/users/", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",

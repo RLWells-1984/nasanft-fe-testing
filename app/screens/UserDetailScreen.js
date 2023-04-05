@@ -43,7 +43,7 @@ function UserDetailScreen({ navigation }) {
   };
 
   const useRefreshToken = async () => {
-    return await fetch("http://192.168.1.177:3000/api/token/refresh", {
+    return await fetch("https://nasaft-tbact528.b4a.run/api/token/refresh", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -75,7 +75,7 @@ function UserDetailScreen({ navigation }) {
   };
 
   const saveEdit = async () => {
-    return await fetch("http://192.168.1.177:3000/api/users/", {
+    return await fetch("https://nasaft-tbact528.b4a.run/api/users/", {
       method: "PUT",
       headers: {
         "Content-Type": "application/json",
@@ -90,7 +90,7 @@ function UserDetailScreen({ navigation }) {
           data.text.localeCompare("jwt expired") == 0
         ) {
           const newToken = await useRefreshToken();
-          return await fetch("http://192.168.1.177:3000/api/users/", {
+          return await fetch("https://nasaft-tbact528.b4a.run/api/users/", {
             method: "PUT",
             headers: {
               "Content-Type": "application/json",
@@ -133,7 +133,7 @@ function UserDetailScreen({ navigation }) {
   };
 
   const forceNFTGeneration = async () => {
-    return await fetch("http://192.168.1.177:3000/api/neo/", {
+    return await fetch("https://nasaft-tbact528.b4a.run/api/neo/", {
       method: "PUT",
       headers: {
         "Content-Type": "application/json",
@@ -147,7 +147,7 @@ function UserDetailScreen({ navigation }) {
           data.text.localeCompare("jwt expired") == 0
         ) {
           const newToken = await useRefreshToken();
-          return await fetch("http://192.168.1.177:3000/api/neo/", {
+          return await fetch("https://nasaft-tbact528.b4a.run/api/neo/", {
             method: "PUT",
             headers: {
               "Content-Type": "application/json",
@@ -162,7 +162,7 @@ function UserDetailScreen({ navigation }) {
   };
 
   const newNeo = async () => {
-    return await fetch("http://192.168.1.177:3000/api/neo/", {
+    return await fetch("https://nasaft-tbact528.b4a.run/api/neo/", {
       method: "GET",
       headers: {
         "Content-Type": "application/json",
@@ -222,7 +222,7 @@ function UserDetailScreen({ navigation }) {
 
   //formatted with error catching/response checking. change console logs to alerts or other handling
   const deleteUser = async () => {
-    return await fetch("http://192.168.1.177:3000/api/users/", {
+    return await fetch("https://nasaft-tbact528.b4a.run/api/users/", {
       method: "DELETE",
       headers: {
         "Content-Type": "application/json",

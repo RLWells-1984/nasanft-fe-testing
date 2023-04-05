@@ -38,7 +38,7 @@ function QuizScreen({ navigation }) {
   const questNum = "Question: " + displayNumber;
 
   const useRefreshToken = async () => {
-    return await fetch("http://192.168.1.177:3000/api/token/refresh", {
+    return await fetch("https://nasaft-tbact528.b4a.run/api/token/refresh", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -54,7 +54,7 @@ function QuizScreen({ navigation }) {
   };
 
   const getQuiz = async () => {
-    return await fetch("http://192.168.1.177:3000/api/quizzes", {
+    return await fetch("https://nasaft-tbact528.b4a.run/api/quizzes", {
       method: "GET",
       headers: {
         "Content-Type": "application/json",
@@ -139,7 +139,7 @@ function QuizScreen({ navigation }) {
   };
 
   const updateUserDB = async () => {
-    return await fetch("http://192.168.1.177:3000/api/users/", {
+    return await fetch("https://nasaft-tbact528.b4a.run/api/users/", {
       method: "PUT",
       headers: {
         "Content-Type": "application/json",
@@ -154,7 +154,7 @@ function QuizScreen({ navigation }) {
   const updateWinnerDB = async () => {
     if (correct >= 7) {
       const userAddress = { public_address: user.public_address };
-      return await fetch("http://192.168.1.177:3000/api/quizzes/", {
+      return await fetch("https://nasaft-tbact528.b4a.run/api/quizzes/", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",

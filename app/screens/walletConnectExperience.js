@@ -29,7 +29,7 @@ export default function WalletConnectExperience({ navigation }) {
   //need to alert not console.log and prompt them to register. in the DB
   const personalSign = async (publicAddress, navigation) => {
     const nonceRes = await fetch(
-      "http://192.168.1.177:3000/api/token/" + publicAddress,
+      "https://nasaft-tbact528.b4a.run/api/token/" + publicAddress,
       {
         method: "GET",
         headers: {
@@ -70,7 +70,7 @@ export default function WalletConnectExperience({ navigation }) {
       .signPersonalMessage([nonce, publicAddress, navigation])
       .then(async (results) => {
         const loginRes = await fetch(
-          "http://192.168.1.177:3000/api/token/login",
+          "https://nasaft-tbact528.b4a.run/api/token/login",
           {
             method: "POST",
             headers: {
