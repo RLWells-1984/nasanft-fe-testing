@@ -4,7 +4,6 @@ import { Ionicons } from "@expo/vector-icons";
 import { StyleSheet, View } from "react-native";
 import LottieView from "lottie-react-native";
 import CountDown from "react-native-countdown-component";
-import moment from "moment";
 
 import AppText from "../components/AppText";
 import cache from "../utility/cache";
@@ -27,7 +26,7 @@ function HomeScreen({ navigation }) {
 
   const getNEO = async () => {
     const testTime = await cache.get("neoTimeStamp");
-    return await fetch("http://192.168.1.177:3000/api/neo", {
+    return await fetch("https://nasaft-tbact528.b4a.run/api/neo", {
       method: "GET",
       headers: {
         "Content-Type": "application/json",
@@ -75,8 +74,9 @@ function HomeScreen({ navigation }) {
   };
 
   const quizReady = () => {
-    const today = moment(new Date()).format("MM/DD/YYYY");
-    if (!moment(today).isSame(user.date_completed)) {
+    const today = new Date();
+    const userDate = new Date(user.date_completed);
+    if (today.toLocaleDateString() != userDate.toLocaleDateString()) {
       setReady(true);
     } else setReady(false);
   };
