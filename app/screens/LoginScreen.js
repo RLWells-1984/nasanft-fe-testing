@@ -1,6 +1,6 @@
 import "../global";
 import React, { useContext } from "react";
-import { Image, ImageBackground, StyleSheet, View } from "react-native";
+import { Image, StyleSheet, View } from "react-native";
 
 import WalletConnectExperience from "./walletConnectExperience";
 
