@@ -16,7 +16,8 @@ import AuthContext from "../auth/context";
 import UserIconBar from "../components/UserIconBar";
 
 function HomeScreen({ navigation }) {
-  const { user, token, neoTime, setNeoTime } = useContext(AuthContext);
+  const { user, setUser, token, neoTime, setNeoTime, setRank } =
+    useContext(AuthContext);
   const [duration, setDuration] = useState(-1);
   const [nextQuiz, setNextQuiz] = useState();
   const [loading, setLoading] = useState(true);
@@ -24,6 +25,25 @@ function HomeScreen({ navigation }) {
   const [quizTimerDone, setQuizTimerDone] = useState(false);
   var quizTimer = Number(nextQuiz);
 
+  const getUserView = async () => {
+    const userView = await fetch("https://nasaft-tbact528.b4a.run/api/users", {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+        "x-auth-token": token,
+      },
+    })
+      .then((response) => {
+        if (response.ok) {
+          return response.json();
+        }
+        return Promise.reject(response);
+      })
+      .then((data) => {
+        setRank(data.overall_rank);
+      })
+      .catch((error) => console.log("error", error));
+  };
   const getNEO = async () => {
     const testTime = await cache.get("neoTimeStamp");
     return await fetch("https://nasaft-tbact528.b4a.run/api/neo", {
@@ -107,6 +127,7 @@ function HomeScreen({ navigation }) {
 
   useEffect(() => {
     getNEO();
+    getUserView();
   }, []);
 
   useEffect(() => {
