@@ -23,6 +23,7 @@ export default function App() {
   const [token, setToken] = useState();
   const [refreshToken, setRefreshToken] = useState();
   const [neoTime, setNeoTime] = useState();
+  const [rank, setRank] = useState();
 
   const [fontsLoaded] = useFonts({
     Rag: require("./app/assets/fonts/Rag-Regular.otf"),
@@ -56,6 +57,8 @@ export default function App() {
         setRefreshToken,
         neoTime,
         setNeoTime,
+        rank,
+        setRank,
       }}
     >
       <WalletConnectProvider

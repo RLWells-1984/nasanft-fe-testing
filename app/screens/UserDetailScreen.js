@@ -30,6 +30,7 @@ function UserDetailScreen({ navigation }) {
     refreshToken,
     setRefreshToken,
     setNeoTime,
+    rank,
   } = useContext(AuthContext);
   const [newName, setNewName] = useState("");
   const name = user.user_name + "'s Details";
@@ -69,7 +70,6 @@ function UserDetailScreen({ navigation }) {
       setUser({
         ...user,
         user_name: newName,
-        overall_rank: 43,
       });
     }
   };
@@ -286,7 +286,7 @@ function UserDetailScreen({ navigation }) {
         <DetailLines title="Questions Correct" data={user.questions_correct} />
         <DetailLines title="Total Points Earned" data={user.overall_score} />
         <DetailLines title="NFTs Earned" data={user.nft_earned} />
-        <DetailLines title="Overall Ranking" data={user.overall_rank} />
+        <DetailLines title="Overall Ranking" data={rank} />
       </View>
       <View style={styles.buttonBox}>
         <View style={styles.save}>
