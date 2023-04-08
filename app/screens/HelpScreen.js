@@ -29,6 +29,11 @@ const CONTENT = [
       "To earn the current NFT you must score at least 700 on a single quiz. You will have at least 2 quizzes per NFT.",
   },
   {
+    title: "Why do my owned NEO rankings show N/A?",
+    content:
+      "Only the top 10 NEO's for each category are tracked. If you do not own a NEO in the top ten your rank will display N/A.",
+  },
+  {
     title: "What if my question isn't answered here?",
     content:
       "Please use the contact us button below to send and email and we will get back to you soon!",

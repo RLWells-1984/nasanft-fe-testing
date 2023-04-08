@@ -1,6 +1,7 @@
 import React, { useCallback, useContext, useEffect, useState } from "react";
 import {
   Alert,
+  ScrollView,
   StyleSheet,
   Text,
   TextInput,
@@ -33,6 +34,13 @@ function UserDetailScreen({ navigation }) {
     rank,
   } = useContext(AuthContext);
   const [newName, setNewName] = useState("");
+  const [sizeArray, setSizeArray] = useState([]);
+  const [velocityArray, setVelocityArray] = useState([]);
+  const [distanceArray, setDistanceArray] = useState([]);
+  const [ownedNFTs, setOwnedNFTs] = useState([]);
+  const [velocityRank, setVelocityRank] = useState(0);
+  const [distanceRank, setDistanceRank] = useState(0);
+  const [sizeRank, setSizeRank] = useState(0);
   const name = user.user_name + "'s Details";
   const connector = useWalletConnect();
   const updateDate = {
@@ -171,7 +179,6 @@ function UserDetailScreen({ navigation }) {
     })
       .then((response) => {
         if (response.ok) {
-          console.log("new one aquired");
           return response.json();
         }
         return Promise.reject(response);
@@ -220,7 +227,6 @@ function UserDetailScreen({ navigation }) {
     );
   };
 
-  //formatted with error catching/response checking. change console logs to alerts or other handling
   const deleteUser = async () => {
     return await fetch("https://nasaft-tbact528.b4a.run/api/users/", {
       method: "DELETE",
@@ -243,67 +249,267 @@ function UserDetailScreen({ navigation }) {
       });
   };
 
+  const getNEORanking = async () => {
+    const sizeInfo = await fetch(
+      "https://nasaft-tbact528.b4a.run/api/neo/size",
+      {
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json",
+          "x-auth-token": token,
+        },
+      }
+    )
+      .then((response) => {
+        if (response.ok) {
+          return response.json();
+        }
+        return Promise.reject(response);
+      })
+      .then((data) => {
+        console.log(" ");
+        setSizeArray([]);
+        if (data.length > 0) {
+          for (var i = 0; i < data.length; i++) {
+            setSizeArray((sizeArray) => [...sizeArray, data[i].id]);
+          }
+        }
+      });
+
+    const velcityInfo = await fetch(
+      "https://nasaft-tbact528.b4a.run/api/neo/velocity",
+      {
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json",
+          "x-auth-token": token,
+        },
+      }
+    )
+      .then((response) => {
+        if (response.ok) {
+          return response.json();
+        }
+        return Promise.reject(response);
+      })
+      .then((data) => {
+        setVelocityArray([]);
+        if (data.length > 0) {
+          for (var i = 0; i < data.length; i++) {
+            setVelocityArray((velocityArray) => [...velocityArray, data[i].id]);
+          }
+        }
+      });
+
+    const rangeInfo = await fetch(
+      "https://nasaft-tbact528.b4a.run/api/neo/range",
+      {
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json",
+          "x-auth-token": token,
+        },
+      }
+    )
+      .then((response) => {
+        if (response.ok) {
+          return response.json();
+        }
+        return Promise.reject(response);
+      })
+      .then((data) => {
+        setDistanceArray([]);
+        if (data.length > 0) {
+          for (var i = 0; i < data.length; i++) {
+            setDistanceArray((distanceArray) => [...distanceArray, data[i].id]);
+          }
+        }
+      });
+
+    const getOwnedNFTs = await fetch(
+      "https://nasaft-tbact528.b4a.run/api/nft/ownedBy/" + user.public_address,
+      {
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json",
+          "x-auth-token": token,
+        },
+      }
+    )
+      .then((response) => {
+        if (response.ok) {
+          return response.json();
+        }
+        return Promise.reject(response);
+      })
+      .then((data) => {
+        setOwnedNFTs([]);
+        const length = data.ownedNfts.length;
+        for (var i = 0; i < length; i++) {
+          setOwnedNFTs((ownedNFTs) => [
+            ...ownedNFTs,
+            data.ownedNfts[i].rawMetadata.id,
+          ]);
+        }
+      });
+
+    calculateRankings();
+  };
+
+  const calculateRankings = () => {
+    for (var i = 0; i < ownedNFTs.length; i++) {
+      if (sizeArray.includes(ownedNFTs[i])) {
+        var newRank = sizeArray.indexOf(ownedNFTs[i]);
+        var oldRank = 11;
+        if (newRank < oldRank) {
+          oldRank = newRank;
+        }
+      }
+      if (oldRank < 11) {
+        setSizeRank(oldRank);
+      } else {
+        setSizeRank("N/A");
+      }
+    }
+    for (var i = 0; i < ownedNFTs.length; i++) {
+      if (velocityArray.includes(ownedNFTs[i])) {
+        var newRank = velocityArray.indexOf(ownedNFTs[i]);
+        var oldRank = 11;
+        if (newRank < oldRank) {
+          oldRank = newRank;
+        }
+      }
+      if (oldRank < 11) {
+        setVelocityRank(oldRank);
+      } else {
+        setVelocityRank("N/A");
+      }
+    }
+    for (var i = 0; i < ownedNFTs.length; i++) {
+      if (distanceArray.includes(ownedNFTs[i])) {
+        var newRank = distanceArray.indexOf(ownedNFTs[i]);
+        var oldRank = 11;
+        if (newRank < oldRank) {
+          oldRank = newRank;
+        }
+      }
+      if (oldRank < 11) {
+        setDistanceRank(oldRank);
+      } else {
+        setDistanceRank("N/A");
+      }
+    }
+  };
+
   useEffect(() => {
     saveEdit();
   }, [user]);
 
+  useEffect(() => {
+    getNEORanking();
+  }, []);
+
   return (
     <ScreenSetUp style={{ backgroundColor: colors.white }}>
-      <View style={{ height: "10%", paddingBottom: 100 }}>
-        <TouchableOpacity onPressIn={() => navigation.goBack()}>
-          <Ionicons
-            name="arrow-back"
-            size={28}
-            color={colors.blue_text}
-            style={styles.backArrow}
-          />
-        </TouchableOpacity>
-        <View style={styles.spaceShip}>
-          <LottieView
-            autoPlay
-            loop
-            source={require("../assets/animations/83550-alien-saucer.json")}
-          />
+      <ScrollView contentContainerStyle={{ flexGrow: 1, paddingBottom: 300 }}>
+        <View style={{ height: "10%", paddingBottom: 100 }}>
+          <TouchableOpacity onPressIn={() => navigation.goBack()}>
+            <Ionicons
+              name="arrow-back"
+              size={28}
+              color={colors.blue_text}
+              style={styles.backArrow}
+            />
+          </TouchableOpacity>
+          <View style={styles.spaceShip}>
+            <LottieView
+              autoPlay
+              loop
+              source={require("../assets/animations/83550-alien-saucer.json")}
+            />
+          </View>
         </View>
-      </View>
-      <View style={styles.dataContainer}>
-        <Text style={styles.header}>{name}</Text>
-        <View style={styles.userContainer}>
-          <AppText>Display Name</AppText>
-          <TextInput
-            onChangeText={(text) => setNewName(text)}
-            placeholder={user.user_name}
-            style={styles.usernameInput}
-          ></TextInput>
-          <TouchableOpacity>
-            <Feather name="edit" size={20} color={colors.blue_text} />
+        <View>
+          <Text style={styles.header}>{name}</Text>
+          <View style={styles.userContainer}>
+            <AppText>Display Name</AppText>
+            <TextInput
+              onChangeText={(text) => setNewName(text)}
+              placeholder={user.user_name}
+              style={styles.usernameInput}
+            ></TextInput>
+            <TouchableOpacity>
+              <Feather name="edit" size={20} color={colors.blue_text} />
+            </TouchableOpacity>
+          </View>
+          <View style={styles.statBoxes}>
+            <DetailLines
+              title="Questions Attempted"
+              data={user.questions_answered}
+            />
+            <DetailLines
+              title="Questions Correct"
+              data={user.questions_correct}
+            />
+            <DetailLines
+              title="Total Points Earned"
+              data={user.overall_score}
+            />
+            <DetailLines title="NFTs Earned" data={user.nft_earned} />
+            <DetailLines title="Overall Points Ranking" data={rank} />
+          </View>
+          <View style={styles.statBoxes}>
+            <Text style={styles.header}>Owned Neo Rankings</Text>
+            <DetailLines
+              title="Highest Velocity NEO rank"
+              data={velocityRank}
+            />
+            <DetailLines
+              title="Closest Approach NEO rank"
+              data={distanceRank}
+            />
+            <DetailLines title="Largest NEO rank" data={sizeRank} />
+          </View>
+        </View>
+        <View style={styles.buttonBox}>
+          <View style={styles.save}>
+            <CustomButton
+              borderColor="blue_text"
+              title="Save"
+              onPress={() => editUserName()}
+            />
+          </View>
+          <View style={styles.save}>
+            <CustomButton
+              borderColor="blue_text"
+              title="Delete Account"
+              onPress={() => verifyDelete()}
+            />
+          </View>
+        </View>
+        <View style={styles.logoutContainer}>
+          <TouchableOpacity style={styles.logout} onPress={() => logout()}>
+            <FontAwesome5
+              name="space-shuttle"
+              size={20}
+              color={colors.blue_text}
+              style={{
+                transform: [{ rotate: "300deg" }],
+                paddingLeft: 20,
+              }}
+            />
+            <AppText style={styles.header}>Logout</AppText>
+          </TouchableOpacity>
+          <TouchableOpacity
+            style={styles.help}
+            onPressIn={() => navigation.navigate("HelpScreen")}
+          >
+            <View>
+              <Feather name="help-circle" size={28} color={colors.blue_text} />
+            </View>
           </TouchableOpacity>
         </View>
-        <DetailLines
-          title="Questions Attempted"
-          data={user.questions_answered}
-        />
-        <DetailLines title="Questions Correct" data={user.questions_correct} />
-        <DetailLines title="Total Points Earned" data={user.overall_score} />
-        <DetailLines title="NFTs Earned" data={user.nft_earned} />
-        <DetailLines title="Overall Ranking" data={rank} />
-      </View>
-      <View style={styles.buttonBox}>
-        <View style={styles.save}>
-          <CustomButton
-            borderColor="blue_text"
-            title="Save"
-            onPress={() => editUserName()}
-          />
-        </View>
-        <View style={styles.save}>
-          <CustomButton
-            borderColor="blue_text"
-            title="Delete Account"
-            onPress={() => verifyDelete()}
-          />
-        </View>
-        <View style={styles.save}>
+        <View style={styles.delete}>
           <CustomButton
             borderColor="blue_text"
             color="red"
@@ -311,29 +517,7 @@ function UserDetailScreen({ navigation }) {
             onPress={() => promptForce()}
           />
         </View>
-      </View>
-      <View style={{ height: "10%" }}>
-        <TouchableOpacity style={styles.logout} onPress={() => logout()}>
-          <FontAwesome5
-            name="space-shuttle"
-            size={20}
-            color={colors.blue_text}
-            style={{
-              transform: [{ rotate: "300deg" }],
-              paddingLeft: 20,
-            }}
-          />
-          <AppText>Logout</AppText>
-        </TouchableOpacity>
-        <TouchableOpacity
-          style={styles.help}
-          onPressIn={() => navigation.navigate("HelpScreen")}
-        >
-          <View>
-            <Feather name="help-circle" size={28} color={colors.blue_text} />
-          </View>
-        </TouchableOpacity>
-      </View>
+      </ScrollView>
     </ScreenSetUp>
   );
 }
@@ -345,8 +529,12 @@ const styles = StyleSheet.create({
     right: "90%",
     top: 50,
   },
-  dataContainer: {
-    height: "45%",
+  delete: {
+    alignSelf: "center",
+    height: 70,
+    justifyContent: "flex-end",
+    marginVertical: 10,
+    width: "50%",
   },
   header: {
     alignSelf: "center",
@@ -365,7 +553,13 @@ const styles = StyleSheet.create({
     alignSelf: "flex-start",
     padding: 20,
     position: "absolute",
-    bottom: 10,
+    bottom: -15,
+  },
+  logoutContainer: {
+    borderBottomColor: colors.buttonColor,
+    borderBottomWidth: 5,
+    height: "10%",
+    marginVertical: 10,
   },
   save: {
     alignSelf: "center",
@@ -379,12 +573,18 @@ const styles = StyleSheet.create({
     height: 120,
     width: 160,
   },
+  statBoxes: {
+    borderBottomColor: colors.buttonColor,
+    borderBottomWidth: 5,
+    marginBottom: 10,
+    paddingBottom: 5,
+  },
   userContainer: {
     alignItems: "center",
-    flex: 1,
     flexDirection: "row",
     marginLeft: 20,
     marginRight: 30,
+    marginVertical: 10,
   },
   usernameInput: {
     alignItems: "center",
