@@ -1,12 +1,5 @@
 import React, { useContext, useEffect, useState } from "react";
-import {
-  Alert,
-  Animated,
-  ScrollView,
-  StyleSheet,
-  Text,
-  View,
-} from "react-native";
+import { Alert, Animated, ScrollView, StyleSheet, View } from "react-native";
 import Constants from "expo-constants";
 import moment from "moment";
 import { CountdownCircleTimer } from "react-native-countdown-circle-timer";
