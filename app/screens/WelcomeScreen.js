@@ -1,19 +1,62 @@
-import React, { useState } from "react";
-import { Image, ImageBackground, StyleSheet, View } from "react-native";
+import React, { useContext, useEffect, useState } from "react";
+import {
+  Dimensions,
+  Image,
+  ImageBackground,
+  StyleSheet,
+  View,
+} from "react-native";
 
+import AuthContext from "../auth/context";
+import cache from "../utility/cache";
 import colors from "../config/colors";
 import CustomButton from "../components/CustomButton";
 import ClickableText from "../components/ClickableText";
 import ScreenSetUp from "../components/ScreenSetUp";
 
 function WelcomeScreen({ navigation }) {
+  const { iotd, setIOTD } = useContext(AuthContext);
+
+  const getNewImage = async () => {
+    const newImage = await fetch(
+      "https://nasaft-tbact528.b4a.run/api/neo/iotd",
+      {
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json",
+        },
+      }
+    )
+      .then((response) => {
+        if (response.ok) {
+          return response.json();
+        }
+      })
+      .then(async (data) => {
+        console.log("in data");
+        if (data != undefined) {
+          console.log("new data");
+          cache.store("iotd", data.hdurl);
+          setIOTD(data.hdurl);
+        } else {
+          setIOTD(null);
+        }
+      })
+      .catch((error) => console.log("error", error));
+  };
+
+  useEffect(() => {
+    getNewImage();
+  });
+
+  useEffect(() => {
+    console.log("here");
+    console.log(iotd);
+  });
+
   return (
     <ScreenSetUp>
-      <ImageBackground
-        style={styles.background}
-        //source={{}} will be from nasa image of the day api future implementation
-        source={require("../assets/PIA13110_large.jpg")}
-      >
+      <View style={styles.background}>
         <Image style={styles.logo} source={require("../assets/FullLogo.png")} />
 
         <View style={styles.touchableButton}>
@@ -32,7 +75,7 @@ function WelcomeScreen({ navigation }) {
             onPress={() => navigation.navigate("RegistrationScreen")}
           />
         </View>
-      </ImageBackground>
+      </View>
     </ScreenSetUp>
   );
 }

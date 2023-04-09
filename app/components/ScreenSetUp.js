@@ -1,14 +1,32 @@
-import React from "react";
+import React, { useContext, useEffect, useState } from "react";
 import Constants from "expo-constants";
-import { ImageBackground, SafeAreaView, StyleSheet, View } from "react-native";
+import {
+  Dimensions,
+  ImageBackground,
+  SafeAreaView,
+  StyleSheet,
+  View,
+} from "react-native";
+
+import AuthContext from "../auth/context";
+import LoadingIndicator from "../components/LoadingIndicator";
 
 function ScreenSetUp({ children, style }) {
+  const { iotd } = useContext(AuthContext);
+  const windowDimensions = Dimensions.get("window");
+  const height = windowDimensions.height;
+  const width = windowDimensions.width;
+
   return (
     <SafeAreaView style={[styles.screen, style]}>
       <ImageBackground
         style={styles.background}
-        //source={{}} will be from nasa image of the day api as a future improvement
-        source={require("../assets/PIA13110_large.jpg")}
+        source={{
+          width: width,
+          height: height,
+          uri: iotd,
+        }}
+        defaultSource={require("../assets/PIA13110_large.jpg")}
       >
         <View style={[styles.view, style]}>{children}</View>
       </ImageBackground>
@@ -21,6 +39,7 @@ const styles = StyleSheet.create({
     flex: 1,
   },
   screen: {
+    backgroundColor: "black",
     flex: 1,
     paddingTop: Constants.statusBarHeight,
   },
