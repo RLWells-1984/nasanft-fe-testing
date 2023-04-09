@@ -18,6 +18,8 @@ import cache from "../utility/cache";
 import colors from "../config/colors";
 import CustomButton from "../components/CustomButton";
 import DetailLines from "../components/DetailLines";
+import LoadingIndicator from "../components/LoadingIndicator";
+import NeoDetailLines from "../components/NeoDetailLines";
 import ScreenSetUp from "../components/ScreenSetUp";
 import AuthContext from "../auth/context";
 
@@ -41,7 +43,12 @@ function UserDetailScreen({ navigation }) {
   const [velocityRank, setVelocityRank] = useState(0);
   const [distanceRank, setDistanceRank] = useState(0);
   const [sizeRank, setSizeRank] = useState(0);
+  const [nftImages, setNftImages] = useState([]);
+  const [lengthOwned, setLengthOwned] = useState(0);
+  const [loading, setLoading] = useState(true);
+  const [attributes, setAttributes] = useState([]);
   const name = user.user_name + "'s Details";
+
   const connector = useWalletConnect();
   const updateDate = {
     user: user,
@@ -65,7 +72,8 @@ function UserDetailScreen({ navigation }) {
           setToken(data.accessToken);
           return data.accessToken;
         }
-      });
+      })
+      .catch((error) => console.log("error", error));
   };
 
   const editUserName = () => {
@@ -242,10 +250,13 @@ function UserDetailScreen({ navigation }) {
           navigation.navigate("WelcomeScreen");
           return response.json();
         }
-        return Promise.reject(response);
+        return response.json();
+      })
+      .then((data) => {
+        console.log("Something went wrong.");
       })
       .catch((error) => {
-        console.log("Something went wrong.", error);
+        console.log("error deleting", error);
       });
   };
 
@@ -267,14 +278,14 @@ function UserDetailScreen({ navigation }) {
         return Promise.reject(response);
       })
       .then((data) => {
-        console.log(" ");
         setSizeArray([]);
         if (data.length > 0) {
           for (var i = 0; i < data.length; i++) {
             setSizeArray((sizeArray) => [...sizeArray, data[i].id]);
           }
         }
-      });
+      })
+      .catch((error) => console.log("error", error));
 
     const velcityInfo = await fetch(
       "https://nasaft-tbact528.b4a.run/api/neo/velocity",
@@ -299,7 +310,8 @@ function UserDetailScreen({ navigation }) {
             setVelocityArray((velocityArray) => [...velocityArray, data[i].id]);
           }
         }
-      });
+      })
+      .catch((error) => console.log("error", error));
 
     const rangeInfo = await fetch(
       "https://nasaft-tbact528.b4a.run/api/neo/range",
@@ -324,7 +336,8 @@ function UserDetailScreen({ navigation }) {
             setDistanceArray((distanceArray) => [...distanceArray, data[i].id]);
           }
         }
-      });
+      })
+      .catch((error) => console.log("error", error));
 
     const getOwnedNFTs = await fetch(
       "https://nasaft-tbact528.b4a.run/api/nft/ownedBy/" + user.public_address,
@@ -343,60 +356,85 @@ function UserDetailScreen({ navigation }) {
         return Promise.reject(response);
       })
       .then((data) => {
+        setAttributes([]);
         setOwnedNFTs([]);
-        const length = data.ownedNfts.length;
-        for (var i = 0; i < length; i++) {
-          setOwnedNFTs((ownedNFTs) => [
-            ...ownedNFTs,
-            data.ownedNfts[i].rawMetadata.id,
-          ]);
-        }
-      });
+        setNftImages([]);
+        if (data.ownedNfts.length == 0) {
+          console.log("none");
+          setLengthOwned(-1);
+        } else {
+          const testLength = data.ownedNfts.length;
 
-    calculateRankings();
+          for (var i = 0; i < testLength; i++) {
+            setAttributes((attributes) => [
+              ...attributes,
+              data.ownedNfts[i].rawMetadata.attributes,
+            ]);
+            setNftImages((nftImages) => [
+              ...nftImages,
+              data.ownedNfts[i].media[0].thumbnail,
+            ]);
+            setOwnedNFTs((ownedNFTs) => [
+              ...ownedNFTs,
+              data.ownedNfts[i].rawMetadata.id,
+            ]);
+          }
+          setLengthOwned(data.ownedNfts.length);
+        }
+        return data;
+      })
+      .catch((error) => console.log("error", error));
   };
 
-  const calculateRankings = () => {
-    for (var i = 0; i < ownedNFTs.length; i++) {
-      if (sizeArray.includes(ownedNFTs[i])) {
-        var newRank = sizeArray.indexOf(ownedNFTs[i]);
-        var oldRank = 11;
-        if (newRank < oldRank) {
-          oldRank = newRank;
+  const calculateRankings = async () => {
+    if (ownedNFTs.length == 0) {
+      console.log("in no data land");
+      setSizeRank("N/A");
+      setVelocityRank("N/A");
+      setDistanceRank("N/A");
+    } else {
+      console.log("have rank data");
+      for (var i = 0; i < ownedNFTs.length; i++) {
+        if (sizeArray.includes(ownedNFTs[i])) {
+          var newRank = sizeArray.indexOf(ownedNFTs[i]);
+          var oldRank = 11;
+          if (newRank < oldRank) {
+            oldRank = newRank;
+          }
+        }
+        if (oldRank < 11) {
+          setSizeRank(oldRank);
+        } else {
+          setSizeRank("N/A");
         }
       }
-      if (oldRank < 11) {
-        setSizeRank(oldRank);
-      } else {
-        setSizeRank("N/A");
-      }
-    }
-    for (var i = 0; i < ownedNFTs.length; i++) {
-      if (velocityArray.includes(ownedNFTs[i])) {
-        var newRank = velocityArray.indexOf(ownedNFTs[i]);
-        var oldRank = 11;
-        if (newRank < oldRank) {
-          oldRank = newRank;
+      for (var i = 0; i < ownedNFTs.length; i++) {
+        if (velocityArray.includes(ownedNFTs[i])) {
+          var newRank = velocityArray.indexOf(ownedNFTs[i]);
+          var oldRank = 11;
+          if (newRank < oldRank) {
+            oldRank = newRank;
+          }
+        }
+        if (oldRank < 11) {
+          setVelocityRank(oldRank);
+        } else {
+          setVelocityRank("N/A");
         }
       }
-      if (oldRank < 11) {
-        setVelocityRank(oldRank);
-      } else {
-        setVelocityRank("N/A");
-      }
-    }
-    for (var i = 0; i < ownedNFTs.length; i++) {
-      if (distanceArray.includes(ownedNFTs[i])) {
-        var newRank = distanceArray.indexOf(ownedNFTs[i]);
-        var oldRank = 11;
-        if (newRank < oldRank) {
-          oldRank = newRank;
+      for (var i = 0; i < ownedNFTs.length; i++) {
+        if (distanceArray.includes(ownedNFTs[i])) {
+          var newRank = distanceArray.indexOf(ownedNFTs[i]);
+          var oldRank = 11;
+          if (newRank < oldRank) {
+            oldRank = newRank;
+          }
         }
-      }
-      if (oldRank < 11) {
-        setDistanceRank(oldRank);
-      } else {
-        setDistanceRank("N/A");
+        if (oldRank < 11) {
+          setDistanceRank(oldRank);
+        } else {
+          setDistanceRank("N/A");
+        }
       }
     }
   };
@@ -409,9 +447,33 @@ function UserDetailScreen({ navigation }) {
     getNEORanking();
   }, []);
 
-  return (
+  useEffect(() => {
+    if (ownedNFTs.length == lengthOwned) {
+      if (ownedNFTs.length > 0) {
+        if (nftImages.length > 0) {
+          if (lengthOwned != 0) {
+            setLoading(false);
+          }
+        }
+      }
+    }
+    if (lengthOwned == -1) {
+      console.log("no nfts");
+      setLoading(false);
+    }
+  }, [lengthOwned]);
+
+  useEffect(() => {
+    if (ownedNFTs.length > 0) {
+      calculateRankings();
+    }
+  }, [ownedNFTs]);
+
+  return loading ? (
+    <LoadingIndicator visible={true} />
+  ) : (
     <ScreenSetUp style={{ backgroundColor: colors.white }}>
-      <ScrollView contentContainerStyle={{ flexGrow: 1, paddingBottom: 300 }}>
+      <ScrollView contentContainerStyle={{ flexGrow: 1, paddingBottom: 10 }}>
         <View style={{ height: "10%", paddingBottom: 100 }}>
           <TouchableOpacity onPressIn={() => navigation.goBack()}>
             <Ionicons
@@ -459,26 +521,65 @@ function UserDetailScreen({ navigation }) {
             <DetailLines title="Overall Points Ranking" data={rank} />
           </View>
           <View style={styles.statBoxes}>
+            <View style={styles.save}>
+              <CustomButton
+                borderColor="blue_text"
+                title="Save name change"
+                onPress={() => editUserName()}
+              />
+            </View>
+          </View>
+          <View style={styles.statBoxes}>
             <Text style={styles.header}>Owned Neo Rankings</Text>
-            <DetailLines
-              title="Highest Velocity NEO rank"
-              data={velocityRank}
-            />
+            <DetailLines title="Highest  NEO rank" data={velocityRank} />
             <DetailLines
               title="Closest Approach NEO rank"
               data={distanceRank}
             />
             <DetailLines title="Largest NEO rank" data={sizeRank} />
           </View>
-        </View>
-        <View style={styles.buttonBox}>
-          <View style={styles.save}>
-            <CustomButton
-              borderColor="blue_text"
-              title="Save"
-              onPress={() => editUserName()}
-            />
+          <View style={styles.statBoxes}>
+            <Text style={styles.header}>Owned Neo Details</Text>
+            {lengthOwned == -1 ? (
+              <Text style={styles.text}>
+                You haven't earned any NFTs yet. Keep Playing!
+              </Text>
+            ) : (
+              <AppText></AppText>
+            )}
+            {lengthOwned > 0 && attributes.length > 0 ? (
+              <NeoDetailLines
+                size={attributes[0].size}
+                distance={attributes[0].range}
+                velocity={attributes[0].velocity}
+                url={nftImages[0]}
+              />
+            ) : (
+              <AppText></AppText>
+            )}
+            {lengthOwned > 1 && attributes.length > 1 ? (
+              <NeoDetailLines
+                size={attributes[1].size}
+                distance={attributes[1].range}
+                velocity={attributes[1].velocity}
+                url={nftImages[1]}
+              />
+            ) : (
+              <AppText></AppText>
+            )}
+            {lengthOwned > 2 && attributes.length > 2 ? (
+              <NeoDetailLines
+                size={attributes[2].size}
+                distance={attributes[2].range}
+                velocity={attributes[2].velocity}
+                url={nftImages[3]}
+              />
+            ) : (
+              <AppText></AppText>
+            )}
           </View>
+        </View>
+        <View style={styles.deleteBox}>
           <View style={styles.save}>
             <CustomButton
               borderColor="blue_text"
@@ -536,6 +637,10 @@ const styles = StyleSheet.create({
     marginVertical: 10,
     width: "50%",
   },
+  deleteBox: {
+    marginBottom: 10,
+    paddingBottom: 5,
+  },
   header: {
     alignSelf: "center",
     color: colors.red,
@@ -558,7 +663,7 @@ const styles = StyleSheet.create({
   logoutContainer: {
     borderBottomColor: colors.buttonColor,
     borderBottomWidth: 5,
-    height: "10%",
+    height: 50,
     marginVertical: 10,
   },
   save: {
@@ -578,6 +683,12 @@ const styles = StyleSheet.create({
     borderBottomWidth: 5,
     marginBottom: 10,
     paddingBottom: 5,
+  },
+  text: {
+    color: colors.blue_text,
+    fontFamily: "Rag_Bo",
+    fontSize: 18,
+    textAlign: "center",
   },
   userContainer: {
     alignItems: "center",

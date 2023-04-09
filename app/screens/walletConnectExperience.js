@@ -26,7 +26,6 @@ export default function WalletConnectExperience({ navigation }) {
   const [results, setResults] = useState([]);
   const connector = useWalletConnect();
 
-  //need to alert not console.log and prompt them to register. in the DB
   const personalSign = async (publicAddress, navigation) => {
     const nonceRes = await fetch(
       "https://nasaft-tbact528.b4a.run/api/token/" + publicAddress,
@@ -54,9 +53,14 @@ export default function WalletConnectExperience({ navigation }) {
           ) {
             Alert.alert(
               "Login Failed",
-              "Unable to retrieve an authentication token. Are you sure you registered an account?"
+              "Unable to retrieve an authentication token. Are you sure you registered an account?",
+              [
+                {
+                  text: "OK",
+                  onPress: () => navigation.navigate("RegistrationScreen"),
+                },
+              ]
             );
-            return Promise.reject(data.text);
           }
         }
         return data;

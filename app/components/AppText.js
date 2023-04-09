@@ -9,6 +9,7 @@ function AppText({
   fontFamily = "Rag",
   fontSize = 16,
   style,
+  textAlign,
 }) {
   return (
     <View style={styles.text}>
@@ -16,7 +17,12 @@ function AppText({
         style={[
           styles.text,
           style,
-          { color: colors[color], fontFamily: fontFamily, fontSize: fontSize },
+          {
+            color: colors[color],
+            fontFamily: fontFamily,
+            fontSize: fontSize,
+            textAlign: textAlign,
+          },
         ]}
       >
         {children}

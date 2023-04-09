@@ -1,7 +1,7 @@
 import "./app/global";
 
 import React, { useCallback, useState } from "react";
-import { Platform, StyleSheet } from "react-native";
+import { LogBox, Platform, StyleSheet } from "react-native";
 
 import { useFonts } from "expo-font";
 import * as SplashScreen from "expo-splash-screen";
@@ -16,6 +16,8 @@ import navigationTheme from "./app/navigation/navigationTheme";
 import AppNavigator from "./app/navigation/AppNavigator";
 import AuthContext from "./app/auth/context";
 import Blank from "./app/screens/Blank";
+
+LogBox.ignoreLogs(["EventEmitter.removeListener"]);
 
 export default function App() {
   const [user, setUser] = useState();
