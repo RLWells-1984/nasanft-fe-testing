@@ -124,7 +124,6 @@ const styles = StyleSheet.create({
     backgroundColor: colors.white,
   },
   contactUs: {
-    flex: 1,
     justifyContent: "flex-end",
     marginBottom: 20,
   },
