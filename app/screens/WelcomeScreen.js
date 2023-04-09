@@ -30,12 +30,12 @@ function WelcomeScreen({ navigation }) {
       .then((response) => {
         if (response.ok) {
           return response.json();
+        } else {
+          console.log("issue");
         }
       })
       .then(async (data) => {
-        console.log("in data");
         if (data != undefined) {
-          console.log("new data");
           cache.store("iotd", data.hdurl);
           setIOTD(data.hdurl);
         } else {
@@ -47,11 +47,6 @@ function WelcomeScreen({ navigation }) {
 
   useEffect(() => {
     getNewImage();
-  });
-
-  useEffect(() => {
-    console.log("here");
-    console.log(iotd);
   });
 
   return (
