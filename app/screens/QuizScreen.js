@@ -1,21 +1,21 @@
-import React, { useContext, useEffect, useState } from "react";
 import { Alert, Animated, ScrollView, StyleSheet, View } from "react-native";
-import Constants from "expo-constants";
-import moment from "moment";
-import { CountdownCircleTimer } from "react-native-countdown-circle-timer";
-
+import React, { useContext, useEffect, useState } from "react";
 import AppText from "../components/AppText";
-import colors from "../config/colors";
+import AuthContext from "../auth/context";
+import Constants from "expo-constants";
+import { CountdownCircleTimer } from "react-native-countdown-circle-timer";
 import CustomButton from "../components/CustomButton";
 import HelpButton from "../components/HelpButton";
+import LoadingIndicator from "../components/LoadingIndicator";
+import PropTypes from "prop-types";
 import QuestionBox from "../components/QuestionBox";
 import ScreenSetUp from "../components/ScreenSetUp";
-import AuthContext from "../auth/context";
 import cache from "../utility/cache";
-import LoadingIndicator from "../components/LoadingIndicator";
+import colors from "../config/colors";
+import moment from "moment";
 
 function QuizScreen({ navigation }) {
-  const { user, setUser, refreshToken, setRefreshToken, token, setToken } =
+  const { user, setUser, refreshToken, token, setToken } =
     useContext(AuthContext);
   const updateDate = {
     user: user,
@@ -87,8 +87,8 @@ function QuizScreen({ navigation }) {
   };
 
   const handleSubmit = () => {
-    setQuizDone(true);
     var points = correct * 100;
+    setQuizDone(true);
     updateUserDetails(points);
     Alert.alert(
       "Quiz Completed",
@@ -141,7 +141,7 @@ function QuizScreen({ navigation }) {
       body: JSON.stringify(updateDate),
     })
       .then((response) => response.json())
-      .then((data) => {});
+      .catch((error) => console.log("error", error));
   };
 
   const updateWinnerDB = async () => {
@@ -156,8 +156,7 @@ function QuizScreen({ navigation }) {
         body: JSON.stringify(userAddress),
       })
         .then((response) => response.json())
-        .then((data) => {});
-    } else {
+        .catch((error) => console.log("error", error));
     }
   };
 
@@ -271,6 +270,7 @@ function QuizScreen({ navigation }) {
             borderColor="blue_text"
             title={questionNumber === 9 ? "Submit" : "Next"}
             onPress={() => {
+              // eslint-disable-next-line no-unused-expressions
               questionNumber === 9 ? handleSubmit() : handleNext();
             }}
           />
@@ -281,6 +281,10 @@ function QuizScreen({ navigation }) {
     </ScreenSetUp>
   );
 }
+
+QuizScreen.propTypes = {
+  navigation: PropTypes.object,
+};
 
 const styles = StyleSheet.create({
   answers: {

@@ -1,7 +1,7 @@
-import React from "react";
 import { Image, StyleSheet, View } from "react-native";
-
 import AppText from "./AppText";
+import PropTypes from "prop-types";
+import React from "react";
 
 function NeoDetailLines({ distance, id, size, url, velocity }) {
   return (
@@ -24,6 +24,14 @@ function NeoDetailLines({ distance, id, size, url, velocity }) {
     </View>
   );
 }
+
+NeoDetailLines.propTypes = {
+  distance: PropTypes.object,
+  id: PropTypes.object,
+  size: PropTypes.object,
+  url: PropTypes.object,
+  velocity: PropTypes.object,
+};
 
 const styles = StyleSheet.create({
   attributesStyle: {

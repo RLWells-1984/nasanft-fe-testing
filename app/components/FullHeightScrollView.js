@@ -8,6 +8,9 @@ export function FullHeightScrollView(props) {
     </ScrollView>
   );
 }
+FullHeightScrollView.propTypes = {
+  children: React.Node,
+};
 
 const styles = StyleSheet.create({
   grow: { flexGrow: 1 },

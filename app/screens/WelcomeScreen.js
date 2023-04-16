@@ -1,53 +1,49 @@
-import React, { useContext, useEffect, useState } from "react";
-import {
-  Dimensions,
-  Image,
-  ImageBackground,
-  StyleSheet,
-  View,
-} from "react-native";
+/* eslint-disable no-undef */
+import { Image, StyleSheet, View } from "react-native";
+import React, { useContext, useEffect } from "react";
 
 import AuthContext from "../auth/context";
+import ClickableText from "../components/ClickableText";
+import CustomButton from "../components/CustomButton";
+import PropTypes from "prop-types";
+import ScreenSetUp from "../components/ScreenSetUp";
 import cache from "../utility/cache";
 import colors from "../config/colors";
-import CustomButton from "../components/CustomButton";
-import ClickableText from "../components/ClickableText";
-import ScreenSetUp from "../components/ScreenSetUp";
 
 function WelcomeScreen({ navigation }) {
-  const { iotd, setIOTD } = useContext(AuthContext);
+  const { setIOTD } = useContext(AuthContext);
 
   const getNewImage = async () => {
-    const newImage = await fetch(
-      "https://nasaft-tbact528.b4a.run/api/neo/iotd",
-      {
-        method: "GET",
-        headers: {
-          "Content-Type": "application/json",
-        },
-      }
-    )
+    return await fetch("https://nasaft-tbact528.b4a.run/api/neo/iotd", {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+      },
+    })
       .then((response) => {
         if (response.ok) {
           return response.json();
         } else {
-          console.log("issue");
+          console.log("issue getting image");
+          return response.json();
         }
       })
-      .then(async (data) => {
+      .then((data) => {
         if (data != undefined) {
+          console.log("storing image");
           cache.store("iotd", data.hdurl);
           setIOTD(data.hdurl);
         } else {
+          console.log("no new image");
           setIOTD(null);
         }
       })
-      .catch((error) => console.log("error", error));
+      .catch((error) => console.log("error with image call", error));
   };
 
   useEffect(() => {
     getNewImage();
-  });
+  }, []);
 
   return (
     <ScreenSetUp>
@@ -74,6 +70,10 @@ function WelcomeScreen({ navigation }) {
     </ScreenSetUp>
   );
 }
+
+WelcomeScreen.propTypes = {
+  navigation: PropTypes.object,
+};
 
 const styles = StyleSheet.create({
   background: {

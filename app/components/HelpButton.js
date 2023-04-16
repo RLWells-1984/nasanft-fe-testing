@@ -1,6 +1,7 @@
-import React from "react";
 import { StyleSheet, TouchableOpacity, View } from "react-native";
 import { Feather } from "@expo/vector-icons";
+import PropTypes from "prop-types";
+import React from "react";
 
 import colors from "../config/colors";
 
@@ -13,6 +14,10 @@ function HelpButton({ navigation }) {
     </TouchableOpacity>
   );
 }
+
+HelpButton.propTypes = {
+  navigation: PropTypes.object,
+};
 
 const styles = StyleSheet.create({
   button: {

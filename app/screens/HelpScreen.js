@@ -1,3 +1,5 @@
+import * as Animatable from "react-native-animatable";
+import * as Linking from "expo-linking";
 import React, { useState } from "react";
 import {
   ScrollView,
@@ -6,15 +8,13 @@ import {
   TouchableOpacity,
   View,
 } from "react-native";
-import * as Animatable from "react-native-animatable";
 import Accordion from "react-native-collapsible/Accordion";
-import * as Linking from "expo-linking";
-
+import AppText from "../components/AppText";
 import ClickableText from "../components/ClickableText";
+import GoBackHeader from "../components/GoBackHeader";
+import PropTypes from "prop-types";
 import ScreenSetUp from "../components/ScreenSetUp";
 import colors from "../config/colors";
-import GoBackHeader from "../components/GoBackHeader";
-import AppText from "../components/AppText";
 
 const CONTENT = [
   {
@@ -42,14 +42,9 @@ const CONTENT = [
 
 function HelpScreen({ navigation }) {
   const [activeSections, setActiveSections] = useState([]);
-  const [collapsed, setCollapsed] = useState(true);
 
   const openEmail = () => {
     Linking.openURL("mailto:NasaFTApp@gmail.com");
-  };
-
-  const toggleExpanded = () => {
-    setCollapsed(!collapsed);
   };
 
   const setSections = (sections) => {
@@ -116,6 +111,10 @@ function HelpScreen({ navigation }) {
     </ScreenSetUp>
   );
 }
+
+HelpScreen.propTypes = {
+  navigation: PropTypes.object,
+};
 
 export default HelpScreen;
 

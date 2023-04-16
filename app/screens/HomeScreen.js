@@ -1,19 +1,19 @@
 import React, { useContext, useEffect, useState } from "react";
-import { useFocusEffect } from "@react-navigation/native";
-import { Ionicons } from "@expo/vector-icons";
 import { StyleSheet, View } from "react-native";
-import LottieView from "lottie-react-native";
-import CountDown from "react-native-countdown-component";
-
 import AppText from "../components/AppText";
-import cache from "../utility/cache";
-import colors from "../config/colors";
+import AuthContext from "../auth/context";
+import CountDown from "react-native-countdown-component";
 import CustomButton from "../components/CustomButton";
 import HelpButton from "../components/HelpButton";
+import { Ionicons } from "@expo/vector-icons";
 import LoadingIndicator from "../components/LoadingIndicator";
+import LottieView from "lottie-react-native";
+import PropTypes from "prop-types";
 import ScreenSetUp from "../components/ScreenSetUp";
-import AuthContext from "../auth/context";
 import UserIconBar from "../components/UserIconBar";
+import cache from "../utility/cache";
+import colors from "../config/colors";
+import { useFocusEffect } from "@react-navigation/native";
 
 function HomeScreen({ navigation }) {
   const { user, setUser, token, neoTime, setNeoTime, setRank } =
@@ -22,11 +22,12 @@ function HomeScreen({ navigation }) {
   const [nextQuiz, setNextQuiz] = useState();
   const [loading, setLoading] = useState(true);
   const [ready, setReady] = useState(false);
+  // eslint-disable-next-line no-unused-vars
   const [quizTimerDone, setQuizTimerDone] = useState(false);
   var quizTimer = Number(nextQuiz);
 
   const getUserView = async () => {
-    const userView = await fetch("https://nasaft-tbact528.b4a.run/api/users", {
+    return await fetch("https://nasaft-tbact528.b4a.run/api/users", {
       method: "GET",
       headers: {
         "Content-Type": "application/json",
@@ -101,11 +102,12 @@ function HomeScreen({ navigation }) {
     } else setReady(false);
   };
 
-  const newNFTSetup = async () => {
+  const newNFTSetup = () => {
     const winner = user.winner;
     if (winner) {
       setUser({
         ...user,
+        // eslint-disable-next-line no-undef
         nft_earned: nft_earned + 1,
         current_quiz_score: 0,
         current_score: 0,
@@ -169,7 +171,7 @@ function HomeScreen({ navigation }) {
           <View style={styles.counter1}>
             <Ionicons name="timer-outline" size={26} color={colors.blue_text} />
             <CountDown
-              //TIMER FOR QUIZ
+              // TIMER FOR QUIZ
               until={quizTimer}
               size={30}
               onFinish={() => handleQuizTimerDone()}
@@ -199,6 +201,7 @@ function HomeScreen({ navigation }) {
             <LottieView
               autoPlay
               loop
+              // eslint-disable-next-line no-undef
               source={require("../assets/animations/rocket.json")}
             />
           </View>
@@ -228,11 +231,11 @@ function HomeScreen({ navigation }) {
         <View style={styles.counter}>
           <Ionicons name="timer-outline" size={22} color={colors.blue_text} />
           <CountDown
-            //TIMER FOR NFT
-            //has id prop to use to reset
+            // TIMER FOR NFT
+            // has id prop to use to reset
             until={Number(duration)}
             size={30}
-            onFinish={() => newNFT()}
+            onFinish={() => getNEO()}
             digitStyle={{ backgroundColor: "transparent" }}
             digitTxtStyle={{ color: colors.blue_text }}
             timeToShow={["D", "H", "M", "S"]}
@@ -246,6 +249,10 @@ function HomeScreen({ navigation }) {
     </ScreenSetUp>
   );
 }
+
+HomeScreen.propTypes = {
+  navigation: PropTypes.object,
+};
 
 const styles = StyleSheet.create({
   backArrow: {

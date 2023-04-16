@@ -1,16 +1,17 @@
+/* eslint-disable no-undef */
 import "../global";
-import React, { useContext, useEffect, useState } from "react";
-import { Alert, Image, StyleSheet, Text, TextInput, View } from "react-native";
-
-import RegistrationConnect from "./RegistrationConnect";
-
+import { Alert, Image, StyleSheet, TextInput, View } from "react-native";
+import React, { useContext, useState } from "react";
 import AppText from "../components/AppText";
 import AuthContext from "../auth/context";
-import colors from "../config/colors";
 import CustomButton from "../components/CustomButton";
 import GoBackHeader from "../components/GoBackHeader";
+import PropTypes from "prop-types";
+import RegistrationConnect from "./RegistrationConnect";
 import ScreenSetUp from "../components/ScreenSetUp";
+import colors from "../config/colors";
 
+// eslint-disable-next-line no-unused-vars
 const SCHEME_FROM_APP_JSON = "walletconnect-example";
 
 function RegistrationScreen({ navigation }) {
@@ -21,6 +22,10 @@ function RegistrationScreen({ navigation }) {
       public_address: authContext.publicAddress,
       user_name: newName,
     },
+  };
+
+  RegistrationScreen.propTypes = {
+    navigation: PropTypes.object,
   };
 
   const registerAccount = async (userDetails) => {
@@ -82,7 +87,7 @@ function RegistrationScreen({ navigation }) {
           <AppText style={styles.displayName}> Display Name</AppText>
           <TextInput
             onChangeText={(text) => setNewName(text)}
-            placeholder=" Enter Display Name" //need to set limits on char length and type
+            placeholder=" Enter Display Name"
             style={styles.usernameInput}
           ></TextInput>
         </View>

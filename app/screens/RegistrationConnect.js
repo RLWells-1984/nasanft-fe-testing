@@ -1,9 +1,9 @@
 import React, { useCallback, useContext, useEffect, useState } from "react";
-import { Text, TouchableOpacity, StyleSheet } from "react-native";
-import { useWalletConnect } from "@walletconnect/react-native-dapp";
-
-import colors from "../config/colors";
+import { StyleSheet, Text, TouchableOpacity } from "react-native";
 import AuthContext from "../auth/context";
+import PropTypes from "prop-types";
+import colors from "../config/colors";
+import { useWalletConnect } from "@walletconnect/react-native-dapp";
 
 function Button({ onPress, label }) {
   return (
@@ -13,6 +13,11 @@ function Button({ onPress, label }) {
   );
 }
 
+Button.propTypes = {
+  onPress: PropTypes.func,
+  label: PropTypes.string,
+};
+
 function DisplayAddress({ pubAddress }) {
   if (pubAddress != null) {
     return <Text style={styles.resultText}>Public Address: {pubAddress}</Text>;
@@ -21,7 +26,11 @@ function DisplayAddress({ pubAddress }) {
   }
 }
 
-export default function RegistrationConnect({ navigation }) {
+DisplayAddress.propTypes = {
+  pubAddress: PropTypes.object,
+};
+
+export default function RegistrationConnect() {
   const authContext = useContext(AuthContext);
   const [pubAddress, setPubAddress] = useState([]);
   const connector = useWalletConnect();
