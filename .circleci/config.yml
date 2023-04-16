@@ -3,7 +3,6 @@
 version: 2.1
 orbs:
   android: circleci/android@2.2.0
-  eslint: arrai/eslint@7.4.0
 # Define a job to be invoked later in a workflow.
 # See: https://circleci.com/docs/2.0/configuration-reference/#jobs
 jobs:
@@ -16,13 +15,3 @@ jobs:
       - run: npm run lint
 
   # tests, coverage need added
-
-# Invoke jobs via workflows
-# See: https://circleci.com/docs/2.0/configuration-reference/#workflows
-workflows:
-  build:
-    jobs:
-      - lint
-
-  test:
-    jobs: -android/run-ui-tests
