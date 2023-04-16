@@ -1,4 +1,5 @@
 import "./app/global";
+import "react-native-gesture-handler";
 
 import React, { useCallback, useState } from "react";
 import { LogBox, Platform, StyleSheet } from "react-native";

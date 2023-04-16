@@ -610,13 +610,19 @@ function UserDetailScreen({ navigation }) {
             </View>
           </TouchableOpacity>
         </View>
-        <View style={styles.delete}>
-          <CustomButton
-            borderColor="blue_text"
-            color="red"
-            title="Admin"
-            onPress={() => promptForce()}
-          />
+        <View>
+          {user.isAdmin ? (
+            <View style={styles.delete}>
+              <CustomButton
+                borderColor="blue_text"
+                color="red"
+                title="Admin"
+                onPress={() => promptForce()}
+              />
+            </View>
+          ) : (
+            <AppText></AppText>
+          )}
         </View>
       </ScrollView>
     </ScreenSetUp>
