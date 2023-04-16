@@ -1,9 +1,9 @@
+import { Alert, StyleSheet, Text, TouchableOpacity } from "react-native";
 import React, { useCallback, useContext, useEffect, useState } from "react";
-import { Text, TouchableOpacity, StyleSheet, Alert } from "react-native";
-import { useWalletConnect } from "@walletconnect/react-native-dapp";
-
-import colors from "../config/colors";
 import AuthContext from "../auth/context";
+import PropTypes from "prop-types";
+import colors from "../config/colors";
+import { useWalletConnect } from "@walletconnect/react-native-dapp";
 
 function Button({ onPress, label }) {
   return (
@@ -13,6 +13,11 @@ function Button({ onPress, label }) {
   );
 }
 
+Button.propTypes = {
+  onPress: PropTypes.func,
+  label: PropTypes.string,
+};
+
 function DisplayAddress({ pubAddress }) {
   if (pubAddress != null) {
     return <Text style={styles.resultText}>Public Address: {pubAddress}</Text>;
@@ -20,9 +25,15 @@ function DisplayAddress({ pubAddress }) {
     return <Text style={styles.resultText}>NO ADDRESS</Text>;
   }
 }
+
+DisplayAddress.propTypes = {
+  pubAddress: PropTypes.object,
+};
+
 export default function WalletConnectExperience({ navigation }) {
   const authContext = useContext(AuthContext);
   const [pubAddress, setPubAddress] = useState([]);
+  // eslint-disable-next-line no-unused-vars
   const [results, setResults] = useState([]);
   const connector = useWalletConnect();
 
@@ -38,7 +49,7 @@ export default function WalletConnectExperience({ navigation }) {
     )
       .then((response) => {
         if (!response.ok) {
-          console.log("not ok, likely not in the DB");
+          console.log("not ok, likely not in the DB or DB not up");
         }
         return response.json();
       })
@@ -66,7 +77,7 @@ export default function WalletConnectExperience({ navigation }) {
         return data;
       })
       .catch((error) => {
-        console.log("Unable to retrieve authentication token" + error);
+        console.log("Unable to retrieve authentication token " + error);
       });
     const nonce = nonceRes.nonce;
 
@@ -140,6 +151,10 @@ export default function WalletConnectExperience({ navigation }) {
     </>
   );
 }
+
+WalletConnectExperience.propTypes = {
+  navigation: PropTypes.object,
+};
 
 const styles = StyleSheet.create({
   button: {

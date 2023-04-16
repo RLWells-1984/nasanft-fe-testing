@@ -1,19 +1,17 @@
+/* eslint-disable no-undef */
 import "../global";
-import React, { useContext } from "react";
 import { Image, StyleSheet, View } from "react-native";
-
-import WalletConnectExperience from "./walletConnectExperience";
-
-import AuthContext from "../auth/context";
-import colors from "../config/colors";
-import ScreenSetUp from "../components/ScreenSetUp";
 import GoBackHeader from "../components/GoBackHeader";
+import PropTypes from "prop-types";
+import React from "react";
+import ScreenSetUp from "../components/ScreenSetUp";
+import WalletConnectExperience from "./walletConnectExperience";
+import colors from "../config/colors";
 
+// eslint-disable-next-line no-unused-vars
 const SCHEME_FROM_APP_JSON = "walletconnect-example";
 
 function LoginScreen({ navigation }) {
-  const authContext = useContext(AuthContext);
-
   return (
     <ScreenSetUp>
       <View style={styles.goBack}>
@@ -30,6 +28,11 @@ function LoginScreen({ navigation }) {
     </ScreenSetUp>
   );
 }
+
+LoginScreen.propTypes = {
+  navigation: PropTypes.object,
+};
+
 const styles = StyleSheet.create({
   goBack: {
     flex: 1,

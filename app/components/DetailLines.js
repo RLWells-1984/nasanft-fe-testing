@@ -1,7 +1,7 @@
-import React from "react";
 import { StyleSheet, View } from "react-native";
-
 import AppText from "./AppText";
+import PropTypes from "prop-types";
+import React from "react";
 
 function DetailLines({ data, title }) {
   return (
@@ -13,6 +13,11 @@ function DetailLines({ data, title }) {
     </View>
   );
 }
+
+DetailLines.propTypes = {
+  data: PropTypes.string,
+  title: PropTypes.string,
+};
 
 const styles = StyleSheet.create({
   dataLine: {

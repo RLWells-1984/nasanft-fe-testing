@@ -1,6 +1,9 @@
-import LottieView from "lottie-react-native";
-import React from "react";
+/* eslint-disable no-undef */
+/* lint doesn't like require, considers it undefined */
 import { StyleSheet, View } from "react-native";
+import LottieView from "lottie-react-native";
+import PropTypes from "prop-types";
+import React from "react";
 
 function LoadingIndicator({ visible = false }) {
   if (!visible) return null;
@@ -15,6 +18,10 @@ function LoadingIndicator({ visible = false }) {
     </View>
   );
 }
+
+LoadingIndicator.propTypes = {
+  visible: PropTypes.bool,
+};
 
 const styles = StyleSheet.create({
   spaceShip: {

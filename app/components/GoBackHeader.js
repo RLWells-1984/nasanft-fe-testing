@@ -1,7 +1,8 @@
-import React from "react";
 import { StyleSheet, TouchableOpacity, View } from "react-native";
-
 import { Ionicons } from "@expo/vector-icons";
+import PropTypes from "prop-types";
+import React from "react";
+
 import colors from "../config/colors";
 
 function GoBackHeader({ navigation, color = "white" }) {
@@ -20,6 +21,11 @@ function GoBackHeader({ navigation, color = "white" }) {
     </View>
   );
 }
+
+GoBackHeader.propTypes = {
+  navigation: PropTypes.object,
+  color: PropTypes.string,
+};
 
 const styles = StyleSheet.create({
   backArrow: {

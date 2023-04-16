@@ -1,22 +1,18 @@
+/* eslint-disable no-undef */
 import "./app/global";
 import "react-native-gesture-handler";
-
-import React, { useCallback, useState } from "react";
-import { LogBox, Platform, StyleSheet } from "react-native";
-
-import { useFonts } from "expo-font";
 import * as SplashScreen from "expo-splash-screen";
-
-import WalletConnectProvider from "@walletconnect/react-native-dapp";
-import AsyncStorage from "@react-native-async-storage/async-storage";
-const SCHEME_FROM_APP_JSON = "walletconnect-example";
-
-import { NavigationContainer } from "@react-navigation/native";
-import AuthNavigator from "./app/navigation/AuthNavigator";
-import navigationTheme from "./app/navigation/navigationTheme";
+import { LogBox, Platform } from "react-native";
+import React, { useCallback, useState } from "react";
 import AppNavigator from "./app/navigation/AppNavigator";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 import AuthContext from "./app/auth/context";
-import Blank from "./app/screens/Blank";
+import AuthNavigator from "./app/navigation/AuthNavigator";
+import { NavigationContainer } from "@react-navigation/native";
+import WalletConnectProvider from "@walletconnect/react-native-dapp";
+import navigationTheme from "./app/navigation/navigationTheme";
+import { useFonts } from "expo-font";
+const SCHEME_FROM_APP_JSON = "walletconnect-example";
 
 LogBox.ignoreLogs(["EventEmitter.removeListener"]);
 
@@ -37,6 +33,7 @@ export default function App() {
     Rag_I: require("./app/assets/fonts/Rag-Italic.otf"),
   });
 
+  // eslint-disable-next-line no-unused-vars
   const onLayoutRootView = useCallback(async () => {
     if (fontsLoaded) {
       await SplashScreen.hideAsync();
@@ -48,7 +45,6 @@ export default function App() {
   }
 
   return (
-    //<Blank />
     <AuthContext.Provider
       value={{
         user,
@@ -84,12 +80,3 @@ export default function App() {
     </AuthContext.Provider>
   );
 }
-
-const styles = StyleSheet.create({
-  container: {
-    alignItems: "center",
-    backgroundColor: "white",
-    flex: 1,
-    justifyContent: "center",
-  },
-});

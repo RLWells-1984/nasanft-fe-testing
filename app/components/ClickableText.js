@@ -1,5 +1,6 @@
-import React from "react";
 import { StyleSheet, Text, TouchableOpacity } from "react-native";
+import PropTypes from "prop-types";
+import React from "react";
 
 import colors from "../config/colors";
 
@@ -13,6 +14,13 @@ function ClickableText({ color = "transparent", onPress, title, textColor }) {
     </TouchableOpacity>
   );
 }
+
+ClickableText.propTypes = {
+  color: PropTypes.string,
+  onPress: PropTypes.func,
+  title: PropTypes.string,
+  textColor: PropTypes.string,
+};
 
 const styles = StyleSheet.create({
   text: {

@@ -1,7 +1,7 @@
-import React from "react";
 import { StyleSheet, TouchableOpacity } from "react-native";
-
 import AppText from "./AppText";
+import PropTypes from "prop-types";
+import React from "react";
 import colors from "../config/colors";
 
 function CustomButton({
@@ -37,6 +37,17 @@ function CustomButton({
     </TouchableOpacity>
   );
 }
+
+CustomButton.propTypes = {
+  borderColor: PropTypes.string,
+  color: PropTypes.string,
+  fontFamily: PropTypes.string,
+  fontSize: PropTypes.number,
+  marginVertical: PropTypes.number,
+  onPress: PropTypes.func,
+  textColor: PropTypes.string,
+  title: PropTypes.string,
+};
 
 const styles = StyleSheet.create({
   button: {

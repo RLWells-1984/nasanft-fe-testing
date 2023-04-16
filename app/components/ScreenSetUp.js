@@ -1,5 +1,5 @@
-import React, { useContext, useEffect, useState } from "react";
-import Constants from "expo-constants";
+/* eslint-disable no-undef */
+/* lint doesn't like require, considers it undefined */
 import {
   Dimensions,
   ImageBackground,
@@ -7,9 +7,10 @@ import {
   StyleSheet,
   View,
 } from "react-native";
-
+import React, { useContext } from "react";
 import AuthContext from "../auth/context";
-import LoadingIndicator from "../components/LoadingIndicator";
+import Constants from "expo-constants";
+import PropTypes from "prop-types";
 
 function ScreenSetUp({ children, style }) {
   const { iotd } = useContext(AuthContext);
@@ -33,6 +34,11 @@ function ScreenSetUp({ children, style }) {
     </SafeAreaView>
   );
 }
+
+ScreenSetUp.propTypes = {
+  children: React.Node,
+  style: PropTypes.object,
+};
 
 const styles = StyleSheet.create({
   background: {

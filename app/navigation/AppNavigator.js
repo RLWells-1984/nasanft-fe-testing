@@ -1,11 +1,10 @@
-import React from "react";
-import { createStackNavigator } from "@react-navigation/stack";
-
 import HelpScreen from "../screens/HelpScreen";
 import HomeScreen from "../screens/HomeScreen";
 import QuizScreen from "../screens/QuizScreen";
+import React from "react";
 import UserDetailScreen from "../screens/UserDetailScreen";
 import WelcomeScreen from "../screens/WelcomeScreen";
+import { createStackNavigator } from "@react-navigation/stack";
 
 const Stack = createStackNavigator();
 

@@ -1,7 +1,8 @@
-import React from "react";
 import { StyleSheet, TouchableOpacity, View } from "react-native";
+import { FontAwesome5 } from "@expo/vector-icons";
+import PropTypes from "prop-types";
+import React from "react";
 
-import { FontAwesome5, Ionicons } from "@expo/vector-icons";
 import colors from "../config/colors";
 
 function UserIconBar({ navigation }) {
@@ -20,10 +21,14 @@ function UserIconBar({ navigation }) {
     </View>
   );
 }
+
+UserIconBar.propTypes = {
+  navigation: PropTypes.object,
+};
+
 const styles = StyleSheet.create({
   userIcon: {
     borderColor: colors.white,
-    //borderRadius: 80,
     left: "87%",
     position: "absolute",
     top: 50,

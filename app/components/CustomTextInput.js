@@ -1,6 +1,7 @@
-import React from "react";
 import { StyleSheet, TextInput, View } from "react-native";
 import { FontAwesome5 } from "@expo/vector-icons";
+import PropTypes from "prop-types";
+import React from "react";
 
 import colors from "../config/colors";
 
@@ -19,6 +20,10 @@ function CustomTextInput({ icon, ...otherProps }) {
     </View>
   );
 }
+
+CustomTextInput.propTypes = {
+  icon: PropTypes.string,
+};
 
 const styles = StyleSheet.create({
   container: {

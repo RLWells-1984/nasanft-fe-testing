@@ -1,4 +1,5 @@
-import React, { useCallback, useContext, useEffect, useState } from "react";
+/* eslint-disable react/no-unescaped-entities */
+/* eslint-disable no-undef */
 import {
   Alert,
   ScrollView,
@@ -8,20 +9,20 @@ import {
   TouchableOpacity,
   View,
 } from "react-native";
-import LottieView from "lottie-react-native";
-
 import { Feather, FontAwesome5, Ionicons } from "@expo/vector-icons";
-import { useWalletConnect } from "@walletconnect/react-native-dapp";
-
+import React, { useCallback, useContext, useEffect, useState } from "react";
 import AppText from "../components/AppText";
-import cache from "../utility/cache";
-import colors from "../config/colors";
+import AuthContext from "../auth/context";
 import CustomButton from "../components/CustomButton";
 import DetailLines from "../components/DetailLines";
 import LoadingIndicator from "../components/LoadingIndicator";
+import LottieView from "lottie-react-native";
 import NeoDetailLines from "../components/NeoDetailLines";
+import PropTypes from "prop-types";
 import ScreenSetUp from "../components/ScreenSetUp";
-import AuthContext from "../auth/context";
+import cache from "../utility/cache";
+import colors from "../config/colors";
+import { useWalletConnect } from "@walletconnect/react-native-dapp";
 
 function UserDetailScreen({ navigation }) {
   const {
@@ -200,7 +201,7 @@ function UserDetailScreen({ navigation }) {
       .catch((error) => console.log("error", error));
   };
 
-  const newNFTSetup = async () => {
+  const newNFTSetup = () => {
     const winner = user.winner;
     if (winner) {
       setUser({
@@ -253,7 +254,7 @@ function UserDetailScreen({ navigation }) {
         return response.json();
       })
       .then((data) => {
-        console.log("Something went wrong.");
+        console.log("Something went wrong.", data);
       })
       .catch((error) => {
         console.log("error deleting", error);
@@ -261,6 +262,7 @@ function UserDetailScreen({ navigation }) {
   };
 
   const getNEORanking = async () => {
+    // eslint-disable-next-line no-unused-vars
     const sizeInfo = await fetch(
       "https://nasaft-tbact528.b4a.run/api/neo/size",
       {
@@ -280,6 +282,7 @@ function UserDetailScreen({ navigation }) {
       .then((data) => {
         setSizeArray([]);
         if (data.length > 0) {
+          // eslint-disable-next-line vars-on-top
           for (var i = 0; i < data.length; i++) {
             setSizeArray((sizeArray) => [...sizeArray, data[i].id]);
           }
@@ -287,6 +290,7 @@ function UserDetailScreen({ navigation }) {
       })
       .catch((error) => console.log("error", error));
 
+    // eslint-disable-next-line no-unused-vars
     const velcityInfo = await fetch(
       "https://nasaft-tbact528.b4a.run/api/neo/velocity",
       {
@@ -306,6 +310,7 @@ function UserDetailScreen({ navigation }) {
       .then((data) => {
         setVelocityArray([]);
         if (data.length > 0) {
+          // eslint-disable-next-line vars-on-top
           for (var i = 0; i < data.length; i++) {
             setVelocityArray((velocityArray) => [...velocityArray, data[i].id]);
           }
@@ -313,6 +318,7 @@ function UserDetailScreen({ navigation }) {
       })
       .catch((error) => console.log("error", error));
 
+    // eslint-disable-next-line no-unused-vars
     const rangeInfo = await fetch(
       "https://nasaft-tbact528.b4a.run/api/neo/range",
       {
@@ -332,6 +338,7 @@ function UserDetailScreen({ navigation }) {
       .then((data) => {
         setDistanceArray([]);
         if (data.length > 0) {
+          // eslint-disable-next-line vars-on-top
           for (var i = 0; i < data.length; i++) {
             setDistanceArray((distanceArray) => [...distanceArray, data[i].id]);
           }
@@ -339,6 +346,7 @@ function UserDetailScreen({ navigation }) {
       })
       .catch((error) => console.log("error", error));
 
+    // eslint-disable-next-line no-unused-vars
     const getOwnedNFTs = await fetch(
       "https://nasaft-tbact528.b4a.run/api/nft/ownedBy/" + user.public_address,
       {
@@ -365,6 +373,7 @@ function UserDetailScreen({ navigation }) {
         } else {
           const testLength = data.ownedNfts.length;
 
+          // eslint-disable-next-line vars-on-top
           for (var i = 0; i < testLength; i++) {
             setAttributes((attributes) => [
               ...attributes,
@@ -386,7 +395,9 @@ function UserDetailScreen({ navigation }) {
       .catch((error) => console.log("error", error));
   };
 
-  const calculateRankings = async () => {
+  const calculateRankings = () => {
+    var newRank;
+    var oldRank;
     if (ownedNFTs.length == 0) {
       console.log("in no data land");
       setSizeRank("N/A");
@@ -394,10 +405,11 @@ function UserDetailScreen({ navigation }) {
       setDistanceRank("N/A");
     } else {
       console.log("have rank data");
+      // eslint-disable-next-line vars-on-top
       for (var i = 0; i < ownedNFTs.length; i++) {
         if (sizeArray.includes(ownedNFTs[i])) {
-          var newRank = sizeArray.indexOf(ownedNFTs[i]);
-          var oldRank = 11;
+          newRank = sizeArray.indexOf(ownedNFTs[i]);
+          oldRank = 11;
           if (newRank < oldRank) {
             oldRank = newRank;
           }
@@ -408,10 +420,11 @@ function UserDetailScreen({ navigation }) {
           setSizeRank("N/A");
         }
       }
-      for (var i = 0; i < ownedNFTs.length; i++) {
-        if (velocityArray.includes(ownedNFTs[i])) {
-          var newRank = velocityArray.indexOf(ownedNFTs[i]);
-          var oldRank = 11;
+      // eslint-disable-next-line vars-on-top
+      for (var x = 0; i < ownedNFTs.length; x++) {
+        if (velocityArray.includes(ownedNFTs[x])) {
+          newRank = velocityArray.indexOf(ownedNFTs[x]);
+          oldRank = 11;
           if (newRank < oldRank) {
             oldRank = newRank;
           }
@@ -422,10 +435,11 @@ function UserDetailScreen({ navigation }) {
           setVelocityRank("N/A");
         }
       }
-      for (var i = 0; i < ownedNFTs.length; i++) {
-        if (distanceArray.includes(ownedNFTs[i])) {
-          var newRank = distanceArray.indexOf(ownedNFTs[i]);
-          var oldRank = 11;
+      // eslint-disable-next-line vars-on-top
+      for (var y = 0; i < ownedNFTs.length; y++) {
+        if (distanceArray.includes(ownedNFTs[y])) {
+          newRank = distanceArray.indexOf(ownedNFTs[y]);
+          oldRank = 11;
           if (newRank < oldRank) {
             oldRank = newRank;
           }
@@ -628,6 +642,10 @@ function UserDetailScreen({ navigation }) {
     </ScreenSetUp>
   );
 }
+
+UserDetailScreen.propTypes = {
+  navigation: PropTypes.object,
+};
 
 const styles = StyleSheet.create({
   backArrow: {

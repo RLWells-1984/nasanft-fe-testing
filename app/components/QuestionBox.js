@@ -1,9 +1,9 @@
+import { StyleSheet, View } from "react-native";
+import AppText from "./AppText";
+import PropTypes from "prop-types";
 import React from "react";
 
-import { StyleSheet, View } from "react-native";
-
 import colors from "../config/colors";
-import AppText from "./AppText";
 
 function QuestionBox({ children, style }) {
   return (
@@ -12,6 +12,11 @@ function QuestionBox({ children, style }) {
     </View>
   );
 }
+
+QuestionBox.propTypes = {
+  children: React.Node,
+  style: PropTypes.object,
+};
 
 const styles = StyleSheet.create({
   text: {

@@ -1,5 +1,6 @@
-import React from "react";
 import { StyleSheet, Text, View } from "react-native";
+import PropTypes from "prop-types";
+import React from "react";
 
 import colors from "../config/colors";
 
@@ -30,6 +31,15 @@ function AppText({
     </View>
   );
 }
+
+AppText.propTypes = {
+  children: React.Node,
+  color: PropTypes.string,
+  fontFamily: PropTypes.string,
+  fontSize: PropTypes.number,
+  style: PropTypes.object,
+  textAlign: PropTypes.string,
+};
 
 const styles = StyleSheet.create({
   text: {
