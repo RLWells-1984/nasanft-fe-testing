@@ -15,3 +15,9 @@ jobs:
       - run: npm run lint
 
   # tests, coverage need added
+
+  workflows:
+    version: 2.1
+    build:
+      jobs:
+        - lint
