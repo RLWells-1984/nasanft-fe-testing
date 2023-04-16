@@ -17,7 +17,7 @@ jobs:
   # tests, coverage need added
 
 workflows:
-  version: 2
+  version: 2.1
   build:
     jobs:
       - lint
