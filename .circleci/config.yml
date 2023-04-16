@@ -12,8 +12,8 @@ jobs:
       - image: cimg/base:stable
     steps:
       - checkout
-      -run: npm install eslint
-      -run: npm run lint
+      - run: npm install eslint
+      - run: npm run lint
 
   # tests, coverage need added
 
@@ -25,7 +25,4 @@ workflows:
       - lint
 
   test:
-    jobs:
-      -android/run-ui-tests
-        #add in pre and post steps as needed
-        system-image: system-images;android-29;default;x86 #what goes here example is what i put in 
+    jobs: -android/run-ui-tests
