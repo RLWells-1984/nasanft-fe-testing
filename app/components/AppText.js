@@ -5,10 +5,12 @@ import React from "react";
 import colors from "../config/colors";
 
 function AppText({
+  // eslint-disable-next-line react/prop-types
   children,
   color = "blue_text",
   fontFamily = "Rag",
   fontSize = 16,
+  // eslint-disable-next-line react/prop-types
   style,
   textAlign,
 }) {
@@ -33,11 +35,9 @@ function AppText({
 }
 
 AppText.propTypes = {
-  children: React.Node,
   color: PropTypes.string,
   fontFamily: PropTypes.string,
   fontSize: PropTypes.number,
-  style: PropTypes.object,
   textAlign: PropTypes.string,
 };
 

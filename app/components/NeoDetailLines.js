@@ -26,11 +26,11 @@ function NeoDetailLines({ distance, id, size, url, velocity }) {
 }
 
 NeoDetailLines.propTypes = {
-  distance: PropTypes.object,
-  id: PropTypes.object,
-  size: PropTypes.object,
-  url: PropTypes.object,
-  velocity: PropTypes.object,
+  distance: PropTypes.string,
+  id: PropTypes.string,
+  size: PropTypes.string,
+  url: PropTypes.string,
+  velocity: PropTypes.string,
 };
 
 const styles = StyleSheet.create({

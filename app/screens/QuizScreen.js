@@ -28,6 +28,7 @@ function QuizScreen({ navigation }) {
   const [correct, setCorrect] = useState(0);
   const [displayNumber, setDisplayNumber] = useState(1);
   const [quizDone, setQuizDone] = useState(false);
+  const [rightAnswerSelected, setRightAnswerSelected] = useState(false);
   const questNum = "Question: " + displayNumber;
 
   const useRefreshToken = async () => {
@@ -76,11 +77,14 @@ function QuizScreen({ navigation }) {
   const handleclick = (id, right) => {
     setSelected(id);
     if (right) {
-      setCorrect(correct + 1);
-    }
+      setRightAnswerSelected(true);
+    } else setRightAnswerSelected(false);
   };
 
   const handleNext = () => {
+    if (rightAnswerSelected) {
+      setCorrect(correct + 1);
+    }
     setQuestionNumber(questionNumber + 1);
     setDisplayNumber(displayNumber + 1);
     setSelected(5);
@@ -88,6 +92,9 @@ function QuizScreen({ navigation }) {
 
   const handleSubmit = () => {
     var points = correct * 100;
+    if (rightAnswerSelected) {
+      points = points + 100;
+    }
     setQuizDone(true);
     updateUserDetails(points);
     Alert.alert(
@@ -210,7 +217,7 @@ function QuizScreen({ navigation }) {
         <View style={styles.answers}>
           <CustomButton
             borderColor="blue_text"
-            color={selected === 0 ? "red" : "buttonColor"}
+            color={selected === 0 ? "darkButtonColor" : "buttonColor"}
             textColor={selected === 0 ? "white" : "blue_text"}
             marginVertical={5}
             onPress={() =>
@@ -224,7 +231,7 @@ function QuizScreen({ navigation }) {
           ></CustomButton>
           <CustomButton
             borderColor="blue_text"
-            color={selected === 1 ? "red" : "buttonColor"}
+            color={selected === 1 ? "darkButtonColor" : "buttonColor"}
             textColor={selected === 1 ? "white" : "blue_text"}
             marginVertical={5}
             onPress={() =>
@@ -238,7 +245,7 @@ function QuizScreen({ navigation }) {
           ></CustomButton>
           <CustomButton
             borderColor="blue_text"
-            color={selected === 2 ? "red" : "buttonColor"}
+            color={selected === 2 ? "darkButtonColor" : "buttonColor"}
             textColor={selected === 2 ? "white" : "blue_text"}
             marginVertical={5}
             onPress={() =>
@@ -252,7 +259,7 @@ function QuizScreen({ navigation }) {
           ></CustomButton>
           <CustomButton
             borderColor="blue_text"
-            color={selected === 3 ? "red" : "buttonColor"}
+            color={selected === 3 ? "darkButtonColor" : "buttonColor"}
             textColor={selected === 3 ? "white" : "blue_text"}
             marginVertical={5}
             onPress={() =>

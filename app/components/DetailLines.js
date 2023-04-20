@@ -15,7 +15,7 @@ function DetailLines({ data, title }) {
 }
 
 DetailLines.propTypes = {
-  data: PropTypes.string,
+  data: PropTypes.number,
   title: PropTypes.string,
 };
 
