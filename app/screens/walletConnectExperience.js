@@ -18,6 +18,7 @@ Button.propTypes = {
   label: PropTypes.string,
 };
 
+// eslint-disable-next-line react/prop-types
 function DisplayAddress({ pubAddress }) {
   if (pubAddress != null) {
     return <Text style={styles.resultText}>Public Address: {pubAddress}</Text>;
@@ -25,10 +26,6 @@ function DisplayAddress({ pubAddress }) {
     return <Text style={styles.resultText}>NO ADDRESS</Text>;
   }
 }
-
-DisplayAddress.propTypes = {
-  pubAddress: PropTypes.object,
-};
 
 export default function WalletConnectExperience({ navigation }) {
   const authContext = useContext(AuthContext);

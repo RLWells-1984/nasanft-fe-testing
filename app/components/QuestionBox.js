@@ -5,6 +5,7 @@ import React from "react";
 
 import colors from "../config/colors";
 
+// eslint-disable-next-line react/prop-types
 function QuestionBox({ children, style }) {
   return (
     <View>
@@ -14,7 +15,6 @@ function QuestionBox({ children, style }) {
 }
 
 QuestionBox.propTypes = {
-  children: React.Node,
   style: PropTypes.object,
 };
 

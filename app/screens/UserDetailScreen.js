@@ -48,6 +48,7 @@ function UserDetailScreen({ navigation }) {
   const [lengthOwned, setLengthOwned] = useState(0);
   const [loading, setLoading] = useState(true);
   const [attributes, setAttributes] = useState([]);
+  const [neoID, setneoID] = useState([]);
   const name = user.user_name + "'s Details";
 
   const connector = useWalletConnect();
@@ -367,6 +368,7 @@ function UserDetailScreen({ navigation }) {
         setAttributes([]);
         setOwnedNFTs([]);
         setNftImages([]);
+        setneoID([]);
         if (data.ownedNfts.length == 0) {
           console.log("none");
           setLengthOwned(-1);
@@ -379,6 +381,7 @@ function UserDetailScreen({ navigation }) {
               ...attributes,
               data.ownedNfts[i].rawMetadata.attributes,
             ]);
+            setneoID((neoID) => [...neoID, data.ownedNfts[i].rawMetadata.id]);
             setNftImages((nftImages) => [
               ...nftImages,
               data.ownedNfts[i].media[0].thumbnail,
@@ -405,11 +408,11 @@ function UserDetailScreen({ navigation }) {
       setDistanceRank("N/A");
     } else {
       console.log("have rank data");
+      oldRank = 11;
       // eslint-disable-next-line vars-on-top
       for (var i = 0; i < ownedNFTs.length; i++) {
         if (sizeArray.includes(ownedNFTs[i])) {
           newRank = sizeArray.indexOf(ownedNFTs[i]);
-          oldRank = 11;
           if (newRank < oldRank) {
             oldRank = newRank;
           }
@@ -420,11 +423,11 @@ function UserDetailScreen({ navigation }) {
           setSizeRank("N/A");
         }
       }
+      oldRank = 11;
       // eslint-disable-next-line vars-on-top
-      for (var x = 0; i < ownedNFTs.length; x++) {
+      for (var x = 0; x < ownedNFTs.length; x++) {
         if (velocityArray.includes(ownedNFTs[x])) {
           newRank = velocityArray.indexOf(ownedNFTs[x]);
-          oldRank = 11;
           if (newRank < oldRank) {
             oldRank = newRank;
           }
@@ -435,11 +438,11 @@ function UserDetailScreen({ navigation }) {
           setVelocityRank("N/A");
         }
       }
+      oldRank = 11;
       // eslint-disable-next-line vars-on-top
-      for (var y = 0; i < ownedNFTs.length; y++) {
+      for (var y = 0; y < ownedNFTs.length; y++) {
         if (distanceArray.includes(ownedNFTs[y])) {
           newRank = distanceArray.indexOf(ownedNFTs[y]);
-          oldRank = 11;
           if (newRank < oldRank) {
             oldRank = newRank;
           }
@@ -545,7 +548,7 @@ function UserDetailScreen({ navigation }) {
           </View>
           <View style={styles.statBoxes}>
             <Text style={styles.header}>Owned Neo Rankings</Text>
-            <DetailLines title="Highest  NEO rank" data={velocityRank} />
+            <DetailLines title="Fastest NEO rank" data={velocityRank} />
             <DetailLines
               title="Closest Approach NEO rank"
               data={distanceRank}
@@ -563,6 +566,7 @@ function UserDetailScreen({ navigation }) {
             )}
             {lengthOwned > 0 && attributes.length > 0 ? (
               <NeoDetailLines
+                id={neoID[0]}
                 size={attributes[0].size}
                 distance={attributes[0].range}
                 velocity={attributes[0].velocity}
@@ -573,6 +577,7 @@ function UserDetailScreen({ navigation }) {
             )}
             {lengthOwned > 1 && attributes.length > 1 ? (
               <NeoDetailLines
+                id={neoID[1]}
                 size={attributes[1].size}
                 distance={attributes[1].range}
                 velocity={attributes[1].velocity}
@@ -583,6 +588,7 @@ function UserDetailScreen({ navigation }) {
             )}
             {lengthOwned > 2 && attributes.length > 2 ? (
               <NeoDetailLines
+                id={neoID[2]}
                 size={attributes[2].size}
                 distance={attributes[2].range}
                 velocity={attributes[2].velocity}

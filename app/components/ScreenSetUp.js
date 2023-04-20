@@ -12,6 +12,7 @@ import AuthContext from "../auth/context";
 import Constants from "expo-constants";
 import PropTypes from "prop-types";
 
+// eslint-disable-next-line react/prop-types
 function ScreenSetUp({ children, style }) {
   const { iotd } = useContext(AuthContext);
   const windowDimensions = Dimensions.get("window");
@@ -36,7 +37,6 @@ function ScreenSetUp({ children, style }) {
 }
 
 ScreenSetUp.propTypes = {
-  children: React.Node,
   style: PropTypes.object,
 };
 
