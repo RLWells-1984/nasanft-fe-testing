@@ -160,9 +160,14 @@ function HomeScreen({ navigation }) {
         {!user ? (
           <AppText></AppText>
         ) : (
-          <AppText color="red" fontSize={26}>
-            {user.current_score}
-          </AppText>
+          <>
+            <AppText color="blue_text" fontSize={18}>
+              High Score for this NEO
+            </AppText>
+            <AppText color="red" fontSize={26}>
+              {user.current_score}/700
+            </AppText>
+          </>
         )}
       </View>
       <View style={styles.timerBox}>
@@ -238,7 +243,7 @@ function HomeScreen({ navigation }) {
             onFinish={() => getNEO()}
             digitStyle={{ backgroundColor: "transparent" }}
             digitTxtStyle={{ color: colors.blue_text }}
-            timeToShow={["D", "H", "M", "S"]}
+            timeToShow={["D", "H", "M"]}
             timeLabels={{}}
             separatorStyle={{ color: colors.blue_text }}
             showSeparator
@@ -279,7 +284,7 @@ const styles = StyleSheet.create({
   points: {
     alignItems: "center",
     height: 100,
-    top: 10,
+    top: 15,
   },
   text: {
     alignSelf: "center",
