@@ -91,8 +91,13 @@ function QuizScreen({ navigation }) {
   };
 
   const handleSubmit = () => {
+    var rightAnswers = correct;
     var points = correct * 100;
+    console.log(correct);
     if (rightAnswerSelected) {
+      console.log("got it right");
+      rightAnswers = rightAnswers + 1;
+      setCorrect(correct + 1);
       points = points + 100;
     }
     setQuizDone(true);
@@ -100,7 +105,7 @@ function QuizScreen({ navigation }) {
     Alert.alert(
       "Quiz Completed",
       "You got " +
-        correct +
+        rightAnswers +
         " answers correct! You earned " +
         points +
         " points!",

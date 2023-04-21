@@ -95,11 +95,45 @@ function HomeScreen({ navigation }) {
   };
 
   const quizReady = () => {
+    var splitDate;
+    var storedYear;
+    var storedMonth;
+    var storedDay;
     const today = new Date();
-    const userDate = new Date(user.date_completed);
-    if (today.toLocaleDateString() != userDate.toLocaleDateString()) {
+    const userDate = user.date_completed;
+    if (userDate != null) {
+      splitDate = userDate.split("-");
+      storedYear = splitDate[0];
+      storedMonth = splitDate[1];
+      storedDay = splitDate[2];
+      if (splitDate.length == 1) {
+        splitDate = splitDate[0].split("/");
+        storedYear = splitDate[2];
+        storedMonth = splitDate[0];
+        storedDay = splitDate[1];
+      }
+    }
+    console.log(storedYear);
+    console.log(storedMonth);
+    console.log(storedDay);
+    if (splitDate != undefined) {
+      if (today.getFullYear() > storedYear) {
+        // its a new year from when they last played
+        console.log("new year");
+        setReady(true);
+      } else if (parseInt(today.getMonth() + 1) > storedMonth) {
+        // its next month from the last time they played
+        setReady(true);
+      } else if (parseInt(today.getDate()) > storedDay) {
+        console.log("new day");
+        // its the next day from the last time they played
+        setReady(true);
+      } else {
+        setReady(false);
+      }
+    } else {
       setReady(true);
-    } else setReady(false);
+    }
   };
 
   const newNFTSetup = () => {
@@ -108,7 +142,7 @@ function HomeScreen({ navigation }) {
       setUser({
         ...user,
         // eslint-disable-next-line no-undef
-        nft_earned: nft_earned + 1,
+        nft_earned: user.nft_earned + 1,
         current_quiz_score: 0,
         current_score: 0,
         winner: false,
@@ -162,10 +196,10 @@ function HomeScreen({ navigation }) {
         ) : (
           <>
             <AppText color="blue_text" fontSize={18}>
-              High Score for this NEO
+              Points earned this NEO
             </AppText>
             <AppText color="red" fontSize={26}>
-              {user.current_score}/700
+              {user.current_score}
             </AppText>
           </>
         )}
